@@ -2,7 +2,7 @@
 import { Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 
-const URL = "http://localhost:8080/generalservicesplatform/ws"; 
+const URL = "http://localhost:8080/generalservicesplatform/ws";
 
 class StompService {
   constructor() {
@@ -10,7 +10,7 @@ class StompService {
       webSocketFactory: () => new SockJS(URL),
       connectHeaders: {
         login: "guest",
-        passcode: "guest"
+        passcode: "guest",
       },
       debug: function (str) {
         console.log(str);
@@ -25,7 +25,10 @@ class StompService {
   connect(username, onMessageReceived) {
     this.client.onConnect = (frame) => {
       console.log("Connected: " + frame);
-      const subscription = this.client.subscribe(`/topic/notifications/${username}`, onMessageReceived);
+      const subscription = this.client.subscribe(
+        `/topic/notifications/${username}`,
+        onMessageReceived
+      );
       this.subscriptions[username] = subscription;
     };
 

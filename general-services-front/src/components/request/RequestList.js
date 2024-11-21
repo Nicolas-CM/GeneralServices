@@ -1,25 +1,42 @@
-import React, { useEffect, useState } from 'react';
-import axios from '../../configs/AxiosConfig';
-import useUsername from '../../hooks/useUsername';
-import { format, parseISO } from 'date-fns';
-import { useDispatch, useSelector } from 'react-redux';
-import { Button, Table, TableBody, TableCell, TableHead, TableRow, Typography, Box, ButtonGroup, Paper, TableContainer } from '@mui/material';
+import React, { useEffect, useState } from "react";
+import axios from "../../configs/AxiosConfig";
+import useUsername from "../../hooks/useUsername";
+import { format, parseISO } from "date-fns";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Typography,
+  Box,
+  ButtonGroup,
+  Paper,
+  TableContainer,
+} from "@mui/material";
 import { CircularProgress } from "@mui/material";
-import { Dialog, DialogTitle, DialogContent, DialogActions, Alert, Collapse, IconButton } from "@mui/material";
-import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
-import { ChatBubbleOutline, KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
-
-
-
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Alert,
+  Collapse,
+  IconButton,
+} from "@mui/material";
+import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
+import { ChatBubbleOutline } from "@mui/icons-material";
 
 import {
   fetchUserIdByUsername,
   fetchUserRequests,
   fetchRelatedData,
   cancelRequest,
-  setFilter
-} from '../../store/slices/requestsSlice';
-import { useNavigate } from 'react-router-dom';
+  setFilter,
+} from "../../store/slices/requestsSlice";
+import { useNavigate } from "react-router-dom";
 
 const UserRequestList = () => {
   const dispatch = useDispatch();
@@ -35,31 +52,31 @@ const UserRequestList = () => {
     companies,
     filter,
     error,
-    status
-  } = useSelector(state => state.requests);
+    status,
+  } = useSelector((state) => state.requests);
   const navigate = useNavigate();
 
   const fetchCompanyInfo = async (companyIds) => {
     try {
-      const response = await axios.post('/companies/by-ids', companyIds);
+      const response = await axios.post("/companies/by-ids", companyIds);
       const companies = response.data.reduce((acc, company) => {
         acc[company.id] = company; // Almacenar toda la información de la compañía
         return acc;
       }, {});
       setCompanyInfo(companies);
     } catch (error) {
-      console.error('Error al obtener la información de las compañías:', error);
+      console.error("Error al obtener la información de las compañías:", error);
     }
   };
 
   useEffect(() => {
     if (requests.length > 0) {
-      const companyIds = [...new Set(requests.map(request => request.companyId))];
+      const companyIds = [
+        ...new Set(requests.map((request) => request.companyId)),
+      ];
       fetchCompanyInfo(companyIds);
     }
   }, [requests]);
-
-
 
   // Obtener userId cuando tengamos el username
   useEffect(() => {
@@ -84,18 +101,18 @@ const UserRequestList = () => {
 
   // Funciones auxiliares
   const getContractorName = (contractorId) => {
-    const contractor = contractors.find(c => c.id === contractorId);
-    return contractor ? contractor.name : 'No disponible';
+    const contractor = contractors.find((c) => c.id === contractorId);
+    return contractor ? contractor.name : "No disponible";
   };
 
   const getServiceName = (serviceId) => {
-    const service = services.find(s => s.id === serviceId);
-    return service ? service.name : 'No disponible';
+    const service = services.find((s) => s.id === serviceId);
+    return service ? service.name : "No disponible";
   };
 
   const getCompanyName = (companyId) => {
-    const company = companies.find(c => c.id === companyId);
-    return company ? company.name : 'No disponible';
+    const company = companies.find((c) => c.id === companyId);
+    return company ? company.name : "No disponible";
   };
 
   const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
@@ -111,49 +128,58 @@ const UserRequestList = () => {
     setCancelDialogOpen(false);
   };
 
-
   const handleFilterChange = (newFilter) => {
     dispatch(setFilter(newFilter));
   };
 
-  const filteredRequests = filter === 'All'
-    ? requests
-    : requests.filter(request => request.status === filter);
+  const filteredRequests =
+    filter === "All"
+      ? requests
+      : requests.filter((request) => request.status === filter);
 
   // Manejo de estados
   if (usernameError) {
     return <div>{usernameError}</div>;
   }
 
-  if (status === 'loading') {
+  if (status === "loading") {
     return (
-      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
         <CircularProgress color="primary" />
-        <Typography sx={{ marginLeft: 2, color: "#4392f1", fontWeight: "bold" }}>
+        <Typography
+          sx={{ marginLeft: 2, color: "#4392f1", fontWeight: "bold" }}
+        >
           Cargando...
         </Typography>
       </Box>
     );
-
   }
 
   if (requests.length === 0) {
     return (
-      <Box sx={{ padding: 3, textAlign: 'center', marginTop: 4 }}>
+      <Box sx={{ padding: 3, textAlign: "center", marginTop: 4 }}>
         <Alert
           severity="info"
           sx={{
-            backgroundColor: '#e3f2fd',
-            color: '#1976d2',
-            fontWeight: 'bold',
-            fontSize: '1.2rem',
+            backgroundColor: "#e3f2fd",
+            color: "#1976d2",
+            fontWeight: "bold",
+            fontSize: "1.2rem",
             maxWidth: 600,
-            margin: '0 auto',
+            margin: "0 auto",
             borderRadius: 2,
             boxShadow: 3,
           }}
         >
-          No tienes solicitudes en tu historial. Para hacer una nueva solicitud ve a la pestaña de Home.
+          No tienes solicitudes en tu historial. Para hacer una nueva solicitud
+          ve a la pestaña de Home.
         </Alert>
       </Box>
     );
@@ -169,8 +195,19 @@ const UserRequestList = () => {
   };
 
   return (
-    <Box sx={{ padding: 3, backgroundColor: "#f4f6f8", borderRadius: 2, marginBottom: 1 }}>
-      <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', color: "#4392f1" }}>
+    <Box
+      sx={{
+        padding: 3,
+        backgroundColor: "#f4f6f8",
+        borderRadius: 2,
+        marginBottom: 1,
+      }}
+    >
+      <Typography
+        variant="h4"
+        gutterBottom
+        sx={{ fontWeight: "bold", color: "#4392f1" }}
+      >
         Mis Solicitudes
       </Typography>
 
@@ -178,8 +215,8 @@ const UserRequestList = () => {
         <Button
           variant="contained"
           color="primary"
-          onClick={() => navigate('/client/home')}
-          sx={{ marginRight: 2, padding: '10px 15px' }}
+          onClick={() => navigate("/client/home")}
+          sx={{ marginRight: 2, padding: "10px 15px" }}
         >
           Crear Nueva Solicitud
         </Button>
@@ -191,32 +228,52 @@ const UserRequestList = () => {
       <Box mb={3}>
         <ButtonGroup variant="outlined" fullWidth>
           <Button
-            onClick={() => handleFilterChange('All')}
-            sx={filter === 'All' ? { color: '#fff', backgroundColor: '#4392f1' } : { color: '#4392f1' }}
+            onClick={() => handleFilterChange("All")}
+            sx={
+              filter === "All"
+                ? { color: "#fff", backgroundColor: "#4392f1" }
+                : { color: "#4392f1" }
+            }
           >
             Todos
           </Button>
           <Button
-            onClick={() => handleFilterChange('Pendiente')}
-            sx={filter === 'Pendiente' ? { color: '#fff', backgroundColor: '#4392f1' } : { color: '#4392f1' }}
+            onClick={() => handleFilterChange("Pendiente")}
+            sx={
+              filter === "Pendiente"
+                ? { color: "#fff", backgroundColor: "#4392f1" }
+                : { color: "#4392f1" }
+            }
           >
             Pendiente
           </Button>
           <Button
-            onClick={() => handleFilterChange('En Progreso')}
-            sx={filter === 'En Progreso' ? { color: '#fff', backgroundColor: '#4392f1' } : { color: '#4392f1' }}
+            onClick={() => handleFilterChange("En Progreso")}
+            sx={
+              filter === "En Progreso"
+                ? { color: "#fff", backgroundColor: "#4392f1" }
+                : { color: "#4392f1" }
+            }
           >
             En Progreso
           </Button>
           <Button
-            onClick={() => handleFilterChange('Completada')}
-            sx={filter === 'Completada' ? { color: '#fff', backgroundColor: '#4392f1' } : { color: '#4392f1' }}
+            onClick={() => handleFilterChange("Completada")}
+            sx={
+              filter === "Completada"
+                ? { color: "#fff", backgroundColor: "#4392f1" }
+                : { color: "#4392f1" }
+            }
           >
             Completada
           </Button>
           <Button
-            onClick={() => handleFilterChange('Cancelada')}
-            sx={filter === 'Cancelada' ? { color: '#fff', backgroundColor: '#4392f1' } : { color: '#4392f1' }}
+            onClick={() => handleFilterChange("Cancelada")}
+            sx={
+              filter === "Cancelada"
+                ? { color: "#fff", backgroundColor: "#4392f1" }
+                : { color: "#4392f1" }
+            }
           >
             Cancelada
           </Button>
@@ -228,40 +285,62 @@ const UserRequestList = () => {
           <TableHead sx={{ backgroundColor: "#ece8ef" }}>
             <TableRow>
               <TableCell />
-              <TableCell sx={{ fontWeight: 'bold', color: '#4392f1' }}>ID</TableCell>
-              <TableCell sx={{ fontWeight: 'bold', color: '#4392f1' }}>Servicio</TableCell>
-              <TableCell sx={{ fontWeight: 'bold', color: '#4392f1' }}>Contratista</TableCell>
-              <TableCell sx={{ fontWeight: 'bold', color: '#4392f1' }}>Compañía</TableCell>
-              <TableCell sx={{ fontWeight: 'bold', color: '#4392f1' }}>Fecha</TableCell>
-              <TableCell sx={{ fontWeight: 'bold', color: '#4392f1' }}>Estado</TableCell>
-              <TableCell sx={{ fontWeight: 'bold', color: '#4392f1' }}>Acciones</TableCell>
+              <TableCell sx={{ fontWeight: "bold", color: "#4392f1" }}>
+                ID
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold", color: "#4392f1" }}>
+                Servicio
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold", color: "#4392f1" }}>
+                Contratista
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold", color: "#4392f1" }}>
+                Compañía
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold", color: "#4392f1" }}>
+                Fecha
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold", color: "#4392f1" }}>
+                Estado
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold", color: "#4392f1" }}>
+                Acciones
+              </TableCell>
               <TableCell sx={{ fontWeight: "bold", color: "#4392f1" }}>
                 Chat
               </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {filteredRequests.map(request => (
+            {filteredRequests.map((request) => (
               <React.Fragment key={request.id}>
                 <TableRow onClick={() => handleToggleExpand(request.id)}>
                   <TableCell>
                     <IconButton>
-                      {expandedRequestId === request.id ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+                      {expandedRequestId === request.id ? (
+                        <KeyboardArrowUp />
+                      ) : (
+                        <KeyboardArrowDown />
+                      )}
                     </IconButton>
                   </TableCell>
                   <TableCell>{request.id}</TableCell>
                   <TableCell>{getServiceName(request.serviceId)}</TableCell>
-                  <TableCell>{getContractorName(request.contractorId)}</TableCell>
+                  <TableCell>
+                    {getContractorName(request.contractorId)}
+                  </TableCell>
                   <TableCell>{getCompanyName(request.companyId)}</TableCell>
-                  <TableCell>{format(parseISO(request.date), 'dd/MM/yyyy')}</TableCell>
+                  <TableCell>
+                    {format(parseISO(request.date), "dd/MM/yyyy")}
+                  </TableCell>
                   <TableCell>{request.status}</TableCell>
                   <TableCell>
-                    {request.status === 'Pendiente' && (
+                    {request.status === "Pendiente" && (
                       <Button
                         variant="contained"
                         color="secondary"
                         onClick={() => handleCancel(request.id)}
-                        sx={{ padding: '5px 10px' }}
+                        sx={{ padding: "5px 10px" }}
                       >
                         Cancelar
                       </Button>
@@ -286,71 +365,132 @@ const UserRequestList = () => {
                   </TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
-                    <Collapse in={expandedRequestId === request.id} timeout="auto" unmountOnExit>
-                    <Box sx={{ padding: 2, borderColor: 'divider', borderRadius: 2, backgroundColor: 'background.paper' }}>
-                        <Typography variant="h6" color="primary.main" sx={{ fontWeight: 'bold', marginBottom: 2 }}>
+                  <TableCell
+                    style={{ paddingBottom: 0, paddingTop: 0 }}
+                    colSpan={7}
+                  >
+                    <Collapse
+                      in={expandedRequestId === request.id}
+                      timeout="auto"
+                      unmountOnExit
+                    >
+                      <Box
+                        sx={{
+                          padding: 2,
+                          borderColor: "divider",
+                          borderRadius: 2,
+                          backgroundColor: "background.paper",
+                        }}
+                      >
+                        <Typography
+                          variant="h6"
+                          color="primary.main"
+                          sx={{ fontWeight: "bold", marginBottom: 2 }}
+                        >
                           Información de la Compañía
                         </Typography>
                         {companyInfo[request.companyId] ? (
-                          <Box component="dl" sx={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: 1 }}>
-                            <Typography component="dt" variant="body2" sx={{ fontWeight: 'bold', color: 'text.primary' }}>
+                          <Box
+                            component="dl"
+                            sx={{
+                              display: "grid",
+                              gridTemplateColumns: "auto 1fr",
+                              gap: 1,
+                            }}
+                          >
+                            <Typography
+                              component="dt"
+                              variant="body2"
+                              sx={{ fontWeight: "bold", color: "text.primary" }}
+                            >
                               Nombre:
                             </Typography>
                             <Typography component="dd" variant="body2">
                               {companyInfo[request.companyId].name}
                             </Typography>
 
-                            <Typography component="dt" variant="body2" sx={{ fontWeight: 'bold', color: 'text.primary' }}>
+                            <Typography
+                              component="dt"
+                              variant="body2"
+                              sx={{ fontWeight: "bold", color: "text.primary" }}
+                            >
                               Descripción:
                             </Typography>
                             <Typography component="dd" variant="body2">
                               {companyInfo[request.companyId].description}
                             </Typography>
 
-                            <Typography component="dt" variant="body2" sx={{ fontWeight: 'bold', color: 'text.primary' }}>
+                            <Typography
+                              component="dt"
+                              variant="body2"
+                              sx={{ fontWeight: "bold", color: "text.primary" }}
+                            >
                               Teléfono:
                             </Typography>
                             <Typography component="dd" variant="body2">
                               {companyInfo[request.companyId].phone}
                             </Typography>
 
-                            <Typography component="dt" variant="body2" sx={{ fontWeight: 'bold', color: 'text.primary' }}>
+                            <Typography
+                              component="dt"
+                              variant="body2"
+                              sx={{ fontWeight: "bold", color: "text.primary" }}
+                            >
                               Dirección:
                             </Typography>
                             <Typography component="dd" variant="body2">
                               {companyInfo[request.companyId].address}
                             </Typography>
 
-                            <Typography component="dt" variant="body2" sx={{ fontWeight: 'bold', color: 'text.primary' }}>
+                            <Typography
+                              component="dt"
+                              variant="body2"
+                              sx={{ fontWeight: "bold", color: "text.primary" }}
+                            >
                               Ciudad:
                             </Typography>
                             <Typography component="dd" variant="body2">
                               {companyInfo[request.companyId].city}
                             </Typography>
 
-                            <Typography component="dt" variant="body2" sx={{ fontWeight: 'bold', color: 'text.primary' }}>
+                            <Typography
+                              component="dt"
+                              variant="body2"
+                              sx={{ fontWeight: "bold", color: "text.primary" }}
+                            >
                               Estado:
                             </Typography>
                             <Typography component="dd" variant="body2">
                               {companyInfo[request.companyId].state}
                             </Typography>
 
-                            <Typography component="dt" variant="body2" sx={{ fontWeight: 'bold', color: 'text.primary' }}>
+                            <Typography
+                              component="dt"
+                              variant="body2"
+                              sx={{ fontWeight: "bold", color: "text.primary" }}
+                            >
                               País:
                             </Typography>
                             <Typography component="dd" variant="body2">
                               {companyInfo[request.companyId].country}
                             </Typography>
 
-                            <Typography component="dt" variant="body2" sx={{ fontWeight: 'bold', color: 'text.primary' }}>
+                            <Typography
+                              component="dt"
+                              variant="body2"
+                              sx={{ fontWeight: "bold", color: "text.primary" }}
+                            >
                               Código Postal:
                             </Typography>
                             <Typography component="dd" variant="body2">
                               {companyInfo[request.companyId].zipCode}
                             </Typography>
 
-                            <Typography component="dt" variant="body2" sx={{ fontWeight: 'bold', color: 'text.primary' }}>
+                            <Typography
+                              component="dt"
+                              variant="body2"
+                              sx={{ fontWeight: "bold", color: "text.primary" }}
+                            >
                               Email:
                             </Typography>
                             <Typography component="dd" variant="body2">
@@ -363,7 +503,6 @@ const UserRequestList = () => {
                           </Typography>
                         )}
                       </Box>
-
                     </Collapse>
                   </TableCell>
                 </TableRow>
@@ -372,24 +511,32 @@ const UserRequestList = () => {
           </TableBody>
         </Table>
       </TableContainer>
-      <Dialog open={cancelDialogOpen} onClose={() => setCancelDialogOpen(false)}>
+      <Dialog
+        open={cancelDialogOpen}
+        onClose={() => setCancelDialogOpen(false)}
+      >
         <DialogTitle>Confirmar Cancelación</DialogTitle>
         <DialogContent>
           <Typography>
-            ¿Estás seguro de que deseas cancelar esta solicitud? Esta acción no puede deshacerse.
+            ¿Estás seguro de que deseas cancelar esta solicitud? Esta acción no
+            puede deshacerse.
           </Typography>
         </DialogContent>
         <DialogActions>
           <Button onClick={confirmCancel} color="primary" variant="contained">
             Confirmar
           </Button>
-          <Button onClick={() => setCancelDialogOpen(false)} color="secondary" variant="outlined">
+          <Button
+            onClick={() => setCancelDialogOpen(false)}
+            color="secondary"
+            variant="outlined"
+          >
             Cancelar
           </Button>
         </DialogActions>
       </Dialog>
     </Box>
   );
-}
+};
 
 export default UserRequestList;

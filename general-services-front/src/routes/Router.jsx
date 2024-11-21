@@ -126,7 +126,7 @@ const routes = createRoutesFromElements(
         {<Authenticator allowedRoles={[client]}>
           <Notifications />
         </Authenticator>} />
-      <Route path="chat/:chatId" element=
+      <Route path="chat/:solicitudId" element=
         {<Authenticator allowedRoles={[client]}>
           <Chat />
         </Authenticator>} />
@@ -193,7 +193,7 @@ const routes = createRoutesFromElements(
         {<Authenticator allowedRoles={[company]}>
           <Notifications />
         </Authenticator>} />
-      <Route path="chat/:chatId" element=
+      <Route path="chat/:solicitudId" element=
         {<Authenticator allowedRoles={[company]}>
           <Chat />
         </Authenticator>} />
