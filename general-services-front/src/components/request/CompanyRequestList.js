@@ -1,12 +1,34 @@
-import React, { useEffect, useState } from 'react';
-import axios from '../../configs/AxiosConfig';
-import useUsername from '../../hooks/useUsername';
-import BillingForm from '../billing/BillingForm';
-import ContractorToAssignList from '../contractor/ContractorAssignList';
-import { format, parseISO } from 'date-fns';
-import { useDispatch, useSelector } from 'react-redux';
-import { Button, Table, TableBody, TableCell, TableHead, TableRow, Typography, Box, ButtonGroup, Paper, TableContainer, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Alert, IconButton, Collapse } from '@mui/material';
-import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
+import { ChatBubbleOutline } from "@mui/icons-material"; // Importar el ícono de chat
+import { useNavigate } from "react-router-dom"; // Para redirigir a otra página
+import React, { useEffect, useState } from "react";
+import axios from "../../configs/AxiosConfig";
+import useUsername from "../../hooks/useUsername";
+import BillingForm from "../billing/BillingForm";
+import ContractorToAssignList from "../contractor/ContractorAssignList";
+import { format, parseISO } from "date-fns";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Typography,
+  Box,
+  ButtonGroup,
+  Paper,
+  TableContainer,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Alert,
+  IconButton,
+  Collapse,
+} from "@mui/material";
+import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import {
   fetchCompanyRequests,
   fetchAvailableContractors,
@@ -18,8 +40,8 @@ import {
   setFilter,
   setShowBillingForm,
   setShowContractorList,
-  setSelectedRequestId
-} from '../../store/slices/requestsSlice';
+  setSelectedRequestId,
+} from "../../store/slices/requestsSlice";
 
 const CompanyRequestList = () => {
   const dispatch = useDispatch();
@@ -35,28 +57,30 @@ const CompanyRequestList = () => {
     status,
     showBillingForm,
     showContractorList,
-    selectedRequestId
-  } = useSelector(state => state.requests);
+    selectedRequestId,
+  } = useSelector((state) => state.requests);
+
+  const navigate = useNavigate(); // Para redirigir a la página de chat
 
   const [userNames, setUserNames] = useState({});
   const [expandedRequestId, setExpandedRequestId] = useState(null); // Estado para manejar la solicitud expandida
 
   const fetchUserNames = async (userIds) => {
     try {
-      const response = await axios.post('/users/by-ids', userIds);
+      const response = await axios.post("/users/by-ids", userIds);
       const users = response.data.reduce((acc, user) => {
         acc[user.id] = user; // Almacenar toda la información del usuario
         return acc;
       }, {});
       setUserNames(users);
     } catch (error) {
-      console.error('Error al obtener los nombres de los solicitantes:', error);
+      console.error("Error al obtener los nombres de los solicitantes:", error);
     }
   };
 
   useEffect(() => {
     if (requests.length > 0) {
-      const userIds = [...new Set(requests.map(request => request.userId))];
+      const userIds = [...new Set(requests.map((request) => request.userId))];
       fetchUserNames(userIds);
     }
   }, [requests]);
@@ -78,13 +102,13 @@ const CompanyRequestList = () => {
   }, [requests, dispatch]);
 
   const getContractorName = (contractorId) => {
-    const contractor = contractors.find(c => c.id === contractorId);
-    return contractor ? contractor.name : 'No disponible';
+    const contractor = contractors.find((c) => c.id === contractorId);
+    return contractor ? contractor.name : "No disponible";
   };
 
   const getServiceName = (serviceId) => {
-    const service = services.find(s => s.id === serviceId);
-    return service ? service.name : 'No disponible';
+    const service = services.find((s) => s.id === serviceId);
+    return service ? service.name : "No disponible";
   };
 
   const handleCancel = (requestId) => {
@@ -94,16 +118,20 @@ const CompanyRequestList = () => {
   };
 
   const handleConfirmCancel = () => {
-    const request = requests.find(r => r.id === selectedRequestToCancel);
+    const request = requests.find((r) => r.id === selectedRequestToCancel);
     if (request) {
-      dispatch(cancelCompanyRequest({
-        requestId: selectedRequestToCancel,
-        contractorId: request.contractorId
-      }));
+      dispatch(
+        cancelCompanyRequest({
+          requestId: selectedRequestToCancel,
+          contractorId: request.contractorId,
+        })
+      );
       setOpenCancelDialog(false);
       setSelectedRequestToCancel(null);
     } else {
-      console.error('No se encontró el contractorId para la solicitud seleccionada.');
+      console.error(
+        "No se encontró el contractorId para la solicitud seleccionada."
+      );
     }
   };
 
@@ -123,10 +151,12 @@ const CompanyRequestList = () => {
   };
 
   const handleContractorSelect = (contractorId) => {
-    dispatch(acceptRequest({
-      requestId: selectedRequestId,
-      contractorId
-    }));
+    dispatch(
+      acceptRequest({
+        requestId: selectedRequestId,
+        contractorId,
+      })
+    );
   };
 
   const handleReject = (requestId) => {
@@ -136,13 +166,15 @@ const CompanyRequestList = () => {
   };
 
   const handleConfirmReject = () => {
-    const request = requests.find(r => r.id === selectedRequestToCancel);
+    const request = requests.find((r) => r.id === selectedRequestToCancel);
     if (request) {
       dispatch(rejectRequest(selectedRequestToCancel));
       setOpenCancelDialog(false);
       setSelectedRequestToCancel(null);
     } else {
-      console.error('No se encontró el contractorId para la solicitud seleccionada.');
+      console.error(
+        "No se encontró el contractorId para la solicitud seleccionada."
+      );
     }
   };
 
@@ -150,9 +182,10 @@ const CompanyRequestList = () => {
     dispatch(setFilter(status));
   };
 
-  const filteredRequests = filter === 'All'
-    ? requests
-    : requests.filter(request => request.status === filter);
+  const filteredRequests =
+    filter === "All"
+      ? requests
+      : requests.filter((request) => request.status === filter);
 
   const handleToggleExpand = (requestId) => {
     // Si la solicitud ya está expandida, la colapsamos; si no, la expandimos
@@ -167,115 +200,135 @@ const CompanyRequestList = () => {
     return <div>{error}</div>;
   }
 
-  if (status === 'loading') {
+  if (status === "loading") {
     return <div>Cargando...</div>;
   }
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'Pendiente':
-        return '#fbc02d'; // Amarillo
-      case 'En Progreso':
-        return '#2196f3'; // Azul
-      case 'Completada':
-        return '#4caf50'; // Verde
-      case 'Cancelada':
-        return '#e57373'; // Rojo
+      case "Pendiente":
+        return "#fbc02d"; // Amarillo
+      case "En Progreso":
+        return "#2196f3"; // Azul
+      case "Completada":
+        return "#4caf50"; // Verde
+      case "Cancelada":
+        return "#e57373"; // Rojo
       default:
-        return '#000'; // Negro o color por defecto
+        return "#000"; // Negro o color por defecto
     }
   };
 
   if (requests.length === 0) {
     return (
-      <Box sx={{ padding: 3, textAlign: 'center', marginTop: 4 }}>
+      <Box sx={{ padding: 3, textAlign: "center", marginTop: 4 }}>
         <Alert
           severity="info"
           sx={{
-            backgroundColor: '#e3f2fd',
-            color: '#1976d2',
-            fontWeight: 'bold',
-            fontSize: '1.2rem',
+            backgroundColor: "#e3f2fd",
+            color: "#1976d2",
+            fontWeight: "bold",
+            fontSize: "1.2rem",
             maxWidth: 600,
-            margin: '0 auto',
+            margin: "0 auto",
             borderRadius: 2,
             boxShadow: 3,
           }}
         >
-          No tienes solicitudes en tu historial. Para hacer una nueva solicitud ve a la pestaña de Home.
+          No tienes solicitudes en tu historial. Para hacer una nueva solicitud
+          ve a la pestaña de Home.
         </Alert>
       </Box>
     );
   }
 
   return (
-    <Box sx={{ padding: 3, backgroundColor: "#f4f6f8", borderRadius: 2, marginBottom: 1 }}>
-      <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', color: "#4392f1" }}>
+    <Box
+      sx={{
+        padding: 3,
+        backgroundColor: "#f4f6f8",
+        borderRadius: 2,
+        marginBottom: 1,
+      }}
+    >
+      <Typography
+        variant="h4"
+        gutterBottom
+        sx={{ fontWeight: "bold", color: "#4392f1" }}
+      >
         Solicitudes de la Compañía
       </Typography>
 
       <Box mb={3}>
         <ButtonGroup variant="outlined" fullWidth>
           <Button
-            onClick={() => handleFilterChange('All')}
+            onClick={() => handleFilterChange("All")}
             sx={{
-              color: filter === 'All' ? '#fff' : '#4392f1',
-              backgroundColor: filter === 'All' ? '#4392f1' : 'transparent',
-              borderColor: '#4392f1',
-              '&:hover': {
-                backgroundColor: filter === 'All' ? '#357ae8' : 'transparent',
+              color: filter === "All" ? "#fff" : "#4392f1",
+              backgroundColor: filter === "All" ? "#4392f1" : "transparent",
+              borderColor: "#4392f1",
+              "&:hover": {
+                backgroundColor: filter === "All" ? "#357ae8" : "transparent",
               },
             }}
           >
             Todos
           </Button>
           <Button
-            onClick={() => handleFilterChange('Pendiente')}
+            onClick={() => handleFilterChange("Pendiente")}
             sx={{
-              color: filter === 'Pendiente' ? '#fff' : '#4392f1',
-              backgroundColor: filter === 'Pendiente' ? '#4392f1' : 'transparent',
-              borderColor: '#4392f1',
-              '&:hover': {
-                backgroundColor: filter === 'Pendiente' ? '#357ae8' : 'transparent',
+              color: filter === "Pendiente" ? "#fff" : "#4392f1",
+              backgroundColor:
+                filter === "Pendiente" ? "#4392f1" : "transparent",
+              borderColor: "#4392f1",
+              "&:hover": {
+                backgroundColor:
+                  filter === "Pendiente" ? "#357ae8" : "transparent",
               },
             }}
           >
             Pendiente
           </Button>
           <Button
-            onClick={() => handleFilterChange('En Progreso')}
+            onClick={() => handleFilterChange("En Progreso")}
             sx={{
-              color: filter === 'En Progreso' ? '#fff' : '#4392f1',
-              backgroundColor: filter === 'En Progreso' ? '#4392f1' : 'transparent',
-              borderColor: '#4392f1',
-              '&:hover': {
-                backgroundColor: filter === 'En Progreso' ? '#357ae8' : 'transparent',
+              color: filter === "En Progreso" ? "#fff" : "#4392f1",
+              backgroundColor:
+                filter === "En Progreso" ? "#4392f1" : "transparent",
+              borderColor: "#4392f1",
+              "&:hover": {
+                backgroundColor:
+                  filter === "En Progreso" ? "#357ae8" : "transparent",
               },
             }}
           >
             En Progreso
           </Button>
           <Button
-            onClick={() => handleFilterChange('Completada')}
+            onClick={() => handleFilterChange("Completada")}
             sx={{
-              color: filter === 'Completada' ? '#fff' : '#4392f1',
-              backgroundColor: filter === 'Completada' ? '#4392f1' : 'transparent',
-              borderColor: '#4392f1',
-              '&:hover': {
-                backgroundColor: filter === 'Completada' ? '#357ae8' : 'transparent',
+              color: filter === "Completada" ? "#fff" : "#4392f1",
+              backgroundColor:
+                filter === "Completada" ? "#4392f1" : "transparent",
+              borderColor: "#4392f1",
+              "&:hover": {
+                backgroundColor:
+                  filter === "Completada" ? "#357ae8" : "transparent",
               },
             }}
           >
             Completada
           </Button>
           <Button
-            onClick={() => handleFilterChange('Cancelada')}
+            onClick={() => handleFilterChange("Cancelada")}
             sx={{
-              color: filter === 'Cancelada' ? '#fff' : '#4392f1',
-              backgroundColor: filter === 'Cancelada' ? '#4392f1' : 'transparent',
-              borderColor: '#4392f1',
-              '&:hover': {
-                backgroundColor: filter === 'Cancelada' ? '#357ae8' : 'transparent',
+              color: filter === "Cancelada" ? "#fff" : "#4392f1",
+              backgroundColor:
+                filter === "Cancelada" ? "#4392f1" : "transparent",
+              borderColor: "#4392f1",
+              "&:hover": {
+                backgroundColor:
+                  filter === "Cancelada" ? "#357ae8" : "transparent",
               },
             }}
           >
@@ -289,34 +342,72 @@ const CompanyRequestList = () => {
           <TableHead sx={{ backgroundColor: "#ece8ef" }}>
             <TableRow>
               <TableCell />
-              <TableCell sx={{ fontWeight: 'bold', color: '#4392f1' }}>ID</TableCell>
-              <TableCell sx={{ fontWeight: 'bold', color: '#4392f1' }}>Servicio</TableCell>
-              <TableCell sx={{ fontWeight: 'bold', color: '#4392f1' }}>Contratista</TableCell>
-              <TableCell sx={{ fontWeight: 'bold', color: '#4392f1' }}>Solicitante</TableCell>
-              <TableCell sx={{ fontWeight: 'bold', color: '#4392f1' }}>Fecha</TableCell>
-              <TableCell sx={{ fontWeight: 'bold', color: '#4392f1' }}>Estado</TableCell>
-              <TableCell sx={{ fontWeight: 'bold', color: '#4392f1' }}>Acciones</TableCell>
+              <TableCell sx={{ fontWeight: "bold", color: "#4392f1" }}>
+                ID
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold", color: "#4392f1" }}>
+                Servicio
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold", color: "#4392f1" }}>
+                Contratista
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold", color: "#4392f1" }}>
+                Solicitante
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold", color: "#4392f1" }}>
+                Fecha
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold", color: "#4392f1" }}>
+                Estado
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold", color: "#4392f1" }}>
+                Acciones
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold", color: "#4392f1" }}>
+                Chat
+              </TableCell>{" "}
+              {/* Nueva columna para el chat */}
             </TableRow>
           </TableHead>
           <TableBody>
-            {filteredRequests.map(request => (
+            {filteredRequests.map((request) => (
               <React.Fragment key={request.id}>
                 <TableRow onClick={() => handleToggleExpand(request.id)}>
                   <TableCell>
                     <IconButton>
-                      {expandedRequestId === request.id ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+                      {expandedRequestId === request.id ? (
+                        <KeyboardArrowUp />
+                      ) : (
+                        <KeyboardArrowDown />
+                      )}
                     </IconButton>
                   </TableCell>
                   <TableCell>{request.id}</TableCell>
                   <TableCell>{getServiceName(request.serviceId)}</TableCell>
-                  <TableCell>{getContractorName(request.contractorId)}</TableCell>
-                  <TableCell> {userNames[request.userId] ? `${userNames[request.userId].name} ${userNames[request.userId].lastName}` : 'No disponible'}</TableCell>
-                  <TableCell>{format(parseISO(request.date), 'dd/MM/yyyy')}</TableCell>
-                  <TableCell sx={{ fontWeight: 'bold', color: getStatusColor(request.status) }}>
+                  <TableCell>
+                    {getContractorName(request.contractorId)}
+                  </TableCell>
+                  <TableCell>
+                    {" "}
+                    {userNames[request.userId]
+                      ? `${userNames[request.userId].name} ${
+                          userNames[request.userId].lastName
+                        }`
+                      : "No disponible"}
+                  </TableCell>
+                  <TableCell>
+                    {format(parseISO(request.date), "dd/MM/yyyy")}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      fontWeight: "bold",
+                      color: getStatusColor(request.status),
+                    }}
+                  >
                     {request.status}
                   </TableCell>
                   <TableCell>
-                    {request.status === 'Pendiente' && (
+                    {request.status === "Pendiente" && (
                       <>
                         <Button
                           variant="contained"
@@ -335,7 +426,7 @@ const CompanyRequestList = () => {
                         </Button>
                       </>
                     )}
-                    {request.status === 'En Progreso' && (
+                    {request.status === "En Progreso" && (
                       <>
                         <Button
                           variant="contained"
@@ -355,92 +446,171 @@ const CompanyRequestList = () => {
                       </>
                     )}
                   </TableCell>
+                  {/* Nueva columna para el chat */}
+                  <TableCell>
+                    {/* Nueva celda con el ícono del chat */}
+                    <IconButton
+                      onClick={() => navigate(`/chat/${request.id}`)} // Redirigir al chat
+                      sx={{ color: "#4392f1" }}
+                    >
+                      <ChatBubbleOutline /> {/* Ícono de chat */}
+                    </IconButton>
+                  </TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={8}>
-                    <Collapse in={expandedRequestId === request.id} timeout="auto" unmountOnExit>
-                    <Box sx={{ padding: 2, borderRadius: 2, backgroundColor: 'background.paper', marginBottom: 2 }}>
-                      <Typography variant="h6" color="primary.main" sx={{ fontWeight: 'bold', marginBottom: 2 }}>
-                        Descripción de la Solicitud
-                      </Typography>
-                      <Typography variant="body1" color="text.secondary" sx={{ marginBottom: 3 }}>
-                        {request.description}
-                      </Typography>
-
-                      <Typography variant="h6" color="primary.main" sx={{ fontWeight: 'bold', marginBottom: 2 }}>
-                        Información del Usuario Solicitante
-                      </Typography>
-                      {userNames[request.userId] ? (
-                        <Box component="dl" sx={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: 1 }}>
-                          <Typography component="dt" variant="body2" sx={{ fontWeight: 'bold', color: 'text.primary' }}>
-                            Nombre:
-                          </Typography>
-                          <Typography component="dd" variant="body2">
-                            {userNames[request.userId].name}
-                          </Typography>
-
-                          <Typography component="dt" variant="body2" sx={{ fontWeight: 'bold', color: 'text.primary' }}>
-                            Apellido:
-                          </Typography>
-                          <Typography component="dd" variant="body2">
-                            {userNames[request.userId].lastName}
-                          </Typography>
-
-                          <Typography component="dt" variant="body2" sx={{ fontWeight: 'bold', color: 'text.primary' }}>
-                            Email:
-                          </Typography>
-                          <Typography component="dd" variant="body2">
-                            {userNames[request.userId].email}
-                          </Typography>
-
-                          <Typography component="dt" variant="body2" sx={{ fontWeight: 'bold', color: 'text.primary' }}>
-                            Teléfono:
-                          </Typography>
-                          <Typography component="dd" variant="body2">
-                            {userNames[request.userId].phone}
-                          </Typography>
-
-                          <Typography component="dt" variant="body2" sx={{ fontWeight: 'bold', color: 'text.primary' }}>
-                            Dirección:
-                          </Typography>
-                          <Typography component="dd" variant="body2">
-                            {userNames[request.userId].address}
-                          </Typography>
-
-                          <Typography component="dt" variant="body2" sx={{ fontWeight: 'bold', color: 'text.primary' }}>
-                            Ciudad:
-                          </Typography>
-                          <Typography component="dd" variant="body2">
-                            {userNames[request.userId].city}
-                          </Typography>
-
-                          <Typography component="dt" variant="body2" sx={{ fontWeight: 'bold', color: 'text.primary' }}>
-                            Estado:
-                          </Typography>
-                          <Typography component="dd" variant="body2">
-                            {userNames[request.userId].state}
-                          </Typography>
-
-                          <Typography component="dt" variant="body2" sx={{ fontWeight: 'bold', color: 'text.primary' }}>
-                            País:
-                          </Typography>
-                          <Typography component="dd" variant="body2">
-                            {userNames[request.userId].country}
-                          </Typography>
-
-                          <Typography component="dt" variant="body2" sx={{ fontWeight: 'bold', color: 'text.primary' }}>
-                            Código Postal:
-                          </Typography>
-                          <Typography component="dd" variant="body2">
-                            {userNames[request.userId].zipCode}
-                          </Typography>
-                        </Box>
-                      ) : (
-                        <Typography variant="body2" color="text.secondary">
-                          Información no disponible
+                  <TableCell
+                    style={{ paddingBottom: 0, paddingTop: 0 }}
+                    colSpan={8}
+                  >
+                    <Collapse
+                      in={expandedRequestId === request.id}
+                      timeout="auto"
+                      unmountOnExit
+                    >
+                      <Box
+                        sx={{
+                          padding: 2,
+                          borderRadius: 2,
+                          backgroundColor: "background.paper",
+                          marginBottom: 2,
+                        }}
+                      >
+                        <Typography
+                          variant="h6"
+                          color="primary.main"
+                          sx={{ fontWeight: "bold", marginBottom: 2 }}
+                        >
+                          Descripción de la Solicitud
                         </Typography>
-                      )}
-                    </Box>
+                        <Typography
+                          variant="body1"
+                          color="text.secondary"
+                          sx={{ marginBottom: 3 }}
+                        >
+                          {request.description}
+                        </Typography>
+
+                        <Typography
+                          variant="h6"
+                          color="primary.main"
+                          sx={{ fontWeight: "bold", marginBottom: 2 }}
+                        >
+                          Información del Usuario Solicitante
+                        </Typography>
+                        {userNames[request.userId] ? (
+                          <Box
+                            component="dl"
+                            sx={{
+                              display: "grid",
+                              gridTemplateColumns: "auto 1fr",
+                              gap: 1,
+                            }}
+                          >
+                            <Typography
+                              component="dt"
+                              variant="body2"
+                              sx={{ fontWeight: "bold", color: "text.primary" }}
+                            >
+                              Nombre:
+                            </Typography>
+                            <Typography component="dd" variant="body2">
+                              {userNames[request.userId].name}
+                            </Typography>
+
+                            <Typography
+                              component="dt"
+                              variant="body2"
+                              sx={{ fontWeight: "bold", color: "text.primary" }}
+                            >
+                              Apellido:
+                            </Typography>
+                            <Typography component="dd" variant="body2">
+                              {userNames[request.userId].lastName}
+                            </Typography>
+
+                            <Typography
+                              component="dt"
+                              variant="body2"
+                              sx={{ fontWeight: "bold", color: "text.primary" }}
+                            >
+                              Email:
+                            </Typography>
+                            <Typography component="dd" variant="body2">
+                              {userNames[request.userId].email}
+                            </Typography>
+
+                            <Typography
+                              component="dt"
+                              variant="body2"
+                              sx={{ fontWeight: "bold", color: "text.primary" }}
+                            >
+                              Teléfono:
+                            </Typography>
+                            <Typography component="dd" variant="body2">
+                              {userNames[request.userId].phone}
+                            </Typography>
+
+                            <Typography
+                              component="dt"
+                              variant="body2"
+                              sx={{ fontWeight: "bold", color: "text.primary" }}
+                            >
+                              Dirección:
+                            </Typography>
+                            <Typography component="dd" variant="body2">
+                              {userNames[request.userId].address}
+                            </Typography>
+
+                            <Typography
+                              component="dt"
+                              variant="body2"
+                              sx={{ fontWeight: "bold", color: "text.primary" }}
+                            >
+                              Ciudad:
+                            </Typography>
+                            <Typography component="dd" variant="body2">
+                              {userNames[request.userId].city}
+                            </Typography>
+
+                            <Typography
+                              component="dt"
+                              variant="body2"
+                              sx={{ fontWeight: "bold", color: "text.primary" }}
+                            >
+                              Estado:
+                            </Typography>
+                            <Typography component="dd" variant="body2">
+                              {userNames[request.userId].state}
+                            </Typography>
+
+                            <Typography
+                              component="dt"
+                              variant="body2"
+                              sx={{ fontWeight: "bold", color: "text.primary" }}
+                            >
+                              País:
+                            </Typography>
+                            <Typography component="dd" variant="body2">
+                              {userNames[request.userId].country}
+                            </Typography>
+
+                            <Typography
+                              component="dt"
+                              variant="body2"
+                              sx={{ fontWeight: "bold", color: "text.primary" }}
+                            >
+                              Código Postal:
+                            </Typography>
+                            <Typography component="dd" variant="body2">
+                              {userNames[request.userId].zipCode}
+                            </Typography>
+                          </Box>
+                        ) : (
+                          <Typography variant="body2" color="text.secondary">
+                            Información no disponible
+                          </Typography>
+                        )}
+                      </Box>
                     </Collapse>
                   </TableCell>
                 </TableRow>
@@ -457,7 +627,9 @@ const CompanyRequestList = () => {
             onClose={() => dispatch(setShowBillingForm(false))}
             requestId={selectedRequestId}
             userId={requests.find((r) => r.id === selectedRequestId)?.userId}
-            contractorId={requests.find((r) => r.id === selectedRequestId)?.contractorId}
+            contractorId={
+              requests.find((r) => r.id === selectedRequestId)?.contractorId
+            }
             onComplete={handleBillingComplete}
           />
         </Box>
@@ -473,7 +645,10 @@ const CompanyRequestList = () => {
         </Box>
       )}
 
-      <Dialog open={openCancelDialog} onClose={() => setOpenCancelDialog(false)}>
+      <Dialog
+        open={openCancelDialog}
+        onClose={() => setOpenCancelDialog(false)}
+      >
         <DialogTitle>Confirmar Acción</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -483,20 +658,26 @@ const CompanyRequestList = () => {
         <DialogActions>
           <Button
             onClick={() => {
-              const request = requests.find(r => r.id === selectedRequestToCancel);
+              const request = requests.find(
+                (r) => r.id === selectedRequestToCancel
+              );
               if (request) {
                 if (isRejectAction) {
                   dispatch(rejectRequest(selectedRequestToCancel));
                 } else {
-                  dispatch(cancelCompanyRequest({
-                    requestId: selectedRequestToCancel,
-                    contractorId: request.contractorId
-                  }));
+                  dispatch(
+                    cancelCompanyRequest({
+                      requestId: selectedRequestToCancel,
+                      contractorId: request.contractorId,
+                    })
+                  );
                 }
                 setOpenCancelDialog(false);
                 setSelectedRequestToCancel(null);
               } else {
-                console.error('No se encontró el contractorId para la solicitud seleccionada.');
+                console.error(
+                  "No se encontró el contractorId para la solicitud seleccionada."
+                );
               }
             }}
             color="primary"

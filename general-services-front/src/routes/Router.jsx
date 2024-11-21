@@ -9,6 +9,9 @@ import CompanyH from "../pages/CompanyHeader";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 
+import Chat from '../components/chat/Chat';  // Asegúrate de que la ruta del componente sea correcta
+
+
 import Admin from "../pages/Admin";
 import UserList from "../components/admin/UserList";
 import RoleList from "../components/admin/RoleList";
@@ -123,6 +126,10 @@ const routes = createRoutesFromElements(
         {<Authenticator allowedRoles={[client]}>
           <Notifications />
         </Authenticator>} />
+      <Route path="chat" element=
+        {<Authenticator allowedRoles={[client]}>
+          <Chat />
+        </Authenticator>} />
       <Route path="home" element={
         <Authenticator allowedRoles={[client]}>
           <ClientHome />
@@ -184,6 +191,10 @@ const routes = createRoutesFromElements(
       <Route path="notifications" element=
         {<Authenticator allowedRoles={[company]}>
           <Notifications />
+        </Authenticator>} />
+      <Route path="chat" element=
+        {<Authenticator allowedRoles={[company]}>
+          <Chat />
         </Authenticator>} />
       <Route path="menu" element={
         <Authenticator allowedRoles={[company]}>
