@@ -7,7 +7,7 @@ import { Button, Table, TableBody, TableCell, TableHead, TableRow, Typography, B
 import { CircularProgress } from "@mui/material";
 import { Dialog, DialogTitle, DialogContent, DialogActions, Alert, Collapse, IconButton } from "@mui/material";
 import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
-
+import { ChatBubbleOutline, KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 
 
 
@@ -235,6 +235,9 @@ const UserRequestList = () => {
               <TableCell sx={{ fontWeight: 'bold', color: '#4392f1' }}>Fecha</TableCell>
               <TableCell sx={{ fontWeight: 'bold', color: '#4392f1' }}>Estado</TableCell>
               <TableCell sx={{ fontWeight: 'bold', color: '#4392f1' }}>Acciones</TableCell>
+              <TableCell sx={{ fontWeight: "bold", color: "#4392f1" }}>
+                Chat
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -263,6 +266,23 @@ const UserRequestList = () => {
                         Cancelar
                       </Button>
                     )}
+                  </TableCell>
+                  <TableCell>
+                    <IconButton
+                      onClick={() => {
+                        const userRoles = sessionStorage.getItem("roles"); // Obtener los roles del usuario
+                        if (userRoles.includes("ALL-CLIENT")) {
+                          navigate(`/client/chat/${request.id}`); // Redirigir a la ruta del chat del cliente
+                        } else if (userRoles.includes("ALL-COMPANY")) {
+                          navigate(`/company/chat/${request.id}`); // Redirigir a la ruta del chat de la compañía
+                        } else {
+                          navigate("/login"); // Si no tiene rol, redirigir a login
+                        }
+                      }} // Redirigir al chat
+                      sx={{ color: "#4392f1" }}
+                    >
+                      <ChatBubbleOutline />
+                    </IconButton>
                   </TableCell>
                 </TableRow>
                 <TableRow>

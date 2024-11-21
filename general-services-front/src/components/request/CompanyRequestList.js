@@ -362,8 +362,8 @@ const CompanyRequestList = () => {
               </TableCell>
               <TableCell sx={{ fontWeight: "bold", color: "#4392f1" }}>
                 Chat
-              </TableCell>{" "}
-              {/* Nueva columna para el chat */}
+              </TableCell>
+            
             </TableRow>
           </TableHead>
           <TableBody>
@@ -443,9 +443,7 @@ const CompanyRequestList = () => {
                       </>
                     )}
                   </TableCell>
-                  {/* Nueva columna para el chat */}
                   <TableCell>
-                    {/* Nueva celda con el ícono del chat */}
                     <IconButton
                       onClick={() => {
                         const userRoles = sessionStorage.getItem("roles"); // Obtener los roles del usuario
@@ -459,7 +457,7 @@ const CompanyRequestList = () => {
                       }} // Redirigir al chat
                       sx={{ color: "#4392f1" }}
                     >
-                      <ChatBubbleOutline /> {/* Ícono de chat */}
+                      <ChatBubbleOutline />
                     </IconButton>
                   </TableCell>
                 </TableRow>
