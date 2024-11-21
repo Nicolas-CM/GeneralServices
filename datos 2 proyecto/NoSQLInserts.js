@@ -138,271 +138,106 @@ db.Notification.insertMany([
   ]);
   //////////////////////////////////////////////////////////////////////////////////////////////////////
   /// Inserciones para la colección Chat
-  db.Chat.insertMany([
-    {
-      solicitud_id: "solicitud1",
-      messages: [
-        {
-          sender: "compania1",
-          receiver: "cliente1",
-          content: "¿Cómo podemos ayudarte con tu solicitud?",
-          timestamp: new Date().toISOString(),
-          isViewed: false
+  db.Chat.insertMany([{
+    "solicitudId": "1",
+    "messages": [
+      {
+        "sender": "luisuser",
+        "receiver": "carlosuser",
+        "content": "Hola, ¿ya estás en camino?",
+        "timestamp": {
+          "$date": "2024-11-21T08:15:00.000Z"
         },
-        {
-          sender: "cliente1",
-          receiver: "compania1",
-          content: "Necesito más detalles sobre los servicios que ofrecen.",
-          timestamp: new Date().toISOString(),
-          isViewed: false
-        }
-      ],
-      _class: "Chat"
-    },
-    {
-      solicitud_id: "solicitud2",
-      messages: [
-        {
-          sender: "compania2",
-          receiver: "cliente2",
-          content: "Te hemos enviado la cotización a tu correo.",
-          timestamp: new Date().toISOString(),
-          isViewed: false
+        "isViewed": false
+      },
+      {
+        "sender": "carlosuser",
+        "receiver": "luisuser",
+        "content": "Sí, llegaré en 15 minutos.",
+        "timestamp": {
+          "$date": "2024-11-21T08:16:45.000Z"
         },
-        {
-          sender: "cliente2",
-          receiver: "compania2",
-          content: "Gracias por la información, voy a revisarlo.",
-          timestamp: new Date().toISOString(),
-          isViewed: false
-        }
-      ],
-      _class: "Chat"
-    },
-    {
-      solicitud_id: "solicitud3",
-      messages: [
-        {
-          sender: "compania3",
-          receiver: "cliente3",
-          content: "¿Podrías confirmar tu disponibilidad para el servicio?",
-          timestamp: new Date().toISOString(),
-          isViewed: true
+        "isViewed": false
+      },
+      {
+        "sender": "luisuser",
+        "receiver": "carlosuser",
+        "content": "Perfecto, te espero.",
+        "timestamp": {
+          "$date": "2024-11-21T08:18:30.000Z"
         },
-        {
-          sender: "cliente3",
-          receiver: "compania3",
-          content: "Sí, estaré disponible a partir de mañana.",
-          timestamp: new Date().toISOString(),
-          isViewed: true
-        }
-      ],
-      _class: "Chat"
-    },
-    {
-      solicitud_id: "solicitud4",
-      messages: [
-        {
-          sender: "compania4",
-          receiver: "cliente4",
-          content: "Hemos recibido tu solicitud, pronto recibirás una respuesta.",
-          timestamp: new Date().toISOString(),
-          isViewed: false
+        "isViewed": false
+      }
+    ],
+    "_class": "com.generalservicesplatform.general.model.Chat"
+  },
+  {
+    "solicitudId": "3",
+    "messages": [
+      {
+        "sender": "luisuser",
+        "receiver": "martauser",
+        "content": "Buenos días, ¿cuándo podrías venir?",
+        "timestamp": {
+          "$date": "2024-11-21T09:00:00.000Z"
         },
-        {
-          sender: "cliente4",
-          receiver: "compania4",
-          content: "Perfecto, gracias por la actualización.",
-          timestamp: new Date().toISOString(),
-          isViewed: false
-        }
-      ],
-      _class: "Chat"
-    },
-    {
-      solicitud_id: "solicitud5",
-      messages: [
-        {
-          sender: "compania5",
-          receiver: "cliente5",
-          content: "Tu pedido ha sido enviado, te llegará pronto.",
-          timestamp: new Date().toISOString(),
-          isViewed: false
+        "isViewed": false
+      },
+      {
+        "sender": "martauser",
+        "receiver": "luisuser",
+        "content": "Buenos días, puedo llegar a las 10:30 AM.",
+        "timestamp": {
+          "$date": "2024-11-21T09:05:00.000Z"
         },
-        {
-          sender: "cliente5",
-          receiver: "compania5",
-          content: "Gracias, estaré atento a la entrega.",
-          timestamp: new Date().toISOString(),
-          isViewed: true
-        }
-      ],
-      _class: "Chat"
-    },
-    {
-      solicitud_id: "solicitud6",
-      messages: [
-        {
-          sender: "compania6",
-          receiver: "cliente6",
-          content: "Tu servicio está listo para ser entregado.",
-          timestamp: new Date().toISOString(),
-          isViewed: true
+        "isViewed": false
+      },
+      {
+        "sender": "luisuser",
+        "receiver": "martauser",
+        "content": "Está bien, aquí te espero.",
+        "timestamp": {
+          "$date": "2024-11-21T09:10:30.000Z"
         },
-        {
-          sender: "cliente6",
-          receiver: "compania6",
-          content: "Excelente, ¿dónde puedo recogerlo?",
-          timestamp: new Date().toISOString(),
-          isViewed: false
-        }
-      ],
-      _class: "Chat"
-    },
-    {
-      solicitud_id: "solicitud7",
-      messages: [
-        {
-          sender: "compania7",
-          receiver: "cliente7",
-          content: "Tu proyecto está en progreso, pronto recibirás más detalles.",
-          timestamp: new Date().toISOString(),
-          isViewed: false
+        "isViewed": false
+      }
+    ],
+    "_class": "com.generalservicesplatform.general.model.Chat"
+  },
+  {
+    "solicitudId": "7",
+    "messages": [
+      {
+        "sender": "luisuser",
+        "receiver": "pedrouser",
+        "content": "Hola, necesito un reporte del avance.",
+        "timestamp": {
+          "$date": "2024-11-21T10:00:00.000Z"
         },
-        {
-          sender: "cliente7",
-          receiver: "compania7",
-          content: "Estoy esperando con ansias, gracias.",
-          timestamp: new Date().toISOString(),
-          isViewed: false
-        }
-      ],
-      _class: "Chat"
-    },
-    {
-      solicitud_id: "solicitud8",
-      messages: [
-        {
-          sender: "compania8",
-          receiver: "cliente8",
-          content: "Gracias por tu preferencia, tu solicitud está siendo procesada.",
-          timestamp: new Date().toISOString(),
-          isViewed: false
+        "isViewed": false
+      },
+      {
+        "sender": "pedrouser",
+        "receiver": "luisuser",
+        "content": "Claro, he avanzado un 70%. Terminamos hoy.",
+        "timestamp": {
+          "$date": "2024-11-21T10:05:00.000Z"
         },
-        {
-          sender: "cliente8",
-          receiver: "compania8",
-          content: "Perfecto, espero recibir noticias pronto.",
-          timestamp: new Date().toISOString(),
-          isViewed: true
-        }
-      ],
-      _class: "Chat"
-    },
-    {
-      solicitud_id: "solicitud9",
-      messages: [
-        {
-          sender: "compania9",
-          receiver: "cliente9",
-          content: "Tu solicitud está siendo procesada.",
-          timestamp: new Date().toISOString(),
-          isViewed: false
+        "isViewed": false
+      },
+      {
+        "sender": "luisuser",
+        "receiver": "pedrouser",
+        "content": "Gracias, espero la notificación.",
+        "timestamp": {
+          "$date": "2024-11-21T10:10:00.000Z"
         },
-        {
-          sender: "cliente9",
-          receiver: "compania9",
-          content: "¡Gracias por la actualización!",
-          timestamp: new Date().toISOString(),
-          isViewed: true
-        }
-      ],
-      _class: "Chat"
-    }
-  ]);
-
-  //////////////////////////////////////////////////////////////////////////////////////////////////////
-  // Inserciones para la colección Message
-  db.Message.insertMany([
-    {
-      unaLista: 1,
-      sender: "compania1",
-      receiver: "cliente1",
-      content: "Gracias por elegir nuestros servicios, ¿cómo podemos ayudarte?",
-      timestamp: new Date().toISOString(),
-      isViewed: false
-    },
-    {
-      unaLista: 2,
-      sender: "cliente1",
-      receiver: "compania1",
-      content: "Estoy interesado en un servicio de mantenimiento, ¿me pueden ayudar?",
-      timestamp: new Date().toISOString(),
-      isViewed: false
-    },
-    {
-      unaLista: 3,
-      sender: "compania2",
-      receiver: "cliente2",
-      content: "Por supuesto, tenemos opciones de mantenimiento preventivo. ¿Cuál prefieres?",
-      timestamp: new Date().toISOString(),
-      isViewed: false
-    },
-    {
-      unaLista: 4,
-      sender: "cliente2",
-      receiver: "compania2",
-      content: "Me interesa el mantenimiento preventivo anual.",
-      timestamp: new Date().toISOString(),
-      isViewed: false
-    },
-    {
-      unaLista: 5,
-      sender: "compania3",
-      receiver: "cliente3",
-      content: "Tu solicitud fue procesada exitosamente, por favor espera la confirmación de envío.",
-      timestamp: new Date().toISOString(),
-      isViewed: true
-    },
-    {
-      unaLista: 6,
-      sender: "cliente3",
-      receiver: "compania3",
-      content: "Gracias, estaré esperando la confirmación.",
-      timestamp: new Date().toISOString(),
-      isViewed: true
-    },
-    {
-      unaLista: 7,
-      sender: "compania4",
-      receiver: "cliente4",
-      content: "Estamos listos para comenzar tu proyecto.",
-      timestamp: new Date().toISOString(),
-      isViewed: true
-    },
-    {
-      unaLista: 8,
-      sender: "cliente4",
-      receiver: "compania4",
-      content: "Perfecto, ¿cuándo podemos empezar?",
-      timestamp: new Date().toISOString(),
-      isViewed: true
-    },
-    {
-      unaLista: 9,
-      sender: "compania5",
-      receiver: "cliente5",
-      content: "Tu producto ha sido enviado, espera el número de seguimiento.",
-      timestamp: new Date().toISOString(),
-      isViewed: false
-    },
-    {
-      unaLista: 10,
-      sender: "cliente5",
-      receiver: "compania5",
-      content: "Gracias, estaré atento al número de seguimiento.",
-      timestamp: new Date().toISOString(),
-      isViewed: false
-    }
-  ]);
+        "isViewed": false
+      }
+    ],
+    "_class": "com.generalservicesplatform.general.model.Chat"
+  }]
   
+  );
+
+ 
