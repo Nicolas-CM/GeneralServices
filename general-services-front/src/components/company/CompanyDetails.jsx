@@ -18,13 +18,15 @@ const CompanyDetails = () => {
                 const response = await axios.get(`/companies/${companyId}`);
                 setCompany(response.data);
 
-                // Obtener las calificaciones de la compañía
-                if (response.data.ratingIds && response.data.ratingIds.length > 0) {
-                    const ratingResponse = await axios.get(`/ratings/by-ids`, {
-                        params: { ids: response.data.ratingIds.join(',') }
-                    });
-                    setRatings(ratingResponse.data);
-                }
+                if(!response.data) return;
+                axios
+                  .get(`ratings/company/${response.data.id}`)
+                  .then(ratingResponse => setRatings(ratingResponse.data))
+                  .catch(err => {
+                    setMessage('Error al cargar las calificaciones.');
+                    console.error(err);
+                });
+
             } catch (error) {
                 setMessage('Error al cargar los detalles de la compañía.');
                 console.error(error);

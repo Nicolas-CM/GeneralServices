@@ -15,12 +15,11 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", uses = { RatingMapper.class })
 public interface CompanyMapper {
+
     @Mapping(source = "services", target = "serviceIds", qualifiedByName = "mapServicesToIds")
-    @Mapping(source = "ratings", target = "ratingIds", qualifiedByName = "mapRatingsToIds")
     CompanyDto toDto(Company company);
 
     @Mapping(source = "serviceIds", target = "services", qualifiedByName = "mapIdsToServices")
-    @Mapping(source = "ratingIds", target = "ratings", qualifiedByName = "mapIdsToRatings")
     Company toEntity(CompanyDto companyDto);
 
     List<CompanyDto> toDto(List<Company> companies);
@@ -44,27 +43,6 @@ public interface CompanyMapper {
                     ServiceModel service = new ServiceModel();
                     service.setId(id);
                     return service;
-                })
-                .collect(Collectors.toSet());
-    }
-
-    @Named("mapRatingsToIds")
-    default List<Long> mapRatingsToIds(Set<Rating> ratings) {
-        return ratings.stream()
-                .map(Rating::getId)
-                .collect(Collectors.toList());
-    }
-
-    @Named("mapIdsToRatings")
-    default Set<Rating> mapIdsToRatings(List<Long> ratingIds) {
-        if (ratingIds == null || ratingIds.isEmpty()) {
-            return Collections.emptySet(); // Retorna un conjunto vacío si serviceIds es nulo o vacío
-        }
-        return ratingIds.stream()
-                .map(id -> {
-                    Rating rating = new Rating();
-                    rating.setId(id);
-                    return rating;
                 })
                 .collect(Collectors.toSet());
     }

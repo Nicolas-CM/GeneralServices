@@ -5,7 +5,7 @@ import BillingForm from '../billing/BillingForm';
 import ContractorToAssignList from '../contractor/ContractorAssignList';
 import { format, parseISO } from 'date-fns';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Table, TableBody, TableCell, TableHead, TableRow, Typography, Box, ButtonGroup, Paper, TableContainer, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Alert, IconButton, Collapse } from '@mui/material';
+import { Button, Table, TableBody, TableCell, TableHead, TableRow, Typography, Box, ButtonGroup, Paper, TableContainer, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Alert, IconButton, Collapse, CircularProgress } from '@mui/material';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
 import {
   fetchCompanyRequests,
@@ -168,7 +168,12 @@ const CompanyRequestList = () => {
   }
 
   if (status === 'loading') {
-    return <div>Cargando...</div>;
+    return <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+    <CircularProgress color="primary" />
+    <Typography sx={{ marginLeft: 2, color: "#4392f1", fontWeight: "bold" }}>
+      Cargando...
+    </Typography>
+  </Box>;
   }
 
   const getStatusColor = (status) => {

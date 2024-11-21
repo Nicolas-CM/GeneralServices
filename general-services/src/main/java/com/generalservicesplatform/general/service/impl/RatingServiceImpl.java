@@ -12,12 +12,9 @@ import com.generalservicesplatform.general.service.interfaces.RatingService;
 
 @Service
 public class RatingServiceImpl implements RatingService {
-    private final RatingRepository ratingRepository;
 
     @Autowired
-    public RatingServiceImpl(RatingRepository ratingRepository) {
-        this.ratingRepository = ratingRepository;
-    }
+    private RatingRepository ratingRepository;
 
     @Override
     public List<Rating> findAllRatings() {
@@ -25,35 +22,35 @@ public class RatingServiceImpl implements RatingService {
     }
 
     @Override
-    public Optional<Rating> findRatingById(Long id) {
+    public Optional<Rating> findRatingById(String id) {
         return ratingRepository.findById(id);
     }
 
     @Override
     public Rating saveRating(Rating rating) {
-        if (rating == null) {
-            throw new IllegalArgumentException("Rating cannot be null");
-        }
         return ratingRepository.save(rating);
     }
 
     @Override
-    public void deleteRatingById(Long id) {
+    public void deleteRatingById(String id) {
         ratingRepository.deleteById(id);
     }
 
     @Override
-    public Optional<Rating> updateRating(Long id, Rating updatedRating) {
-        return ratingRepository.findById(id)
-                .map(existingRating -> {
-                    existingRating.setRatingValue(updatedRating.getRatingValue());
-                    existingRating.setComment(updatedRating.getComment());
-                    // Actualiza otros campos necesarios
-                    return ratingRepository.save(existingRating);
-                });
+    public Optional<Rating> updateRating(String id, Rating updatedRating) {
+        return ratingRepository.findById(id).map(existingRating -> {
+            existingRating.setRatingValue(updatedRating.getRatingValue());
+            existingRating.setComment(updatedRating.getComment());
+            existingRating.setCompanyId(updatedRating.getCompanyId());
+            return ratingRepository.save(existingRating);
+        });
     }
 
-    public List<Rating> findRatingsByIds(List<Long> ids) {
+    public List<Rating> findRatingsByIds(List<String> ids) {
         return ratingRepository.findByIdIn(ids);
+    }
+
+    public List<Rating> findRatingsByCompanyId(String companyId) {
+        return ratingRepository.findByCompanyId(companyId);
     }
 }

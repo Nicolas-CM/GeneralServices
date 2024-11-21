@@ -8,11 +8,11 @@ import com.generalservicesplatform.general.model.Rating;
 public interface RatingService {
     List<Rating> findAllRatings();
 
-    Optional<Rating> findRatingById(Long id);
+    Optional<Rating> findRatingById(String id);
 
     Rating saveRating(Rating rating);
 
-    void deleteRatingById(Long id);
+    void deleteRatingById(String id);
 
-    Optional<Rating> updateRating(Long id, Rating updatedRating);
+    Optional<Rating> updateRating(String id, Rating updatedRating);
 }

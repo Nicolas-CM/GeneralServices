@@ -539,21 +539,6 @@ VALUES
         'Tarjeta de Débito' -- payment_method
     );
 
--- Insertar datos en ratings
-INSERT INTO
-    ratings (rating_value, company_id, comment)
-VALUES
-    (5.0, 1, 'Excelente servicio'),
-    (4.5, 2, 'Muy buen trabajo'),
-    (4.0, 3, 'Satisfactorio'),
-    (4.7, 4, 'Altamente recomendable'),
-    (4.3, 1, 'Buena calidad'),
-    (4.6, 2, 'Trabajo bien hecho'),
-    (4.2, 3, 'Servicio eficiente'),
-    (4.9, 4, 'Superó expectativas'),
-    (4.1, 1, 'Adecuado'),
-    (4.8, 2, 'Excelente atención');
-
 -- Insertar datos en user_role
 INSERT INTO
     user_role (role_id, user_id)

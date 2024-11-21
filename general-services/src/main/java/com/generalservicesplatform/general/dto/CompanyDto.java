@@ -19,7 +19,6 @@ public class CompanyDto {
     private String state;
     private String country;
     private String zipCode;
-    private String email;
-    private List<Long> ratingIds; // Calificación promedio de la compañía
+    private String email;// Calificación promedio de la compañía
     private List<Long> serviceIds; // Lista de IDs de servicios asociados
 }
