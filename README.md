@@ -5,6 +5,7 @@
 ### Davide Flamini
 ### Nicolas Cuellar
 ### Andres Cabezas
+### Miguel Angel Martinez (Solo participe en la funcionalidad del chat)
 
 ## Descripción del Proyecto
 
