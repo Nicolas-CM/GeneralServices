@@ -7,6 +7,7 @@ import com.generalservicesplatform.general.model.Message;
 import com.generalservicesplatform.general.service.impl.ChatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,9 @@ public class ChatRestController {
 
     @Autowired
     private ChatService chatService;
+
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
 
     // Crear un nuevo chat o reiniciar uno existente
     @PostMapping
@@ -58,11 +62,12 @@ public class ChatRestController {
                 solicitudId,
                 message.getSender(),
                 message.getReceiver(),
-                message.getContent()
-        );
+                message.getContent());
 
         // Convertir la entidad guardada a DTO
         ChatMessageDto savedMessageDto = ChatMapper.INSTANCE.toDto(savedMessage);
+
+        messagingTemplate.convertAndSend("/topic/chat/" + savedMessage.getReceiver(), savedMessageDto);
 
         return ResponseEntity.status(201).body(savedMessageDto);
     }
@@ -70,6 +75,13 @@ public class ChatRestController {
     // Obtener todos los mensajes de un chat
     @GetMapping("/{solicitudId}/messages")
     public ResponseEntity<List<ChatMessageDto>> getMessagesFromChat(@PathVariable String solicitudId) {
+
+        // Verificar si el chat existe, si no, crearlo
+        Optional<Chat> chatOptional = chatService.getChatBySolicitudId(solicitudId);
+        if (!chatOptional.isPresent()) {
+            chatService.createChat(solicitudId);
+        }
+
         List<Message> messages = chatService.getMessagesFromChat(solicitudId);
 
         // Convertir entidades a DTOs

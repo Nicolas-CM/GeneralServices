@@ -30,7 +30,8 @@ public class ChatService {
     // Agregar un mensaje a un chat existente
     public Message addMessageToChat(String solicitudId, String sender, String receiver, String content) {
         Chat chat = chatRepository.findBySolicitudId(solicitudId)
-                .orElseThrow(() -> new RuntimeException("Chat no encontrado para solicitudId: " + solicitudId));
+                .orElseThrow(() -> new RuntimeException(
+                        "Chat add MessageTOchatno encontrado para solicitudId: " + solicitudId));
 
         Message message = new Message(sender, receiver, content, LocalDateTime.now());
         chat.getMessages().add(message);
@@ -42,12 +43,14 @@ public class ChatService {
     // Obtener todos los mensajes de un chat
     public List<Message> getMessagesFromChat(String solicitudId) {
         Chat chat = chatRepository.findBySolicitudId(solicitudId)
-                .orElseThrow(() -> new RuntimeException("Chat no encontrado para solicitudId: " + solicitudId));
+                .orElseThrow(
+                        () -> new RuntimeException("Chat GetMessagesno encontrado para solicitudId: " + solicitudId));
 
         return chat.getMessages();
     }
+
     public Chat saveChat(Chat chat) {
         return chatRepository.save(chat);
     }
-    
+
 }

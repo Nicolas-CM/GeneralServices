@@ -41,20 +41,21 @@ public class WebSocketController {
         // Devolver la notificación
         return notificationDto;
     }
+
     @MessageMapping("/sendChatMessage")
-    @SendTo("/topic/chat/{solicitudId}")
+    @SendTo("/topic/chat")
     public ChatMessageDto sendChatMessage(ChatMessageDto chatMessageDto) {
         // Buscar el chat asociado a la solicitud
         Chat chat = chatRepository.findBySolicitudId(chatMessageDto.getSolicitudId())
-                .orElseThrow(() -> new RuntimeException("Chat no encontrado para solicitudId: " + chatMessageDto.getSolicitudId()));
+                .orElseThrow(() -> new RuntimeException(
+                        "Chat WebbbSocketttno encontrado para solicitudId: " + chatMessageDto.getSolicitudId()));
 
         // Crear un nuevo mensaje
         Message message = new Message(
                 chatMessageDto.getSender(),
                 chatMessageDto.getReceiver(),
                 chatMessageDto.getContent(),
-                LocalDateTime.now()
-        );
+                LocalDateTime.now());
 
         // Agregar el mensaje al chat y guardar en la base de datos
         chat.getMessages().add(message);

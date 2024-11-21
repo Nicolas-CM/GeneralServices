@@ -3,12 +3,16 @@ package com.generalservicesplatform.general.controllers;
 import com.generalservicesplatform.general.model.Company;
 import com.generalservicesplatform.general.model.ServiceModel;
 import com.generalservicesplatform.general.model.User;
+
+import com.generalservicesplatform.general.model.Request;
 import com.generalservicesplatform.general.dto.CompanyDto;
 import com.generalservicesplatform.general.mapper.CompanyMapper;
 import com.generalservicesplatform.general.service.impl.CompanyServiceImpl;
+import com.generalservicesplatform.general.service.impl.RequestServiceImpl;
 import com.generalservicesplatform.general.service.impl.ServiceServiceImpl;
 import com.generalservicesplatform.general.service.impl.UserServiceImpl;
 import com.generalservicesplatform.general.exceptions.CompanyNotFoundException;
+import com.generalservicesplatform.general.exceptions.RequestNotFoundException;
 import com.generalservicesplatform.general.exceptions.ServiceNotFoundException;
 import com.generalservicesplatform.general.exceptions.UserNotFoundException;
 import com.generalservicesplatform.general.exceptions.BadRequestException;
@@ -36,6 +40,9 @@ public class CompanyRestController {
 
     @Autowired
     private ServiceServiceImpl serviceService;
+
+    @Autowired
+    private RequestServiceImpl requestService;
 
     // Obtener todas las compañías
     @GetMapping
@@ -158,6 +165,31 @@ public class CompanyRestController {
         }
         return userOptional.get().getId().longValue();
 
+    }
+
+    // Obtener el username del dueño de la empresa a partir de una solicitudId
+    @GetMapping("/owner/username/by-solicitud/{solicitudId}")
+    public ResponseEntity<String> getCompanyOwnerUsernameBySolicitudId(@PathVariable Long solicitudId) {
+        // Encuentra la solicitud por su ID
+        Request request = requestService.findRequestById(solicitudId)
+                .orElseThrow(
+                        () -> new RequestNotFoundException("No se encontró una solicitud con el ID: " + solicitudId));
+
+        // Encuentra la compañía asociada a la solicitud
+        Company company = request.getCompany();
+        if (company == null) {
+            throw new CompanyNotFoundException("No se encontró una compañía para la solicitudId: " + solicitudId);
+        }
+
+        // Encuentra el usuario dueño de la compañía
+        User owner = company.getUser();
+        if (owner == null) {
+            throw new UserNotFoundException(
+                    "No se encontró un usuario dueño para la compañía con ID: " + company.getId());
+        }
+
+        // Devuelve el username del dueño de la compañía
+        return ResponseEntity.ok(owner.getUsername());
     }
 
 }
