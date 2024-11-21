@@ -450,7 +450,16 @@ const CompanyRequestList = () => {
                   <TableCell>
                     {/* Nueva celda con el ícono del chat */}
                     <IconButton
-                      onClick={() => navigate(`/chat/${request.id}`)} // Redirigir al chat
+                      onClick={() => {
+                        const userRoles = sessionStorage.getItem("roles"); // Obtener los roles del usuario
+                        if (userRoles.includes("ALL-CLIENT")) {
+                          navigate(`/client/chat/${request.id}`); // Redirigir a la ruta del chat del cliente
+                        } else if (userRoles.includes("ALL-COMPANY")) {
+                          navigate(`/company/chat/${request.id}`); // Redirigir a la ruta del chat de la compañía
+                        } else {
+                          navigate("/login"); // Si no tiene rol, redirigir a login
+                        }
+                      }} // Redirigir al chat
                       sx={{ color: "#4392f1" }}
                     >
                       <ChatBubbleOutline /> {/* Ícono de chat */}
