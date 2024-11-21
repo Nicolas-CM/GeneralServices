@@ -37,7 +37,7 @@ JOIN companies c ON r.company_id = c.id
 JOIN services s ON r.service_id = s.id
 JOIN contractors co ON r.contractor_id = co.id
 WHERE r.user_id = (SELECT id FROM app_user WHERE username = 'usuario_ejemplo') 
-AND r.status = 'pendiente'; -- Reemplazar con el estado que desees filtrar
+AND r.status = 'Pendiente'; -- Reemplazar con el estado que desees filtrar
 
 
 -- Consulta para obtener las facturas de un usuario
@@ -61,7 +61,7 @@ SELECT
 FROM contractors co
 JOIN companies c ON co.company_id = c.id
 WHERE c.name = 'nombre_compañia' 
-AND co.available = 'S'; -- 'S' indica disponible, puedes cambiar la lógica según tu necesidad
+AND co.available = True; -- 'S' indica disponible, puedes cambiar la lógica según tu necesidad
 
 
 -- Consulta para obtener todos los roles asignados a un usuario específico
@@ -95,8 +95,8 @@ SELECT
 FROM billings b
 JOIN app_user au ON b.user_id = au.id
 WHERE au.username = 'usuario_ejemplo' 
-AND b.payment_date BETWEEN TO_DATE('2024-01-01', 'YYYY-MM-DD') 
-AND TO_DATE('2024-12-31', 'YYYY-MM-DD');
+AND b.payment_date BETWEEN '2024-01-01'::date 
+AND '2024-12-31'::date;
 
 
 -- Consulta para obtener el número de solicitudes pendientes por cada compañía
@@ -105,7 +105,7 @@ SELECT
     COUNT(r.id) AS pending_requests
 FROM companies c
 JOIN requests r ON c.id = r.company_id
-WHERE r.status = 'pendiente'
+WHERE r.status = 'Pendiente'
 GROUP BY c.name;
 
 
