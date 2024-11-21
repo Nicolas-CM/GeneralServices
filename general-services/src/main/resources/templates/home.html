@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="./styles/home.css"> <!-- Asegúrate de tener un archivo CSS si es necesario -->
+</head>
+<body>
+<header>
+    <h1>Bienvenido a la página principal</h1>
+</header>
+<div class="text-center mt-3">
+    <ul style="list-style-type: none; padding: 0;">
+        <li sec:authorize="hasAuthority('READ-USER')">
+            <a href="/" class="btn btn-secondary">Ir al Gestor de Usuarios</a>
+        </li>
+        <li sec:authorize="hasAuthority('READ-ROLE')">
+            <a href="/list-roles" class="btn btn-secondary">Ir al Gestor de Roles</a>
+        </li>
+        <li sec:authorize="hasAuthority('READ-PERMISSION')">
+            <a href="/list-permission" class="btn btn-secondary">Ir al Gestor de Permisos</a>
+        </li>
+        <li class="d-inline-block">
+            <a href="/logout" class="btn btn-danger">
+                <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
+            </a>
+        </li>
+    </ul>
+</div>
+<main>
+    <p>Esta es la página de inicio. Has ingresado correctamente.</p>
+
+    <!-- Sección para mostrar roles y permisos del usuario autenticado -->
+    <div class="mt-4">
+        <h3>Información del Usuario Actual:</h3>
+        <p><strong>Nombre de usuario:</strong> <span th:text="${#authentication.name}"></span></p>
+        
+        <h4>Permisos:</h4>
+        <ul>
+            <li th:each="permission : ${#authentication.authorities}"
+                th:if="!${#strings.startsWith(permission.authority, 'ROLE_')}"
+                th:text="${permission.authority}">Permiso</li>
+        </ul>
+    </div>
+</main>
+<footer>
+    <p>&copy; 2024 General Services Platform</p>
+</footer>
+</body>
+</html>

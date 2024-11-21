@@ -1,0 +1,91 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="78AF7412-1DEF-6C5F-85DC-0CB3EC3483D9" name="services">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:20:03 UTC</createdTime>
+<generatorID>67D6B6D1-C01E-E402-D20F-CAB88BD8E5B4</generatorID>
+<ownerDesignName>Design</ownerDesignName>
+<engineerTo>
+<item key="14CCC4FC-4D5E-C718-827D-337B2E56C6DF" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="category id" id="09A14D70-A911-4805-4534-E2E7173EB76F">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:20:04 UTC</createdTime>
+<generatorID>9B38F6F7-7DD3-0FCC-D13F-F5A6C7C7E858</generatorID>
+<ownerDesignName>Design</ownerDesignName>
+<engineerTo>
+<item key="14CCC4FC-4D5E-C718-827D-337B2E56C6DF" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<referedAttribute>18E339F9-26C1-931C-5692-56011E4660D0</referedAttribute>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>4750AFD4-BF01-4815-0760-337B74F7E854</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id" id="97604307-B4D5-4915-77E0-37367E17B99A">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:20:04 UTC</createdTime>
+<generatorID>B529343A-D04D-E32D-9A0F-C93E5EC46291</generatorID>
+<ownerDesignName>Design</ownerDesignName>
+<engineerTo>
+<item key="14CCC4FC-4D5E-C718-827D-337B2E56C6DF" value="true"/>
+</engineerTo>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>4750AFD4-BF01-4815-0760-337B74F7E854</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="description" id="CAE1CFCD-0EC0-FB71-E94E-C351B846D78A">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:20:04 UTC</createdTime>
+<generatorID>71613FA2-EC3D-98A6-8434-696EA8F458E5</generatorID>
+<ownerDesignName>Design</ownerDesignName>
+<engineerTo>
+<item key="14CCC4FC-4D5E-C718-827D-337B2E56C6DF" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>DB857086-A054-DDAA-D9C2-F29177E3F9AB</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="name" id="3E6A0CB5-653A-867E-DFCA-BA00A086FF11">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:20:04 UTC</createdTime>
+<generatorID>D6F586E6-B355-9F4A-FCC8-6FF9B5EA73A1</generatorID>
+<ownerDesignName>Design</ownerDesignName>
+<engineerTo>
+<item key="14CCC4FC-4D5E-C718-827D-337B2E56C6DF" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>DB857086-A054-DDAA-D9C2-F29177E3F9AB</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="9208C014-DC89-D2AB-C84F-DACD7EBECF40" name="services PK">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:20:04 UTC</createdTime>
+<generatorID>8475FDEC-379F-71E2-5992-56691619D4F7</generatorID>
+<ownerDesignName>Design</ownerDesignName>
+<engineerTo>
+<item key="14CCC4FC-4D5E-C718-827D-337B2E56C6DF" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>97604307-B4D5-4915-77E0-37367E17B99A</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

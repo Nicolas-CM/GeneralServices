@@ -1,0 +1,105 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="3A09DDEA-6D0F-7288-F269-DE5CF403C044" name="contractors">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:20:03 UTC</createdTime>
+<generatorID>254232CF-2A60-6031-6DFE-97D600C34CF6</generatorID>
+<ownerDesignName>Design</ownerDesignName>
+<engineerTo>
+<item key="14CCC4FC-4D5E-C718-827D-337B2E56C6DF" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="available" id="455F3EC3-C425-2CA5-1993-CAC4706C8C6C">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:20:03 UTC</createdTime>
+<generatorID>42C8BBBA-20B2-7CB8-CF6A-1247904FB014</generatorID>
+<ownerDesignName>Design</ownerDesignName>
+<engineerTo>
+<item key="14CCC4FC-4D5E-C718-827D-337B2E56C6DF" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT025</logicalDatatype>
+<domain>395500A3-A325-6056-ED67-E390547E3CB9</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="status" id="F7EDFA3D-2361-97C6-532F-034F9DC7F5C5">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:20:03 UTC</createdTime>
+<generatorID>69D6A3F9-3788-CF23-4215-C5BC5F11A3B4</generatorID>
+<ownerDesignName>Design</ownerDesignName>
+<engineerTo>
+<item key="14CCC4FC-4D5E-C718-827D-337B2E56C6DF" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT025</logicalDatatype>
+<domain>395500A3-A325-6056-ED67-E390547E3CB9</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="company id" id="5654CE0A-74EC-DDF3-616D-4C6EDBC668A0">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:20:03 UTC</createdTime>
+<generatorID>DB16A104-4DCC-B392-66FF-5CDE695C2006</generatorID>
+<ownerDesignName>Design</ownerDesignName>
+<engineerTo>
+<item key="14CCC4FC-4D5E-C718-827D-337B2E56C6DF" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<referedAttribute>1FEC4268-B2C5-2EC3-B76B-A72722D1F24A</referedAttribute>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>4750AFD4-BF01-4815-0760-337B74F7E854</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id" id="F2A2F201-092C-D6ED-0D31-AC3AACA54BC2">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:20:03 UTC</createdTime>
+<generatorID>89E5E321-79CE-912D-6D2F-2A3092F8EE76</generatorID>
+<ownerDesignName>Design</ownerDesignName>
+<engineerTo>
+<item key="14CCC4FC-4D5E-C718-827D-337B2E56C6DF" value="true"/>
+</engineerTo>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>4750AFD4-BF01-4815-0760-337B74F7E854</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="name" id="ED7E2C78-BD05-31CA-246B-2690C76BA235">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:20:03 UTC</createdTime>
+<generatorID>6D44DC9F-6E20-5AB0-1DF5-8721D2B45E93</generatorID>
+<ownerDesignName>Design</ownerDesignName>
+<engineerTo>
+<item key="14CCC4FC-4D5E-C718-827D-337B2E56C6DF" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>DB857086-A054-DDAA-D9C2-F29177E3F9AB</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="C88B01F9-8531-72DE-305A-1A45A5DF0AB7" name="contractors PK">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:20:03 UTC</createdTime>
+<generatorID>5C94848E-D976-5408-7264-62D9FDDD1537</generatorID>
+<ownerDesignName>Design</ownerDesignName>
+<engineerTo>
+<item key="14CCC4FC-4D5E-C718-827D-337B2E56C6DF" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>F2A2F201-092C-D6ED-0D31-AC3AACA54BC2</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

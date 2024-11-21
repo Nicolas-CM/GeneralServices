@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuarios</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="./styles/list-users.css" />
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Gestión de Usuarios</h1>
+    <div class="text-center mt-3">
+        <a href="/list-roles" sec:authorize="hasAuthority('READ-ROLE')" class="btn btn-secondary">Ir al Gestor de Roles</a>
+        <a href="/list-permission" sec:authorize="hasAuthority('READ-PERMISSION')" class="btn btn-secondary">Ir al Gestor de Permisos</a>
+        <a href="/logout" class="btn btn-danger">
+            <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
+        </a>
+    </div>
+    <a href="/create-user" sec:authorize="hasAuthority('WRITE-USER')" id="new" class="btn btn-primary mt-2">
+        <i class="fa-solid fa-plus"></i>
+        Nuevo Usuario
+    </a>
+
+    <table class="table table-bordered table-striped mt-3">
+        <thead class="thead-dark">
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Nombre de Usuario</th>
+            <th>Correo Electrónico</th>
+            <th>Rol(es)</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.lastName}"></td>
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.email}"></td>
+            <td>
+                        <span th:each="role, iterStat : ${user.roles}"
+                              th:text="${role.role.name} + ${iterStat.last ? '' : ', '}"></span>
+            </td>
+            <td>
+                <a th:href="@{'/edit/' + ${user.id}}" sec:authorize="hasAuthority('EDIT-USER')" class="btn btn-warning btn-sm">Editar</a>
+                <a th:href="@{'/delete/' + ${user.id}}" sec:authorize="hasAuthority('DELETE-USER')" class="btn btn-danger btn-sm"
+                   onclick="return confirm('¿Estás seguro de que deseas eliminar este Usuario?');">Eliminar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

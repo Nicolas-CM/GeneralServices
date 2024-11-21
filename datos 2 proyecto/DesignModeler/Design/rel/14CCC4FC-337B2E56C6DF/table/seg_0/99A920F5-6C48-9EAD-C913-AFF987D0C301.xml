@@ -1,0 +1,79 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="99A920F5-6C48-9EAD-C913-AFF987D0C301" name="user_role">
+<sourceDDLFile>schema.ddl</sourceDDLFile>
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+<importedID>6FDBAD16-5049-1FC0-4FEE-CDE9EB059786</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="role_id" id="12EE1ACF-13F7-25A5-C99F-E71B98AFFD76">
+<sourceDDLFile>schema.ddl</sourceDDLFile>
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+<importedID>149C98C8-86E5-7B32-B266-153A6F0CE9A5</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>4750AFD4-BF01-4815-0760-337B74F7E854</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="4832ACE3-B511-B928-B066-32FF71AE2819" referredColumn="ADFCBA76-FAB1-6006-3E74-6AD6C03E639C"/>
+</associations>
+</Column>
+<Column name="user_id" id="E6CFABA1-498A-2484-2B1B-F2772A8E9E44">
+<sourceDDLFile>schema.ddl</sourceDDLFile>
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+<importedID>AA0A50D7-BCEA-40BB-F252-7E7B31423B7D</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>4750AFD4-BF01-4815-0760-337B74F7E854</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="589D3C8F-545D-D0B9-BEAA-B3D6182D39FD" referredColumn="C2217D52-1976-8139-82C6-7E9F99201766"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="35A7EB1C-17A6-001B-0D95-B9A9EBC7DE16" name="user_role_PK">
+<sourceDDLFile>schema.ddl</sourceDDLFile>
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+<importedID>13DD7B54-B820-F8A9-C125-C40C4270F3A5</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="12EE1ACF-13F7-25A5-C99F-E71B98AFFD76"/>
+<colUsage columnID="E6CFABA1-498A-2484-2B1B-F2772A8E9E44"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="86BA07BB-D74C-323D-5886-FDBD907B9719" name="FK_user_role_role">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:06 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="12EE1ACF-13F7-25A5-C99F-E71B98AFFD76"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="9CF6205C-F159-245B-E13E-0E17A5ABBE63" name="FK_user_role_user">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:06 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="E6CFABA1-498A-2484-2B1B-F2772A8E9E44"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

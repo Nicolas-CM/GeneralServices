@@ -1,0 +1,83 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.3.3'
+    id 'io.spring.dependency-management' version '1.1.6'
+    id 'jacoco'
+    id 'war'
+}
+
+group = 'com.generalservicesplatform'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.7"
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = true
+        html.required = true
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly 'org.projectlombok:lombok'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'org.postgresql:postgresql'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.mockito:mockito-core:4.8.0'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+    implementation 'org.mapstruct:mapstruct:1.6.2'
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    implementation 'javax.xml.bind:jaxb-api:2.3.1'
+    implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.2'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'  // Soporte WebSocket
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+
+
+}
+
+// Desactivar la tarea JAR ya que solo necesitas WAR
+tasks.named('jar') {
+    enabled = false
+}
+
+// Configuración para el nombre del WAR
+// Configuración para el nombre del WAR
+bootWar {
+    archiveBaseName.set('generalservicesplatform') // Nombre base del archivo WAR
+    version = '0.0.1' // Puedes ajustar la versión según sea necesario
+    archiveFileName.set('generalservicesplatform.war') // Nombre completo del archivo WAR
+}
+
+test {
+    finalizedBy jacocoTestReport
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

@@ -1,0 +1,150 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="A9F4A223-BF4D-5C60-8FD5-EFF8860AAC3D" name="requests">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:20:03 UTC</createdTime>
+<generatorID>B8828B42-D3E6-1543-CE04-2D397BF89749</generatorID>
+<ownerDesignName>Design</ownerDesignName>
+<engineerTo>
+<item key="14CCC4FC-4D5E-C718-827D-337B2E56C6DF" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="date" id="606292C1-1176-A3DF-4A7C-F04A7D80DCD4">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:20:03 UTC</createdTime>
+<generatorID>223C86EA-B70A-4209-3CDC-B89B9ECDCD75</generatorID>
+<ownerDesignName>Design</ownerDesignName>
+<engineerTo>
+<item key="14CCC4FC-4D5E-C718-827D-337B2E56C6DF" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<domain>EF95DB4C-34CC-B59D-B060-527D63D31475</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="user id" id="6B6DFCF8-7A0C-D709-95A1-67D1CBBFE142">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:20:03 UTC</createdTime>
+<generatorID>4CB2350A-09A4-125C-529F-AFF81A093B33</generatorID>
+<ownerDesignName>Design</ownerDesignName>
+<engineerTo>
+<item key="14CCC4FC-4D5E-C718-827D-337B2E56C6DF" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<referedAttribute>F88D34E9-5167-DF8A-1BBF-7EB5597076D3</referedAttribute>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>4750AFD4-BF01-4815-0760-337B74F7E854</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="company id" id="858FAA54-630F-32B7-055C-84B4E75AFDFB">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:20:03 UTC</createdTime>
+<generatorID>74741A85-B3C7-CB5C-96E1-CC7B3CAD8594</generatorID>
+<ownerDesignName>Design</ownerDesignName>
+<engineerTo>
+<item key="14CCC4FC-4D5E-C718-827D-337B2E56C6DF" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<referedAttribute>1FEC4268-B2C5-2EC3-B76B-A72722D1F24A</referedAttribute>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>4750AFD4-BF01-4815-0760-337B74F7E854</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="contractor id" id="47C1835B-7123-884A-245B-617E412A32CE">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:20:03 UTC</createdTime>
+<generatorID>C13221E2-39B0-3503-391B-31D6C21191B8</generatorID>
+<ownerDesignName>Design</ownerDesignName>
+<engineerTo>
+<item key="14CCC4FC-4D5E-C718-827D-337B2E56C6DF" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<referedAttribute>F2A2F201-092C-D6ED-0D31-AC3AACA54BC2</referedAttribute>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>4750AFD4-BF01-4815-0760-337B74F7E854</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id" id="42B6D5F6-A191-8182-BF8E-37B204BD53ED">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:20:03 UTC</createdTime>
+<generatorID>452B7112-EF51-625F-9FE5-A884AD801F99</generatorID>
+<ownerDesignName>Design</ownerDesignName>
+<engineerTo>
+<item key="14CCC4FC-4D5E-C718-827D-337B2E56C6DF" value="true"/>
+</engineerTo>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>4750AFD4-BF01-4815-0760-337B74F7E854</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="service id" id="3BC6E4E6-24D8-1307-3206-30A0187432DB">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:20:03 UTC</createdTime>
+<generatorID>135C1D30-7ACA-38E1-890B-600182FC4D82</generatorID>
+<ownerDesignName>Design</ownerDesignName>
+<engineerTo>
+<item key="14CCC4FC-4D5E-C718-827D-337B2E56C6DF" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<referedAttribute>97604307-B4D5-4915-77E0-37367E17B99A</referedAttribute>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>4750AFD4-BF01-4815-0760-337B74F7E854</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="description" id="5BFFC229-2639-E9AC-FAC9-7CC48B8633C8">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:20:03 UTC</createdTime>
+<generatorID>B7E22B2B-9189-2F7D-7A21-04EDC8F9BE86</generatorID>
+<ownerDesignName>Design</ownerDesignName>
+<engineerTo>
+<item key="14CCC4FC-4D5E-C718-827D-337B2E56C6DF" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>DB857086-A054-DDAA-D9C2-F29177E3F9AB</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="status" id="AA7236B5-E90C-B0DF-D80F-87AC0E2BE15E">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:20:03 UTC</createdTime>
+<generatorID>9BDCBCCB-7093-B1B2-5CF1-5C755B21BC3F</generatorID>
+<ownerDesignName>Design</ownerDesignName>
+<engineerTo>
+<item key="14CCC4FC-4D5E-C718-827D-337B2E56C6DF" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>DB857086-A054-DDAA-D9C2-F29177E3F9AB</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="D2316A97-001F-D505-7825-2257C934201E" name="requests PK">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:20:03 UTC</createdTime>
+<generatorID>8C34CDBA-39FB-7038-833D-95F078C998EB</generatorID>
+<ownerDesignName>Design</ownerDesignName>
+<engineerTo>
+<item key="14CCC4FC-4D5E-C718-827D-337B2E56C6DF" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>42B6D5F6-A191-8182-BF8E-37B204BD53ED</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

@@ -1,0 +1,48 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="D8310E8C-2F86-7EAA-1CCD-134901987304" name="role permission">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:20:03 UTC</createdTime>
+<generatorID>55845F48-B51E-474F-FD05-52B81B41D3DA</generatorID>
+<ownerDesignName>Design</ownerDesignName>
+<engineerTo>
+<item key="14CCC4FC-4D5E-C718-827D-337B2E56C6DF" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="permission id" id="949C10A4-D442-5792-E593-057ED92CE2A8">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:20:03 UTC</createdTime>
+<generatorID>DF14CD6D-081A-7A2C-159B-DD831ABB1604</generatorID>
+<ownerDesignName>Design</ownerDesignName>
+<engineerTo>
+<item key="14CCC4FC-4D5E-C718-827D-337B2E56C6DF" value="true"/>
+</engineerTo>
+<referedAttribute>175ABD5E-3CF8-5527-AB2D-774234144E4B</referedAttribute>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>4750AFD4-BF01-4815-0760-337B74F7E854</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="role id" id="50908FF7-201D-B6B8-67B6-0ADEAB651AAC">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:20:03 UTC</createdTime>
+<generatorID>BF85C1B4-638F-3209-7073-0139C99BF006</generatorID>
+<ownerDesignName>Design</ownerDesignName>
+<engineerTo>
+<item key="14CCC4FC-4D5E-C718-827D-337B2E56C6DF" value="true"/>
+</engineerTo>
+<referedAttribute>A4CFADD4-A57B-7CF1-C85F-53BD8A2DFFCB</referedAttribute>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>4750AFD4-BF01-4815-0760-337B74F7E854</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+</Entity>

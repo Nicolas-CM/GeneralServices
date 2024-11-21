@@ -1,0 +1,37 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev20c class="oracle.dbtools.crest.model.design.storage.oracle.v20c.TableProxyOraclev20c" name="role" directorySegmentName="seg_0" id="9837BA3E-D677-4414-DA4D-E40D4B788150">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="description" id="82BB9989-77D4-3981-6395-D7A39707C03D">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="id" id="ADFCBA76-FAB1-6006-3E74-6AD6C03E639C">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+<autoIncrementDDL>IDENTITY_CLAUSE</autoIncrementDDL>
+</ColumnProxy>
+<ColumnProxy name="name" id="D3C4D3EE-D5C8-CDDC-F864-61AEF9489517">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="role_PK" id="05197C00-799F-8D52-9D78-56563FC88FE0">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev20c>

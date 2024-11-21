@@ -1,0 +1,33 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* Altura completa de la ventana */
+    margin: 0;
+    background-color: #f8f9fa;
+    /* Color de fondo opcional */
+}
+
+.all {
+    width: 100%;
+    max-width: 400px;
+    /* Ancho máximo del formulario */
+    padding: 20px;
+    /* Espaciado interno */
+    border: 1px solid #dee2e6;
+    /* Borde opcional */
+    border-radius: 8px;
+    /* Bordes redondeados opcionales */
+    background-color: white;
+    /* Color de fondo del formulario */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* Sombra opcional */
+}
+
+h1 {
+    text-align: center;
+    /* Centra el título */
+    margin-bottom: 20px;
+    /* Espaciado debajo del título */
+}

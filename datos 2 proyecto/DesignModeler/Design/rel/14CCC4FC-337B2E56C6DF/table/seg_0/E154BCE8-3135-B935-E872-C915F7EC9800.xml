@@ -1,0 +1,79 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="E154BCE8-3135-B935-E872-C915F7EC9800" name="company_service">
+<sourceDDLFile>schema.ddl</sourceDDLFile>
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+<importedID>1C58C4FD-8D3F-C819-CFEC-C895BB732A75</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="company_id" id="6F44B678-F3BD-A9C7-8B2A-F095ACE41906">
+<sourceDDLFile>schema.ddl</sourceDDLFile>
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+<importedID>514461AF-86CA-1266-9F05-AF8A215085FA</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>4750AFD4-BF01-4815-0760-337B74F7E854</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="1C8125F7-EFD9-12AD-8810-BBB06B953EBD" referredColumn="47424728-32B5-B6C0-F26F-827F4C205EBE"/>
+</associations>
+</Column>
+<Column name="service_id" id="59F0CD80-D866-8597-ACF5-669568650E51">
+<sourceDDLFile>schema.ddl</sourceDDLFile>
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+<importedID>7B5238B4-81AC-74BA-7814-3B99C4BBD8E7</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>4750AFD4-BF01-4815-0760-337B74F7E854</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="F86BB9B4-808E-B5F0-A4C6-0D05B47A66D1" referredColumn="B529343A-D04D-E32D-9A0F-C93E5EC46291"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="410865FD-4AEA-A793-4419-D9339F038F47" name="company_service_PK">
+<sourceDDLFile>schema.ddl</sourceDDLFile>
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+<importedID>34F97CF6-888B-8E9E-3E7B-DDC70152BF13</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="6F44B678-F3BD-A9C7-8B2A-F095ACE41906"/>
+<colUsage columnID="59F0CD80-D866-8597-ACF5-669568650E51"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="C11B346F-7C6A-2B83-3739-C20BFF79D172" name="FK_company_service_company">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:06 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="6F44B678-F3BD-A9C7-8B2A-F095ACE41906"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="822A83B8-45C8-3882-4F13-EE27F044BF65" name="FK_company_service_service">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:06 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="59F0CD80-D866-8597-ACF5-669568650E51"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

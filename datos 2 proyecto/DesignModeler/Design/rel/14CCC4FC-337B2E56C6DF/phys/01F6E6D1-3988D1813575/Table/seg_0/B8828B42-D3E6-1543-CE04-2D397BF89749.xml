@@ -1,0 +1,84 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev20c class="oracle.dbtools.crest.model.design.storage.oracle.v20c.TableProxyOraclev20c" name="requests" directorySegmentName="seg_0" id="B8828B42-D3E6-1543-CE04-2D397BF89749">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="company_id" id="20608950-C5C8-C0AF-BAA8-F109CC63523D">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="date" id="223C86EA-B70A-4209-3CDC-B89B9ECDCD75">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="id" id="452B7112-EF51-625F-9FE5-A884AD801F99">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+<autoIncrementDDL>IDENTITY_CLAUSE</autoIncrementDDL>
+</ColumnProxy>
+<ColumnProxy name="user_id" id="912102C1-5CBC-6A14-C485-4489601B468B">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="status" id="9BDCBCCB-7093-B1B2-5CF1-5C755B21BC3F">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="service_id" id="AADCCD8E-0F5F-67DF-A787-56A9894F2724">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="description" id="B7E22B2B-9189-2F7D-7A21-04EDC8F9BE86">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="contractor_id" id="C0F9F16B-16A7-DAE9-811F-B4736A427C81">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<foreignKeys>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_requests_company" id="02C91FBE-21FA-62E3-6A74-FBA69938A270">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:06 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+</ForeignKey>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_requests_service" id="4BD0047E-4807-EDA2-237F-B96D2B377F55">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:06 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+</ForeignKey>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_requests_contractor" id="B614069D-B1F8-E1A6-3381-2AB1F326F8C7">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:06 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+</ForeignKey>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_requests_user" id="C1F181CE-32F0-CB25-62A6-3AF4C079C56D">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:06 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+</ForeignKey>
+</foreignKeys>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="requests_PK" id="8C34CDBA-39FB-7038-833D-95F078C998EB">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev20c>

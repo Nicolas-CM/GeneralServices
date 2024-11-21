@@ -1,0 +1,93 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev20c class="oracle.dbtools.crest.model.design.storage.oracle.v20c.TableProxyOraclev20c" name="companies" directorySegmentName="seg_0" id="EC972561-0B1C-B14F-BBC1-6F024141EDCA">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="address" id="175E117C-2E02-219C-FFBB-DDE91BD97D9C">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="phone" id="2A7F4019-03FF-A835-CBE2-3CB3B78D1D78">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="user_id" id="3CC79225-1083-5E16-2F93-0F2C59A113B3">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="id" id="47424728-32B5-B6C0-F26F-827F4C205EBE">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+<autoIncrementDDL>IDENTITY_CLAUSE</autoIncrementDDL>
+</ColumnProxy>
+<ColumnProxy name="state" id="6761218C-45D8-A893-EEAD-9EA1EB9823D6">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="country" id="8EFB4994-B28A-6387-427D-5081EF216CA0">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="description" id="9BC7B68E-9B65-CD40-E684-303C910F5596">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="email" id="CD409E9A-41B6-97B6-02C2-E035681B949E">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="name" id="D55873A8-C113-7ADE-EF3C-D8FBA6887B46">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="city" id="DCD0C766-642D-5CF4-B127-141E078FFFB8">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="zip_code" id="DE7E39D2-4995-76B0-0670-344CBC45CD15">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<foreignKeys>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_companies_user" id="3879E72D-33E4-C890-7CE8-95B75F187E75">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:06 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+</ForeignKey>
+</foreignKeys>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="companies_PK" id="9FB625ED-4159-87FE-7F6D-76EAF48A9E9A">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+<uniqueKeys>
+<UniqueKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.UniqueOraclev10g" name="INDEX_1" id="788A5182-2591-249A-BE99-064C130AE400">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+<nameChanged>true</nameChanged>
+<indexSort>SORTED</indexSort>
+</UniqueKey>
+</uniqueKeys>
+</TableProxyOraclev20c>

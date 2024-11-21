@@ -1,0 +1,65 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="55845F48-B51E-474F-FD05-52B81B41D3DA" name="role_permission">
+<sourceDDLFile>schema.ddl</sourceDDLFile>
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+<importedID>530E8525-8F1C-7782-3F2A-D2799E454B16</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="permission_id" id="6AA7CB5C-BDF4-9D7E-67D8-419D4DEB3335">
+<sourceDDLFile>schema.ddl</sourceDDLFile>
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+<importedID>B229F491-2499-245C-87A8-647AB2352073</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>4750AFD4-BF01-4815-0760-337B74F7E854</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="3407653A-4257-3979-5625-0549A2F00FBC" referredColumn="4938366A-5F1C-6926-380F-FA832CF46C5D"/>
+</associations>
+</Column>
+<Column name="role_id" id="97645077-8437-25A5-4527-B1C46FA182DF">
+<sourceDDLFile>schema.ddl</sourceDDLFile>
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:05 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+<importedID>AACEC90A-FB37-8B12-F95C-F98B2FCAA390</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>4750AFD4-BF01-4815-0760-337B74F7E854</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="19215186-C482-E024-E653-CD2F2C9E4411" referredColumn="ADFCBA76-FAB1-6006-3E74-6AD6C03E639C"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="387B0FF5-65A2-DEB1-9B6D-2B7CCC403595" name="FK_role_permission_permission">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:06 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="6AA7CB5C-BDF4-9D7E-67D8-419D4DEB3335"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="B2CAF9F2-6D15-A1A8-0794-786B17203A80" name="FK_role_permission_role">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:18:06 UTC</createdTime>
+<ownerDesignName>Design</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="97645077-8437-25A5-4527-B1C46FA182DF"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

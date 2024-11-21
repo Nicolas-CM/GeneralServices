@@ -1,0 +1,2 @@
+cd general-services-front
+npm run pre-push

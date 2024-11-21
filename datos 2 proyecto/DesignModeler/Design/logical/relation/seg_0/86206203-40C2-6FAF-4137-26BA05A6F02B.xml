@@ -1,0 +1,20 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="FK_billings_contractor" directorySegmentName="seg_0" id="86206203-40C2-6FAF-4137-26BA05A6F02B">
+<createdBy>davidef</createdBy>
+<createdTime>2024-11-20 03:20:04 UTC</createdTime>
+<generatorID>342ACC81-B86C-8354-DF60-09BFC6E4C859</generatorID>
+<ownerDesignName>Design</ownerDesignName>
+<engineerTo>
+<item key="14CCC4FC-4D5E-C718-827D-337B2E56C6DF" value="true"/>
+</engineerTo>
+<sourcePk>C88B01F9-8531-72DE-305A-1A45A5DF0AB7</sourcePk>
+<identifying>false</identifying>
+<optionalSource>true</optionalSource>
+<optionalTarget>true</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>3A09DDEA-6D0F-7288-F269-DE5CF403C044</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>D66EF8F0-A4CE-7788-20BD-8FAD9A454CC5</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>
