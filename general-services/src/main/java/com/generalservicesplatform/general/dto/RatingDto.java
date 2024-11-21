@@ -8,9 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RatingDto {
-    private Long id;
+    private String id;
     private Double ratingValue; // Valor de la calificación (e.g., 1 a 5 estrellas)
-    private Long companyId;
+    private String companyId;
     private String comment; // Comentario opcional sobre el servicio o contratista
-    private String description;
 }

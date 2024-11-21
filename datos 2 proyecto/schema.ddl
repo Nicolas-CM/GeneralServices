@@ -49,7 +49,7 @@ CREATE TABLE companies (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE company_service (
+CREATE TABLE service (
     company_id NUMBER NOT NULL,
     service_id NUMBER NOT NULL,
     PRIMARY KEY (company_id, service_id)

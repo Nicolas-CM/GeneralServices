@@ -12,6 +12,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -50,9 +51,6 @@ public class Company implements Serializable {
     @ManyToMany(mappedBy = "companies")
     @JsonBackReference // Educando a Nicolas
     private Set<ServiceModel> services; // A company provides multiple services
-
-    @OneToMany(mappedBy = "company")
-    private Set<Rating> ratings;
 
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id") // Define la clave foránea

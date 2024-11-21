@@ -1,34 +1,25 @@
-import { ChatBubbleOutline } from "@mui/icons-material"; // Importar el ícono de chat
-import { useNavigate } from "react-router-dom"; // Para redirigir a otra página
 import React, { useEffect, useState } from "react";
+// Import de Material-UI y otros
+import { 
+  Button, Table, TableBody, TableCell, TableHead, TableRow, Typography, 
+  Box, ButtonGroup, Paper, TableContainer, Dialog, DialogActions, 
+  DialogContent, DialogContentText, DialogTitle, Alert, IconButton, 
+  Collapse, CircularProgress 
+} from "@mui/material";
+import { ChatBubbleOutline, KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
+
+// Import de librerías y hooks
+
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { format, parseISO } from "date-fns";
+
+// Import de configuraciones, hooks y componentes locales
 import axios from "../../configs/AxiosConfig";
 import useUsername from "../../hooks/useUsername";
 import BillingForm from "../billing/BillingForm";
 import ContractorToAssignList from "../contractor/ContractorAssignList";
-import { format, parseISO } from "date-fns";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Typography,
-  Box,
-  ButtonGroup,
-  Paper,
-  TableContainer,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Alert,
-  IconButton,
-  Collapse,
-} from "@mui/material";
-import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
+
 import {
   fetchCompanyRequests,
   fetchAvailableContractors,
@@ -200,8 +191,14 @@ const CompanyRequestList = () => {
     return <div>{error}</div>;
   }
 
-  if (status === "loading") {
-    return <div>Cargando...</div>;
+  if (status === 'loading') {
+    return <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+    <CircularProgress color="primary" />
+    <Typography sx={{ marginLeft: 2, color: "#4392f1", fontWeight: "bold" }}>
+      Cargando...
+    </Typography>
+  </Box>;
+
   }
 
   const getStatusColor = (status) => {

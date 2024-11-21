@@ -19,17 +19,20 @@ const Notifications = () => {
         setError('');
 
         let endpoint = `/notifications/receiver/${username}`;
-
         if (viewedFilter === 'viewed') {
-            endpoint = `/notifications/receiver/${username}/viewed`;
+            endpoint += '/viewed';
         } else if (viewedFilter === 'unviewed') {
-            endpoint = `/notifications/receiver/${username}/unviewed`;
+            endpoint += '/unviewed';
         }
 
         axios
             .get(endpoint)
             .then((response) => {
-                setNotifications(response.data);
+                let sortedNotifications = response.data;
+                if (viewedFilter === 'all') {
+                    sortedNotifications = sortedNotifications.sort((a, b) => a.viewed - b.viewed);
+                }
+                setNotifications(sortedNotifications);
                 setLoading(false);
             })
             .catch((err) => {
@@ -45,11 +48,15 @@ const Notifications = () => {
             .put(`/notifications/viewed/${id}`)
             .then((response) => {
                 const updatedNotification = response.data;
-                setNotifications((prevNotifications) =>
-                    prevNotifications.map((notif) =>
-                        notif.id === id ? updatedNotification : notif
-                    )
-                );
+                setNotifications((prevNotifications) => {
+                    if (viewedFilter === 'unviewed') {
+                        return prevNotifications.filter((notif) => notif.id !== id);
+                    } else {
+                        return prevNotifications.map((notif) =>
+                            notif.id === id ? updatedNotification : notif
+                        ).sort((a, b) => a.viewed - b.viewed);
+                    }
+                });
                 setTimeout(() => {
                     // Cambiar el color después de un pequeño retraso
                     setIsHovered(null);

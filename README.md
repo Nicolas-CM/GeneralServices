@@ -3,7 +3,8 @@
 ## Integrantes
 
 ### Davide Flamini
-### Nicolas Cuellar
+### Nicolas Cuellar (digo "haiga")
+
 ### Andres Cabezas
 ### Miguel Angel Martinez (Solo participe en la funcionalidad del chat)
 

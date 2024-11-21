@@ -161,15 +161,6 @@ public class GeneralServicesPlatformApplication {
                 return null;
             });
 
-            // Verificar datos en 'ratings'
-            System.out.println("\n==== Datos en la tabla 'ratings' ====");
-            jdbcTemplate.query("SELECT * FROM ratings", (rs, rowNum) -> {
-                System.out.println("Rating ID: " + rs.getInt("id") +
-                        ", Company ID: " + rs.getInt("company_id") +
-                        ", Rating Value: " + rs.getDouble("rating_value") +
-                        ", Comment: " + rs.getString("comment"));
-                return null;
-            });
 
             // Verificar datos en 'user_role'
             System.out.println("\n==== Datos en la tabla 'user_role' ====");

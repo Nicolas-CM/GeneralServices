@@ -35,11 +35,9 @@ const CompanyProfile = () => {
   }, [username]);
 
   useEffect(() => {
-    if (!companyData || !companyData.ratingIds || companyData.ratingIds.length === 0) return;
-
-    const ids = companyData.ratingIds.join(',');
+    if(!companyData) return;
     axios
-      .get(`ratings/by-ids`, { params: { ids } })
+      .get(`ratings/company/${companyData.id}`)
       .then(ratingResponse => setRatings(ratingResponse.data))
       .catch(err => {
         setError('Error al cargar las calificaciones.');

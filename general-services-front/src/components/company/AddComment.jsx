@@ -29,12 +29,16 @@ const AddComment = ({ onCommentAdded }) => {
             try {
                 const response = await axios.get(`/contractors/company-by-contractor/${contractorId}`);
                 setCompanyData(response.data);
-                if (response.data.ratingIds && response.data.ratingIds.length > 0) {
-                    const ratingResponse = await axios.get(`/ratings/by-ids`, {
-                        params: { ids: response.data.ratingIds.join(',') }
-                    });
-                    setRatings(ratingResponse.data);
-                }
+                if(!response.data) return;
+                axios
+                  .get(`ratings/company/${response.data.id}`)
+                  .then(ratingResponse => setRatings(ratingResponse.data))
+                  .then(console.log("RATINGSSSSS"+ratings))
+                  .catch(err => {
+                    setMessage('Error al cargar las calificaciones.');
+                    console.error(err);
+                  });
+
             } catch (error) {
                 console.error('Error al obtener la compañía:', error);
                 setMessage('Error al obtener la compañía');
