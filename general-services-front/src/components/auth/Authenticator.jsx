@@ -1,5 +1,6 @@
 // src/components/Authenticator.jsx
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -38,6 +39,10 @@ const Authenticator = ({ children, allowedRoles }) => {
       {auth ? children : <p>No tienes permisos para ver esta página</p>}
     </>
   );
+};
+Authenticator.propTypes = {
+  children: PropTypes.node.isRequired,
+  allowedRoles: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default Authenticator;

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 // Import de Material-UI y otros
-import { 
-  Button, Table, TableBody, TableCell, TableHead, TableRow, Typography, 
-  Box, ButtonGroup, Paper, TableContainer, Dialog, DialogActions, 
-  DialogContent, DialogContentText, DialogTitle, Alert, IconButton, 
-  Collapse, CircularProgress 
+import {
+  Button, Table, TableBody, TableCell, TableHead, TableRow, Typography,
+  Box, ButtonGroup, Paper, TableContainer, Dialog, DialogActions,
+  DialogContent, DialogContentText, DialogTitle, Alert, IconButton,
+  Collapse, CircularProgress
 } from "@mui/material";
 import { ChatBubbleOutline, KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 
@@ -118,23 +118,6 @@ const CompanyRequestList = () => {
     setOpenCancelDialog(true);
   };
 
-  const handleConfirmCancel = () => {
-    const request = requests.find((r) => r.id === selectedRequestToCancel);
-    if (request) {
-      dispatch(
-        cancelCompanyRequest({
-          requestId: selectedRequestToCancel,
-          contractorId: request.contractorId,
-        })
-      );
-      setOpenCancelDialog(false);
-      setSelectedRequestToCancel(null);
-    } else {
-      console.error(
-        "No se encontró el contractorId para la solicitud seleccionada."
-      );
-    }
-  };
 
   const handleComplete = (requestId) => {
     dispatch(setSelectedRequestId(requestId));
@@ -166,18 +149,6 @@ const CompanyRequestList = () => {
     setOpenCancelDialog(true);
   };
 
-  const handleConfirmReject = () => {
-    const request = requests.find((r) => r.id === selectedRequestToCancel);
-    if (request) {
-      dispatch(rejectRequest(selectedRequestToCancel));
-      setOpenCancelDialog(false);
-      setSelectedRequestToCancel(null);
-    } else {
-      console.error(
-        "No se encontró el contractorId para la solicitud seleccionada."
-      );
-    }
-  };
 
   const handleFilterChange = (status) => {
     dispatch(setFilter(status));
@@ -203,11 +174,11 @@ const CompanyRequestList = () => {
 
   if (status === 'loading') {
     return <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
-    <CircularProgress color="primary" />
-    <Typography sx={{ marginLeft: 2, color: "#4392f1", fontWeight: "bold" }}>
-      Cargando...
-    </Typography>
-  </Box>;
+      <CircularProgress color="primary" />
+      <Typography sx={{ marginLeft: 2, color: "#4392f1", fontWeight: "bold" }}>
+        Cargando...
+      </Typography>
+    </Box>;
 
   }
 
@@ -373,7 +344,7 @@ const CompanyRequestList = () => {
               <TableCell sx={{ fontWeight: "bold", color: "#4392f1" }}>
                 Chat
               </TableCell>
-            
+
             </TableRow>
           </TableHead>
           <TableBody>
@@ -397,9 +368,8 @@ const CompanyRequestList = () => {
                   <TableCell>
                     {" "}
                     {userNames[request.userId]
-                      ? `${userNames[request.userId].name} ${
-                          userNames[request.userId].lastName
-                        }`
+                      ? `${userNames[request.userId].name} ${userNames[request.userId].lastName
+                      }`
                       : "No disponible"}
                   </TableCell>
                   <TableCell>

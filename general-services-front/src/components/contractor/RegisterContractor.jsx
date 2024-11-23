@@ -43,11 +43,11 @@ const RegisterContractor = () => {
       name,
       companyId,
       available: true,
-    status: true
+      status: true
     };
 
     axios.post('contractors', contractorData)
-      .then(response => {
+      .then(() => {
         setSuccess('Contratista creado exitosamente!');
         setName(''); // Limpiar el campo de nombre
         navigate(-1);
@@ -72,7 +72,7 @@ const RegisterContractor = () => {
   }
 
   return (
-    <Box sx={{ padding: 3, backgroundColor: "#f4f6f8", borderRadius: 2, maxWidth: 500, marginTop: 3 ,margin: "auto"}}>
+    <Box sx={{ padding: 3, backgroundColor: "#f4f6f8", borderRadius: 2, maxWidth: 500, marginTop: 3, margin: "auto" }}>
       <Typography variant="h4" sx={{ marginBottom: 3, fontWeight: "bold", color: "#4392f1", textAlign: "center" }}>
         Crear Contratista
       </Typography>
@@ -106,8 +106,8 @@ const RegisterContractor = () => {
       </form>
     </Box>
   );
-  
-  
+
+
 };
 
 export default RegisterContractor;

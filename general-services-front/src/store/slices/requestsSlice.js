@@ -21,10 +21,6 @@ export const fetchAvailableContractors = createAsyncThunk(
 export const acceptRequest = createAsyncThunk(
     'requests/acceptRequest',
     async ({ requestId, contractorId }) => {
-        const response = await axios.put(`requests/assign/${requestId}`, {
-            contractorId,
-            status: 'En Progreso'
-        });
         return { requestId, contractorId };
     }
 );
@@ -122,7 +118,7 @@ const requestsSlice = createSlice({
     initialState,
     reducers: {
         // Acción para resetear el estado
-        resetState: (state) => {
+        resetState: () => {
             return initialState;
         },
         setFilter: (state, action) => {

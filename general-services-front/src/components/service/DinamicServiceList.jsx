@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../configs/AxiosConfig';
+import PropTypes from 'prop-types';
 import { Box, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from "@mui/material";
 
 const DinamicServiceList = ({ setSelectedServiceId, setName, setDescription, setCategoryId }) => {
@@ -65,50 +66,57 @@ const DinamicServiceList = ({ setSelectedServiceId, setName, setDescription, set
   }
 
 
-    return (
-      <Box sx={{ padding: 3, backgroundColor: "#f4f6f8", borderRadius: 2, marginBottom: 3 }}>
-        <Typography variant="h6" sx={{ marginBottom: 3, fontWeight: "bold", color: "#4392f1" }}>
-          Buscar Servicios
-        </Typography>
-  
-        <TextField
-          placeholder="Buscar servicios..."
-          value={searchTerm}
-          onChange={handleSearchChange}
-          variant="outlined"
-          fullWidth
-          sx={{ marginBottom: 3 }}
-        />
-  
-        <TableContainer component={Paper} sx={{ boxShadow: 3, borderRadius: 2 }}>
-          <Table>
-            <TableHead sx={{ backgroundColor: "#ece8ef" }}>
-              <TableRow>
-                <TableCell sx={{ fontWeight: 'bold', color: '#4392f1' }}>ID</TableCell>
-                <TableCell sx={{ fontWeight: 'bold', color: '#4392f1' }}>Nombre</TableCell>
-                <TableCell sx={{ fontWeight: 'bold', color: '#4392f1' }}>Descripción</TableCell>
-                <TableCell sx={{ fontWeight: 'bold', color: '#4392f1' }}>Categoría</TableCell>
+  return (
+    <Box sx={{ padding: 3, backgroundColor: "#f4f6f8", borderRadius: 2, marginBottom: 3 }}>
+      <Typography variant="h6" sx={{ marginBottom: 3, fontWeight: "bold", color: "#4392f1" }}>
+        Buscar Servicios
+      </Typography>
+
+      <TextField
+        placeholder="Buscar servicios..."
+        value={searchTerm}
+        onChange={handleSearchChange}
+        variant="outlined"
+        fullWidth
+        sx={{ marginBottom: 3 }}
+      />
+
+      <TableContainer component={Paper} sx={{ boxShadow: 3, borderRadius: 2 }}>
+        <Table>
+          <TableHead sx={{ backgroundColor: "#ece8ef" }}>
+            <TableRow>
+              <TableCell sx={{ fontWeight: 'bold', color: '#4392f1' }}>ID</TableCell>
+              <TableCell sx={{ fontWeight: 'bold', color: '#4392f1' }}>Nombre</TableCell>
+              <TableCell sx={{ fontWeight: 'bold', color: '#4392f1' }}>Descripción</TableCell>
+              <TableCell sx={{ fontWeight: 'bold', color: '#4392f1' }}>Categoría</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {filteredServices.map((service) => (
+              <TableRow
+                key={service.id}
+                onClick={() => handleServiceSelect(service)}
+                sx={{ cursor: "pointer", "&:hover": { backgroundColor: "#f1f1f1" } }}
+              >
+                <TableCell>{service.id}</TableCell>
+                <TableCell>{service.name}</TableCell>
+                <TableCell>{service.description}</TableCell>
+                <TableCell>{getCategoryName(service.categoryId)}</TableCell>
               </TableRow>
-            </TableHead>
-            <TableBody>
-              {filteredServices.map((service) => (
-                <TableRow
-                  key={service.id}
-                  onClick={() => handleServiceSelect(service)}
-                  sx={{ cursor: "pointer", "&:hover": { backgroundColor: "#f1f1f1" } }}
-                >
-                  <TableCell>{service.id}</TableCell>
-                  <TableCell>{service.name}</TableCell>
-                  <TableCell>{service.description}</TableCell>
-                  <TableCell>{getCategoryName(service.categoryId)}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Box>
-    );
-  };
-  
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Box>
+  );
+};
+
+DinamicServiceList.propTypes = {
+  setSelectedServiceId: PropTypes.func.isRequired,
+  setName: PropTypes.func.isRequired,
+  setDescription: PropTypes.func.isRequired,
+  setCategoryId: PropTypes.func.isRequired,
+};
 
 export default DinamicServiceList;
+

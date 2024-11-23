@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import axios from '../../configs/AxiosConfig'; //
 import { jwtDecode } from 'jwt-decode';
 
@@ -123,6 +124,10 @@ function LoginForm({ setMessage, message }) {
       </Paper>
     </Box>
   );
+};
+LoginForm.propTypes = {
+  setMessage: PropTypes.func.isRequired,
+  message: PropTypes.string,
 };
 
 export default LoginForm;

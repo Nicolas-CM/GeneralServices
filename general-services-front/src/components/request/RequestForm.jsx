@@ -6,7 +6,7 @@ import { Box, Container, Paper, Typography, TextField, Button, CircularProgress,
 
 const RequestForm = () => {
     const { companyId, serviceId } = useParams();
-    const { username, error: usernameError } = useUsername();
+    const { username } = useUsername();
     const navigate = useNavigate();
 
     const [isSubmitting, setIsSubmitting] = useState(false);

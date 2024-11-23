@@ -1,4 +1,4 @@
-import { React,useEffect, useState } from 'react';
+import { React, useEffect, useState } from 'react';
 import axios from '../../configs/AxiosConfig';
 import useUsername from '../../hooks/useUsername';
 import {
@@ -8,7 +8,6 @@ import {
   Grid,
   List,
   ListItem,
-  ListItemText,
   CircularProgress,
   Box,
   Rating,
@@ -35,7 +34,7 @@ const CompanyProfile = () => {
   }, [username]);
 
   useEffect(() => {
-    if(!companyData) return;
+    if (!companyData) return;
     axios
       .get(`ratings/company/${companyData.id}`)
       .then(ratingResponse => setRatings(ratingResponse.data))

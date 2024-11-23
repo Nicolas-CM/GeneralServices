@@ -5,19 +5,16 @@ import { useParams } from "react-router-dom"; // Importar useParams para acceder
 import { Box, Typography, TextField, Button } from "@mui/material";
 import useUsername from "../../hooks/useUsername";
 import {
-  Field,
   Paper,
   List,
   ListItem,
-  ListItemText,
-  Divider,
 } from "@mui/material";
 
 import StompService from "../../Utils/StompService";
 
 const Chat = () => {
   const { solicitudId } = useParams(); // Obtener el ID de la solicitud desde la URL
-  const { username, error: usernameError } = useUsername();
+  const { username } = useUsername();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
 
@@ -43,7 +40,7 @@ const Chat = () => {
       lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
-  
+
 
   useEffect(() => {
     // Obtener el username del receptor basado en el rol del usuario actual
@@ -124,12 +121,6 @@ const Chat = () => {
       });
   };
 
-  const handleKeyPress = (event) => {
-    if (event.key === "Enter" && !event.shiftKey) {
-      event.preventDefault();
-      handleSendMessage();
-    }
-  };
 
   // Función para formatear la hora
   const formatTimestamp = (timestamp) => {

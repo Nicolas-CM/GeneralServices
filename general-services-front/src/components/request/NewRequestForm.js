@@ -1,10 +1,11 @@
 // src/components/NewRequestForm.js
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 const NewRequestForm = ({ onCreateRequest, userId }) => {
   const [serviceId, setServiceId] = useState('');
   const [date, setDate] = useState('');
-  const [status, setStatus] = useState('Pendiente');
+  const [status] = useState('Pendiente');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -35,5 +36,10 @@ const NewRequestForm = ({ onCreateRequest, userId }) => {
     </div>
   );
 };
+NewRequestForm.propTypes = {
+  onCreateRequest: PropTypes.func.isRequired,
+  userId: PropTypes.string.isRequired,
+};
 
 export default NewRequestForm;
+
