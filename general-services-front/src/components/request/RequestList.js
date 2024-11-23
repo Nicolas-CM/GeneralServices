@@ -87,10 +87,20 @@ const UserRequestList = () => {
 
   // Obtener solicitudes cuando tengamos el userId
   useEffect(() => {
+    const fetchUserRequests = async (userId) => {
+      try {
+        const response = await axios.get(`/requests/user/${userId}`);
+        // Manejar la respuesta aquí, por ejemplo, actualizando el estado local
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error al obtener las solicitudes del usuario:", error);
+      }
+    };
+
     if (userId) {
-      dispatch(fetchUserRequests(userId));
+      fetchUserRequests(userId);
     }
-  }, [userId, dispatch]);
+  }, [userId]);
 
   // Obtener datos relacionados cuando tengamos las solicitudes
   useEffect(() => {
