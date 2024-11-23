@@ -7,7 +7,6 @@ import IconButton from '@mui/material/IconButton';
 import PeopleIcon from '@mui/icons-material/People';
 import SecurityIcon from '@mui/icons-material/Security';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import Box from '@mui/material/Box';
 import AddIcon from '@mui/icons-material/Add';
 

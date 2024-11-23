@@ -3,7 +3,7 @@ import axios from '../../configs/AxiosConfig';
 import useUsername from '../../hooks/useUsername';
 import { useNavigate } from 'react-router-dom';
 import DinamicServiceList from './DinamicServiceList'; // Componente para lista de servicios
-import { Box, Button, TextField, Select, MenuItem, Typography, Grid, Paper } from "@mui/material";
+import { Box, Button, TextField, Select, MenuItem, Typography, Grid } from "@mui/material";
 
 const RegisterService = () => {
   const { username, error: usernameError } = useUsername();

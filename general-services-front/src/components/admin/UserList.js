@@ -6,7 +6,7 @@ import { Box, Button, Typography, Table, TableBody, TableCell, TableContainer, T
 function UserList() {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState('');
-  const [refresh, setRefresh] = useState(false);
+  const [refresh] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
 

@@ -1,9 +1,8 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { Button, Table, TableBody, TableCell, TableHead, TableRow, Typography, Box, TableContainer, Paper } from '@mui/material';
 
 const ContractorToAssignList = ({ contractors, onSelect, onClose }) => {
-  const navigate = useNavigate();
 
   const handleAssign = (contractorId) => {
     onSelect(contractorId);
@@ -30,19 +29,19 @@ const ContractorToAssignList = ({ contractors, onSelect, onClose }) => {
         boxShadow: 3,  // Sombra para dar énfasis
         marginBottom: 2,
       }}>
-        <Typography 
-          variant="h6" 
+        <Typography
+          variant="h6"
           color="error"  // Usamos color de error para hacer el texto más visible
           sx={{ fontWeight: 'bold', marginBottom: 2 }}
         >
-          <strong>¡Advertencia!</strong> No tienes contratistas disponibles. 
+          <strong>¡Advertencia!</strong> No tienes contratistas disponibles.
           Nosotros sugerimos rechazar la solicitud para una mejor experiencia con tu cliente.
         </Typography>
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <Button 
-            variant="contained" 
-            color="secondary" 
-            onClick={onClose} 
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={onClose}
             sx={{
               padding: '10px 20px',
               fontWeight: 'bold',
@@ -56,7 +55,7 @@ const ContractorToAssignList = ({ contractors, onSelect, onClose }) => {
       </Box>
     );
   }
-  
+
 
   return (
     <Box sx={{ padding: 3, backgroundColor: "#f4f6f8", borderRadius: 2, marginBottom: 1 }}>
@@ -107,5 +106,16 @@ const ContractorToAssignList = ({ contractors, onSelect, onClose }) => {
     </Box>
   );
 };
+ContractorToAssignList.propTypes = {
+  contractors: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  onSelect: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+};
 
 export default ContractorToAssignList;
+
