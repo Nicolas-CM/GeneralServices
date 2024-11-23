@@ -29,6 +29,7 @@ const Notifications = () => {
             .get(endpoint)
             .then((response) => {
                 let sortedNotifications = response.data;
+                sortedNotifications = sortedNotifications.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
                 if (viewedFilter === 'all') {
                     sortedNotifications = sortedNotifications.sort((a, b) => a.viewed - b.viewed);
                 }
@@ -49,13 +50,22 @@ const Notifications = () => {
             .then((response) => {
                 const updatedNotification = response.data;
                 setNotifications((prevNotifications) => {
+                    let updatedNotifications;
                     if (viewedFilter === 'unviewed') {
-                        return prevNotifications.filter((notif) => notif.id !== id);
+                        updatedNotifications = prevNotifications.filter((notif) => notif.id !== id);
                     } else {
-                        return prevNotifications.map((notif) =>
+                        updatedNotifications = prevNotifications.map((notif) =>
                             notif.id === id ? updatedNotification : notif
-                        ).sort((a, b) => a.viewed - b.viewed);
+                        );
                     }
+                    // Ordenar primero por estado de vista y luego por timestamp en orden descendente
+                    updatedNotifications = updatedNotifications.sort((a, b) => {
+                        if (a.viewed === b.viewed) {
+                            return new Date(b.timestamp) - new Date(a.timestamp);
+                        }
+                        return a.viewed - b.viewed;
+                    });
+                    return updatedNotifications;
                 });
                 setTimeout(() => {
                     // Cambiar el color después de un pequeño retraso

@@ -67,7 +67,7 @@ public class ChatRestController {
         // Convertir la entidad guardada a DTO
         ChatMessageDto savedMessageDto = ChatMapper.INSTANCE.toDto(savedMessage);
 
-        messagingTemplate.convertAndSend("/topic/chat/" + savedMessage.getReceiver(), savedMessageDto);
+        messagingTemplate.convertAndSend("/topic/chat/" + savedMessage.getReceiver()+"/"+solicitudId, savedMessageDto);
 
         return ResponseEntity.status(201).body(savedMessageDto);
     }

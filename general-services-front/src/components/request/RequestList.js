@@ -194,6 +194,21 @@ const UserRequestList = () => {
     setExpandedRequestId(expandedRequestId === requestId ? null : requestId);
   };
 
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "Pendiente":
+        return "#fbc02d"; // Amarillo
+      case "En Progreso":
+        return "#2196f3"; // Azul
+      case "Completada":
+        return "#4caf50"; // Verde
+      case "Cancelada":
+        return "#e57373"; // Rojo
+      default:
+        return "#000"; // Negro o color por defecto
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -333,7 +348,14 @@ const UserRequestList = () => {
                   <TableCell>
                     {format(parseISO(request.date), "dd/MM/yyyy")}
                   </TableCell>
-                  <TableCell>{request.status}</TableCell>
+                  <TableCell
+                    sx={{
+                      fontWeight: "bold",
+                      color: getStatusColor(request.status),
+                    }}
+                  >
+                    {request.status}
+                  </TableCell>
                   <TableCell>
                     {request.status === "Pendiente" && (
                       <Button

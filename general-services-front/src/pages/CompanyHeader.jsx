@@ -32,16 +32,23 @@ const CompanyHeader = () => {
   useEffect(() => {
     if (!username) return;
 
-    const onMessageReceived = (message) => {
+
+    StompService.connect(() => {
+      StompService.subscribeToNotifications(username, onNotificationReceived);
+      console.log("STOMP connection established.");
+    });
+    
+    const onNotificationReceived = (message) => {
       const notification = JSON.parse(message.body);
       setNotification(notification.message);
       setReload(prev => !prev);
     };
 
-    StompService.connect(username, onMessageReceived);
+    
 
     return () => {
-      StompService.unsubscribe(username);
+      StompService.unsubscribe(`notifications_${username}`);
+      
     };
   }, [username]);
 

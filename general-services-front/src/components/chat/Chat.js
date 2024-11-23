@@ -1,5 +1,5 @@
 // src/components/chat/Chat.js
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "../../configs/AxiosConfig";
 import { useParams } from "react-router-dom"; // Importar useParams para acceder a los parámetros de la URL
 import { Box, Typography, TextField, Button } from "@mui/material";
@@ -22,6 +22,8 @@ const Chat = () => {
   const [newMessage, setNewMessage] = useState("");
 
   const [receiver, setReceiver] = useState("");
+  const lastMessageRef = useRef(null);
+
 
   useEffect(() => {
     // Obtener los mensajes del chat de la solicitud
@@ -35,6 +37,13 @@ const Chat = () => {
         console.error("Error al obtener los mensajes del chat:", error);
       });
   }, [solicitudId]); // Dependencia en solicitudId para recargar si cambia
+
+  useEffect(() => {
+    if (lastMessageRef.current) {
+      lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
+  
 
   useEffect(() => {
     // Obtener el username del receptor basado en el rol del usuario actual
@@ -75,15 +84,14 @@ const Chat = () => {
     if (!username || !solicitudId) return;
 
     const onChatMessageReceived = (message) => {
-      console.log("Aquiii: mensaje:::: ", message);
       const newMessage = JSON.parse(message.body);
       setMessages((prevMessages) => [...prevMessages, newMessage]);
     };
 
-    StompService.connect(username, onChatMessageReceived);
+    StompService.subscribeToChat(username, solicitudId, onChatMessageReceived);
 
     return () => {
-      StompService.unsubscribe(username);
+      StompService.unsubscribe(`chat_${username}_${solicitudId}`);
     };
   }, [username, solicitudId]);
 
@@ -164,6 +172,7 @@ const Chat = () => {
           {messages.map((msg, index) => (
             <ListItem
               key={index}
+              ref={index === messages.length - 1 ? lastMessageRef : null} // Asigna la referencia al último mensaje
               sx={{
                 display: "flex",
                 justifyContent:

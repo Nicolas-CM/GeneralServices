@@ -20,31 +20,86 @@ class StompService {
       heartbeatOutgoing: 4000,
     });
     this.subscriptions = {};
+    this.isConnected = false;
   }
 
-  connect(username, onMessageReceived) {
+  connect(onConnectCallback) {
+    if (this.isConnected) {
+      console.warn("STOMP client is already connected.");
+      return;
+    }
+
     this.client.onConnect = (frame) => {
       console.log("Connected: " + frame);
-      const subscription = this.client.subscribe(
-        `/topic/notifications/${username}`,
-        onMessageReceived
-      );
-      this.subscriptions[username] = subscription;
+      this.isConnected = true;
+
+      if (onConnectCallback) {
+        onConnectCallback();
+      }
     };
 
     this.client.onStompError = function (frame) {
-      console.log("Broker reported error: " + frame.headers["message"]);
-      console.log("Additional details: " + frame.body);
+      console.error("Broker reported error: " + frame.headers["message"]);
+      console.error("Additional details: " + frame.body);
     };
 
     this.client.activate();
   }
 
-  unsubscribe(username) {
-    const subscription = this.subscriptions[username];
+  subscribeToNotifications(username, onNotificationReceived) {
+    if (!this.isConnected) {
+      console.error("STOMP client is not connected. Cannot subscribe.");
+      return;
+    }
+
+    const subscriptionKey = `notifications_${username}`;
+    if (this.subscriptions[subscriptionKey]) {
+      console.warn(`Already subscribed to notifications for ${username}`);
+      return;
+    }
+
+    const subscription = this.client.subscribe(
+      `/topic/notifications/${username}`,
+      onNotificationReceived
+    );
+    this.subscriptions[subscriptionKey] = subscription;
+  }
+
+  subscribeToChat(username, solicitudId, onChatMessageReceived) {
+    if (!this.isConnected) {
+      console.error("STOMP client is not connected. Cannot subscribe.");
+      return;
+    }
+
+    const subscriptionKey = `chat_${username}_${solicitudId}`;
+    if (this.subscriptions[subscriptionKey]) {
+      console.warn(`Already subscribed to chat for ${username} and solicitudId ${solicitudId}`);
+      return;
+    }
+
+    const subscription = this.client.subscribe(
+      `/topic/chat/${username}/${solicitudId}`,
+      onChatMessageReceived
+    );
+    this.subscriptions[subscriptionKey] = subscription;
+  }
+
+  unsubscribe(subscriptionKey) {
+    const subscription = this.subscriptions[subscriptionKey];
     if (subscription) {
       subscription.unsubscribe();
-      delete this.subscriptions[username];
+      delete this.subscriptions[subscriptionKey];
+    } else {
+      console.warn(`No active subscription found for key: ${subscriptionKey}`);
+    }
+  }
+
+  disconnect() {
+    if (this.isConnected) {
+      this.client.deactivate();
+      this.subscriptions = {};
+      this.isConnected = false;
+      console.log("Disconnected from STOMP server.");
     }
   }
 }
