@@ -64,8 +64,13 @@ public class BillingRestController {
         Billing billing = billingMapper.toEntity(billingDto);
         Billing savedBilling = billingService.saveBilling(billing);
 
-        String companyName = contractorService.findContractorById(billingDto.getContractorId()).get().getCompany().getName();
-        System.out.println("Nombre de la empresa: " + companyName+ ":::::::::::::::::::::::::::::::::::::::::::::::::::::::");
+        System.out.println("ID del contratista: " + billingDto.getContractorId()
+                + ":::::::::::::::::::::::::::::::::::::::::::::::::::::::");
+
+        String companyName = contractorService.findContractorById(billingDto.getContractorId()).get().getCompany()
+                .getName();
+        System.out.println(
+                "Nombre de la empresa: " + companyName + ":::::::::::::::::::::::::::::::::::::::::::::::::::::::");
         // Obtener el username del usuario asociado a la factura
 
         String userUsername = userService.findUserById(billingDto.getUserId().intValue()).get().getUsername();
