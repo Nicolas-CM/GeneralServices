@@ -92,6 +92,8 @@ const Notifications = () => {
                 Notificaciones
             </Typography>
 
+            <p>Dale click a la notificación para marcarla como vista!!</p>
+
             <Box sx={{ marginBottom: 2, display: 'flex', justifyContent: 'center' }}>
                 <Button variant="outlined" onClick={() => setViewedFilter('all')} sx={{ marginRight: 2 }}>
                     Todas

@@ -54,6 +54,7 @@ const Chat = () => {
         .get(`companies/owner/username/by-solicitud/${solicitudId}`)
         .then((response) => {
           setReceiver(response.data);
+          console.log("Receiver ALLCLIENT:---------------------------- ", response.data);
         })
         .catch((error) => {
           console.error("Error al obtener el username del receptor:", error);
@@ -69,6 +70,8 @@ const Chat = () => {
             .get(`/users/${userId}`)
             .then((userResponse) => {
               setReceiver(userResponse.data.username);
+              console.log("Receiver:---------------------------- ", userResponse.data.username);
+
             })
             .catch((error) => {
               console.error("Error al obtener el username del cliente:", error);

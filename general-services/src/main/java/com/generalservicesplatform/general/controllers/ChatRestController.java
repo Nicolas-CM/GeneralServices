@@ -1,15 +1,20 @@
 package com.generalservicesplatform.general.controllers;
 
 import com.generalservicesplatform.general.dto.ChatMessageDto;
+import com.generalservicesplatform.general.dto.NotificationDto;
 import com.generalservicesplatform.general.mapper.ChatMapper;
 import com.generalservicesplatform.general.model.Chat;
 import com.generalservicesplatform.general.model.Message;
+import com.generalservicesplatform.general.model.Notification;
+import com.generalservicesplatform.general.repository.NotificationRepository;
 import com.generalservicesplatform.general.service.impl.ChatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,6 +28,9 @@ public class ChatRestController {
 
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
+
+    @Autowired
+    private NotificationRepository notificationRepository;
 
     // Crear un nuevo chat o reiniciar uno existente
     @PostMapping
@@ -67,7 +75,26 @@ public class ChatRestController {
         // Convertir la entidad guardada a DTO
         ChatMessageDto savedMessageDto = ChatMapper.INSTANCE.toDto(savedMessage);
 
-        messagingTemplate.convertAndSend("/topic/chat/" + savedMessage.getReceiver()+"/"+solicitudId, savedMessageDto);
+        messagingTemplate.convertAndSend("/topic/chat/" + savedMessage.getReceiver() + "/" + solicitudId,
+                savedMessageDto);
+
+        // Enviar la notificación a través de WebSocket
+        // Crear la notificación
+        NotificationDto notificationDto = new NotificationDto(
+                message.getSender(),
+                message.getReceiver(),
+                "Tienes un nuevo mensaje en el chat de la solicitud " + solicitudId);
+
+        // Enviar la notificación a través de WebSocket
+        messagingTemplate.convertAndSend("/topic/notifications/" + message.getReceiver(), notificationDto);
+
+        // Persistir la notificación en MongoDB
+        Notification notification = new Notification(
+                notificationDto.getSenderUsername(),
+                notificationDto.getReceiverUsername(),
+                notificationDto.getMessage(),
+                LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        notificationRepository.save(notification);
 
         return ResponseEntity.status(201).body(savedMessageDto);
     }

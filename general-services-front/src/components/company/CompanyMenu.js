@@ -42,9 +42,8 @@ const CompanyMenu = () => {
   };
 
   useEffect(() => {
-    if (prevLocation === '/company/notifications' && location.pathname !== '/company/notifications') {
-      checkNotifications();
-    }
+    
+    checkNotifications();
     setPrevLocation(location.pathname);
   }, [location, prevLocation]);
 

@@ -41,9 +41,9 @@ const ClientMenu = () => {
   };
 
   useEffect(() => {
-    if (prevLocation === '/client/notifications' && location.pathname !== '/client/notifications') {
-      checkNotifications();
-    }
+    
+    checkNotifications();
+    
     setPrevLocation(location.pathname);
   }, [location, prevLocation]);
 

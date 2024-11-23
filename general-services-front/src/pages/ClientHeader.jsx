@@ -51,6 +51,7 @@ const ClientHeader = () => {
 
     return () => {
       StompService.unsubscribe(`notifications_${username}`);
+      StompService.disconnect();
     };
   }, [username]);
 
