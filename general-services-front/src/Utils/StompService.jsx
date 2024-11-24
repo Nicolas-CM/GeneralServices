@@ -2,7 +2,7 @@
 import { Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 
-const URL = "http://localhost:8080/generalservicesplatform/ws";
+const URL = "http://localhost:3000/generalservicesplatform/ws";
 
 class StompService {
   constructor() {
