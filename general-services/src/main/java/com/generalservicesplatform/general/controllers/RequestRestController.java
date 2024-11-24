@@ -238,15 +238,21 @@ public class RequestRestController {
                 throw new RequestNotFoundException("Solicitud no encontrada con ID: " + id);
             } else {
                 // Buscar el contratista por ID
+                System.out.println("NO ASIGNADO Y ID RECIBIDO DEL FRONT" + requestDto.getContractorId());
                 Contractor contractor = contractorService.findContractorById(requestDto.getContractorId())
                         .orElseThrow(() -> new BadRequestException(
                                 "Contratista no encontrado con ID: " + requestDto.getContractorId()));
 
                 // Marcar al contratista como no disponible
+
+                System.out.println("Contratistaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa: " + contractor.getName());
+                System.out.println("ASIGNADO ASGINADO");
                 contractor.setAvailable(false);
 
                 // Asignar el contratista a la solicitud
                 request.setContractor(contractor);
+
+                System.out.println("CONTRATISTA ASIGNADO A LA SOLICITUD " + request.getContractor().getName()+ "\n\n\n\n\n");
 
                 // Obtener el username del dueño de la compañía
                 String companyOwnerUsername = requestOptional.get().getCompany().getUser().getUsername();
@@ -277,7 +283,7 @@ public class RequestRestController {
         }
 
         // Actualizar la solicitud en la base de datos
-        return requestService.updateRequest(id, request)
+        return requestService.assignContractorToRequest(id, request)
                 .map(updatedRequest -> ResponseEntity.ok(requestMapper.toDto(updatedRequest)))
                 .orElseThrow(() -> new RequestNotFoundException("Solicitud no encontrada para actualizar"));
     }

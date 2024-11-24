@@ -21,6 +21,10 @@ export const fetchAvailableContractors = createAsyncThunk(
 export const acceptRequest = createAsyncThunk(
     'requests/acceptRequest',
     async ({ requestId, contractorId }) => {
+        await axios.put(`requests/assign/${requestId}`, {
+            contractorId,
+            status: 'En Progreso'
+        });
         return { requestId, contractorId };
     }
 );

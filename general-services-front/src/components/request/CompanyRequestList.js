@@ -81,20 +81,10 @@ const CompanyRequestList = () => {
   const [isRejectAction, setIsRejectAction] = useState(false);
 
   useEffect(() => {
-    const fetchCompanyRequests = async (username) => {
-      try {
-        const response = await axios.get(`requests/company/owner/${username}`);
-        // Manejar la respuesta aquí, por ejemplo, actualizando el estado local
-        console.log(response.data);
-      } catch (error) {
-        console.error("Error al obtener las solicitudes de la compañía:", error);
-      }
-    };
-  
     if (username) {
-      fetchCompanyRequests(username);
+      dispatch(fetchCompanyRequests(username));
     }
-  }, [username]);
+  }, [username,dispatch]);
 
   useEffect(() => {
     if (requests.length > 0) {
