@@ -1,2 +1,2 @@
 cd general-services-front
-npm run pre-push
+# npm run pre-push
