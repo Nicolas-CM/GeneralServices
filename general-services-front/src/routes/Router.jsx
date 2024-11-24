@@ -4,15 +4,15 @@ import { createBrowserRouter, createRoutesFromElements, Route } from "react-rout
 import Authenticator from "../components/auth/Authenticator";
 import Logout from "../components/auth/Logout";
 import Header from "../components/Header";
-import ClientH from "../pages/ClientHeader";
-import CompanyH from "../pages/CompanyHeader";
-import Home from "../pages/Home";
-import Login from "../pages/Login";
+import ClientH from "../mainPages/ClientHeader";
+import CompanyH from "../mainPages/CompanyHeader";
+import Home from "../mainPages/Home";
+import Login from "../mainPages/Login";
 
 import Chat from '../components/chat/Chat';  // Asegúrate de que la ruta del componente sea correcta
 
 
-import Admin from "../pages/Admin";
+import Admin from "../mainPages/Admin";
 import UserList from "../components/admin/UserList";
 import RoleList from "../components/admin/RoleList";
 import PermissionList from '../components/admin/PermissionList';
@@ -36,8 +36,8 @@ import RegisterClient from '../components/client/RegisterClient';
 import RegisterCompany from '../components/company/RegisterCompany';
 import RegisterContractor from "../components/contractor/RegisterContractor";
 import RegisterService from "../components/service/RegisterService";
-import ErrorBoundary from '../pages/ErrorBoundary';
-import Register from '../pages/Register';
+import ErrorBoundary from '../mainPages/ErrorBoundary';
+import Register from '../mainPages/Register';
 import ServiceDetails from '../components/service/ServiceDetails';
 import CompanyDetails from '../components/company/CompanyDetails';
 import RequestForm from '../components/request/RequestForm';
@@ -177,7 +177,7 @@ const routes = createRoutesFromElements(
         <Authenticator allowedRoles={[client]}>
           <AddComment />
         </Authenticator>
-        
+
       } />
 
     </Route>
