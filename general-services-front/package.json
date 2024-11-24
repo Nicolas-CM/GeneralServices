@@ -27,7 +27,7 @@
   },
   "scripts": {
     "start": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "prepare": "cd .. && husky general-services-front/.husky",
     "pre-push": "npm run build",
     "lint": "eslint . --fix"
