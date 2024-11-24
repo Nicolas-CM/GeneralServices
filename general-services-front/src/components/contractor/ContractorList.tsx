@@ -1,3 +1,4 @@
+// @ts-expect-error TS(2616): 'React' can only be imported by using 'import Reac... Remove this comment to see the full error message
 import { useEffect, useState, React } from 'react';
 import axios from '../../configs/AxiosConfig';
 import useUsername from '../../hooks/useUsername';
@@ -14,7 +15,7 @@ const ContractorList = () => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedContractorId, setSelectedContractorId] = useState(null);
 
-  const handleDelete = (contractorId) => {
+  const handleDelete = (contractorId: any) => {
     setSelectedContractorId(contractorId);
     setDeleteDialogOpen(true);
   };
@@ -94,6 +95,7 @@ const ContractorList = () => {
             onClick={() => {
               axios.delete(`contractors/${selectedContractorId}`)
                 .then(() => {
+                  // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
                   setContractors(contractors.filter(contractor => contractor.id !== selectedContractorId));
                   setDeleteDialogOpen(false);
                 })
@@ -138,14 +140,19 @@ const ContractorList = () => {
           </TableHead>
           <TableBody>
             {contractors.map((contractor) => (
+              // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
               <TableRow key={contractor.id}>
+                // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
                 <TableCell>{contractor.id}</TableCell>
+                // @ts-expect-error TS(2339): Property 'name' does not exist on type 'never'.
                 <TableCell>{contractor.name}</TableCell>
+                // @ts-expect-error TS(2339): Property 'available' does not exist on type 'never... Remove this comment to see the full error message
                 <TableCell>{contractor.available ? "Sí" : "No"}</TableCell>
                 <TableCell>
                   <Box sx={{ display: "flex", gap: 1 }}>
                     <Button
                       component={Link}
+                      // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
                       to={`/company/edit-contractor/${contractor.id}`}
                       variant="outlined"
                       color="primary"
@@ -154,6 +161,7 @@ const ContractorList = () => {
                       Editar
                     </Button>
                     <Button
+                      // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
                       onClick={() => handleDelete(contractor.id)}
                       variant="contained"
                       color="secondary"

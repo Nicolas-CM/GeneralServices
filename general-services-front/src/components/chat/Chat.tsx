@@ -37,6 +37,7 @@ const Chat = () => {
 
   useEffect(() => {
     if (lastMessageRef.current) {
+      // @ts-expect-error TS(2339): Property 'scrollIntoView' does not exist on type '... Remove this comment to see the full error message
       lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
@@ -45,6 +46,7 @@ const Chat = () => {
   useEffect(() => {
     // Obtener el username del receptor basado en el rol del usuario actual
     const userRoles = sessionStorage.getItem("roles");
+    // @ts-expect-error TS(2531): Object is possibly 'null'.
     if (userRoles.includes("ALL-CLIENT")) {
       // Si el usuario es cliente, obtener el username de la compañía
       axios
@@ -56,6 +58,7 @@ const Chat = () => {
         .catch((error) => {
           console.error("Error al obtener el username del receptor:", error);
         });
+    // @ts-expect-error TS(2531): Object is possibly 'null'.
     } else if (userRoles.includes("ALL-COMPANY")) {
       // Si el usuario es compañía, obtener el username del cliente
       axios
@@ -83,8 +86,9 @@ const Chat = () => {
   useEffect(() => {
     if (!username || !solicitudId) return;
 
-    const onChatMessageReceived = (message) => {
+    const onChatMessageReceived = (message: any) => {
       const newMessage = JSON.parse(message.body);
+      // @ts-expect-error TS(2345): Argument of type '(prevMessages: never[]) => any[]... Remove this comment to see the full error message
       setMessages((prevMessages) => [...prevMessages, newMessage]);
     };
 
@@ -113,6 +117,7 @@ const Chat = () => {
     axios
       .post(`/chats/${solicitudId}/messages`, message)
       .then((response) => {
+        // @ts-expect-error TS(2322): Type 'any' is not assignable to type 'never'.
         setMessages([...messages, response.data]);
         setNewMessage("");
       })
@@ -123,7 +128,7 @@ const Chat = () => {
 
 
   // Función para formatear la hora
-  const formatTimestamp = (timestamp) => {
+  const formatTimestamp = (timestamp: any) => {
     const date = new Date(timestamp);
     return `${date.getHours()}:${date.getMinutes()}`;
   };
@@ -170,6 +175,7 @@ const Chat = () => {
               sx={{
                 display: "flex",
                 justifyContent:
+                  // @ts-expect-error TS(2339): Property 'sender' does not exist on type 'never'.
                   msg.sender === username ? "flex-end" : "flex-start",
                 marginBottom: 2,
               }}
@@ -177,6 +183,7 @@ const Chat = () => {
               <Box
                 sx={{
                   backgroundColor:
+                    // @ts-expect-error TS(2339): Property 'sender' does not exist on type 'never'.
                     msg.sender === username ? "#e3f2fd" : "#f1f5f9",
                   borderRadius: 3,
                   padding: 2,
@@ -187,6 +194,7 @@ const Chat = () => {
                     content: '""',
                     position: "absolute",
                     bottom: -10,
+                    // @ts-expect-error TS(2339): Property 'sender' does not exist on type 'never'.
                     ...(msg.sender === username
                       ? { right: 10, borderLeft: "10px solid #e3f2fd" }
                       : { left: 10, borderRight: "10px solid #f1f5f9" }),
@@ -199,10 +207,12 @@ const Chat = () => {
                   variant="body2"
                   sx={{
                     fontWeight: 600,
+                    // @ts-expect-error TS(2339): Property 'sender' does not exist on type 'never'.
                     color: msg.sender === username ? "#1976d2" : "#2c3e50",
                     marginBottom: 0.5,
                   }}
                 >
+                  // @ts-expect-error TS(2339): Property 'sender' does not exist on type 'never'.
                   {msg.sender}
                 </Typography>
                 <Typography
@@ -212,6 +222,7 @@ const Chat = () => {
                     marginBottom: 1,
                   }}
                 >
+                  // @ts-expect-error TS(2339): Property 'content' does not exist on type 'never'.
                   {msg.content}
                 </Typography>
                 <Typography
@@ -222,6 +233,7 @@ const Chat = () => {
                     textAlign: "right",
                   }}
                 >
+                  // @ts-expect-error TS(2339): Property 'timestamp' does not exist on type 'never... Remove this comment to see the full error message
                   {formatTimestamp(msg.timestamp)}
                 </Typography>
               </Box>
@@ -263,6 +275,7 @@ const Chat = () => {
         color="primary"
         fullWidth
         onClick={() => {
+          // @ts-expect-error TS(2554): Expected 0 arguments, but got 1.
           handleSendMessage(newMessage);
           setNewMessage("");
         }}

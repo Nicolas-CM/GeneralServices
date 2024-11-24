@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const login = async (credentials) => {
+const login = async (credentials: any) => {
   return await axios.post('/api/auth/login', credentials);
 };
 

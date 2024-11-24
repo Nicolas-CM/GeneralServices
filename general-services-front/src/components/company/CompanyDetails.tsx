@@ -38,11 +38,13 @@ const CompanyDetails = () => {
 
     // Cálculo del promedio de calificaciones
     const averageRating = ratings.length > 0
+        // @ts-expect-error TS(2339): Property 'ratingValue' does not exist on type 'nev... Remove this comment to see the full error message
         ? (ratings.reduce((sum, rating) => sum + rating.ratingValue, 0) / ratings.length).toFixed(1)
         : null;
 
     // Redirige al formulario de solicitud
     const handleRequestClick = () => {
+        // @ts-expect-error TS(2531): Object is possibly 'null'.
         navigate(`/client/request-form/${companyId}/${serviceId}`, { state: { serviceName: 'Nombre del Servicio', companyName: company.name } });
     };
 
@@ -66,6 +68,7 @@ const CompanyDetails = () => {
                         <Business sx={{ fontSize: 40 }} />
                     </Avatar>
                     <Typography variant="h4" sx={{ fontWeight: 'bold', marginTop: 2 }}>
+                        // @ts-expect-error TS(2339): Property 'name' does not exist on type 'never'.
                         {company.name}
                     </Typography>
                     <Typography variant="subtitle1" color="text.secondary">
@@ -88,8 +91,11 @@ const CompanyDetails = () => {
                         <Typography variant="h5" sx={{ marginBottom: 2, color: 'primary.main', fontWeight: 'bold' }}>
                             Información Básica
                         </Typography>
+                        // @ts-expect-error TS(2531): Object is possibly 'null'.
                         <Typography><strong>Descripción:</strong> {company.description || 'No disponible'}</Typography>
+                        // @ts-expect-error TS(2531): Object is possibly 'null'.
                         <Typography><strong>Teléfono:</strong> {company.phone}</Typography>
+                        // @ts-expect-error TS(2531): Object is possibly 'null'.
                         <Typography><strong>Email:</strong> {company.email}</Typography>
                     </Paper>
                 </Grid>
@@ -99,12 +105,18 @@ const CompanyDetails = () => {
                         <Typography variant="h5" sx={{ marginBottom: 2, color: 'primary.main', fontWeight: 'bold' }}>
                             Dirección
                         </Typography>
+                        // @ts-expect-error TS(2531): Object is possibly 'null'.
                         {company.address ? (
                             <>
+                                // @ts-expect-error TS(2531): Object is possibly 'null'.
                                 <Typography><strong>Dirección:</strong> {company.address}</Typography>
+                                // @ts-expect-error TS(2531): Object is possibly 'null'.
                                 <Typography><strong>Ciudad:</strong> {company.city}</Typography>
+                                // @ts-expect-error TS(2531): Object is possibly 'null'.
                                 <Typography><strong>Estado:</strong> {company.state}</Typography>
+                                // @ts-expect-error TS(2531): Object is possibly 'null'.
                                 <Typography><strong>País:</strong> {company.country}</Typography>
+                                // @ts-expect-error TS(2531): Object is possibly 'null'.
                                 <Typography><strong>Código Postal:</strong> {company.zipCode}</Typography>
                             </>
                         ) : (
@@ -121,6 +133,7 @@ const CompanyDetails = () => {
                             Promedio de Calificaciones
                         </Typography>
                         <Box display="flex" alignItems="center" sx={{ marginBottom: 2 }}>
+                            // @ts-expect-error TS(2769): No overload matches this call.
                             <Rating value={averageRating || 0} readOnly precision={0.5} sx={{ marginRight: 2 }} />
                             <Typography variant="h6">{averageRating || 'No disponible'}</Typography>
                         </Box>
@@ -136,15 +149,19 @@ const CompanyDetails = () => {
                 {ratings.length > 0 ? (
                     <List>
                         {ratings.map(rating => (
+                            // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
                             <ListItem key={rating.id} sx={{ marginBottom: 2, border: '1px solid #e0e0e0', borderRadius: 1, padding: 2 }}>
                                 <Box display="flex" flexDirection="column" width="100%">
                                     <Box display="flex" alignItems="center">
+                                        // @ts-expect-error TS(2339): Property 'ratingValue' does not exist on type 'nev... Remove this comment to see the full error message
                                         <Rating value={rating.ratingValue} readOnly precision={0.5} />
                                         <Typography variant="body2" sx={{ marginLeft: 2 }}>
+                                            // @ts-expect-error TS(2339): Property 'ratingValue' does not exist on type 'nev... Remove this comment to see the full error message
                                             {rating.ratingValue} estrellas
                                         </Typography>
                                     </Box>
                                     <Typography variant="body2" color="text.secondary">
+                                        // @ts-expect-error TS(2339): Property 'comment' does not exist on type 'never'.
                                         {rating.comment || 'Sin comentario'}
                                     </Typography>
                                 </Box>

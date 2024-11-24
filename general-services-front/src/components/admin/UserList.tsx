@@ -22,7 +22,7 @@ function UserList() {
       });
   }, [refresh]);
 
-  const handleDelete = (userId) => {
+  const handleDelete = (userId: any) => {
     setSelectedUserId(userId);
     setDeleteDialogOpen(true);
   };
@@ -30,6 +30,7 @@ function UserList() {
   const confirmDelete = () => {
     axios.delete(`users/${selectedUserId}`)
       .then(() => {
+        // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
         setUsers(users.filter(user => user.id !== selectedUserId));
         setDeleteDialogOpen(false);
         setSelectedUserId(null);
@@ -65,25 +66,36 @@ function UserList() {
           </TableHead>
           <TableBody>
             {users.map(user => (
+              // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
               <TableRow key={user.id}>
+                // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
                 <TableCell>{user.id}</TableCell>
+                // @ts-expect-error TS(2339): Property 'name' does not exist on type 'never'.
                 <TableCell>{user.name}</TableCell>
+                // @ts-expect-error TS(2339): Property 'lastName' does not exist on type 'never'... Remove this comment to see the full error message
                 <TableCell>{user.lastName}</TableCell>
+                // @ts-expect-error TS(2339): Property 'username' does not exist on type 'never'... Remove this comment to see the full error message
                 <TableCell>{user.username}</TableCell>
+                // @ts-expect-error TS(2339): Property 'email' does not exist on type 'never'.
                 <TableCell>{user.email}</TableCell>
                 <TableCell>
-                  {(user.roles || []).map((role, index) => (
+                  // @ts-expect-error TS(2339): Property 'roles' does not exist on type 'never'.
+                  {(user.roles || []).map((role: any, index: any) => (
                     <span key={index}>
                       {role.name}
+                      // @ts-expect-error TS(2339): Property 'roles' does not exist on type 'never'.
                       {index < user.roles.length - 1 ? ', ' : ''}
                     </span>
                   ))}
                 </TableCell>
+                // @ts-expect-error TS(2339): Property 'status' does not exist on type 'never'.
                 <TableCell>{user.status ? 'Activo' : 'Inactivo'}</TableCell>
                 <TableCell>
+                  // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
                   <Button component={Link} to={`/admin/edit-user/${user.id}`} variant="outlined" color="primary" size="small" sx={{ marginRight: 1 }}>
                     Editar
                   </Button>
+                  // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
                   <Button onClick={() => handleDelete(user.id)} variant="contained" color="secondary" size="small">
                     Eliminar
                   </Button>

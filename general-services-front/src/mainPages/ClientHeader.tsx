@@ -41,7 +41,7 @@ const ClientHeader = () => {
       console.log("STOMP connection established.");
     });
     
-    const onNotificationReceived = (message) => {
+    const onNotificationReceived = (message: any) => {
       const notification = JSON.parse(message.body);
       setNotification(notification.message);
       setReload(prev => !prev);

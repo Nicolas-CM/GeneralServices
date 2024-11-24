@@ -23,7 +23,7 @@ const EditContractor = () => {
       });
   }, [id]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
       const contractorDto = {

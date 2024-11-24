@@ -19,11 +19,14 @@ const ClientHome = () => {
         setServices(response.data);
         setFilteredServices(response.data); // Inicialmente muestra todos los servicios
       } catch (error) {
+        // @ts-expect-error TS(2571): Object is of type 'unknown'.
         if (error.response) {
           setMessage('Error del servidor al obtener servicios.');
+          // @ts-expect-error TS(2571): Object is of type 'unknown'.
           setErrorDetails(`${error.response.status} - ${error.response.data.message}`);
         } else {
           setMessage('Error al comunicarse con el servidor.');
+          // @ts-expect-error TS(2571): Object is of type 'unknown'.
           setErrorDetails(error.message || 'Error desconocido.');
         }
         console.error('Error al obtener servicios:', error);
@@ -34,18 +37,19 @@ const ClientHome = () => {
   }, []);
 
   // Manejar el cambio en la barra de búsqueda
-  const handleSearchChange = (e) => {
+  const handleSearchChange = (e: any) => {
     const value = e.target.value.toLowerCase();
     setSearchTerm(value);
 
     // Filtrar servicios por el término de búsqueda
     const filtered = services.filter(service =>
+      // @ts-expect-error TS(2339): Property 'name' does not exist on type 'never'.
       service.name.toLowerCase().includes(value)
     );
     setFilteredServices(filtered);
   };
 
-  const handleServiceClick = (serviceId) => {
+  const handleServiceClick = (serviceId: any) => {
     navigate(`/client/service/${serviceId}`);
   };
 
@@ -76,9 +80,12 @@ const ClientHome = () => {
       {/* Lista de servicios */}
       <List sx={{ backgroundColor: "#ffffff", borderRadius: 2 }}>
         {filteredServices.map((service) => (
+          // @ts-expect-error TS(2769): No overload matches this call.
           <ListItem
+            // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
             key={service.id}
             button
+            // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
             onClick={() => handleServiceClick(service.id)}
             sx={{
               "&:hover": { backgroundColor: "#e0e0e0" },
@@ -86,6 +93,7 @@ const ClientHome = () => {
               cursor: "pointer",
             }}
           >
+            // @ts-expect-error TS(2339): Property 'name' does not exist on type 'never'.
             <ListItemText primary={service.name} />
           </ListItem>
         ))}

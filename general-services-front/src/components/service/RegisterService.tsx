@@ -44,7 +44,7 @@ const RegisterService = () => {
   }, []);
 
   // Manejo de envío del formulario
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: any) => {
     event.preventDefault();
 
     if (!companyId) {
@@ -235,7 +235,9 @@ const RegisterService = () => {
                 <em>-- Seleccionar --</em>
               </MenuItem>
               {categories.map((category) => (
+                // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
                 <MenuItem key={category.id} value={category.id}>
+                  // @ts-expect-error TS(2339): Property 'name' does not exist on type 'never'.
                   {category.name}
                 </MenuItem>
               ))}

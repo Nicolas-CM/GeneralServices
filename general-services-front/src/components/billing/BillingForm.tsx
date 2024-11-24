@@ -4,13 +4,19 @@ import PropTypes from 'prop-types';
 import { Box, Typography, TextField, Button, MenuItem, Select, FormControl, InputLabel, Alert } from '@mui/material';
 
 
-const BillingForm = ({ requestId, userId, contractorId, onClose, onComplete }) => {
+const BillingForm = ({
+  requestId,
+  userId,
+  contractorId,
+  onClose,
+  onComplete
+}: any) => {
   const [amount, setAmount] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('');
   const [paymentDate, setPaymentDate] = useState('');
   const [error, setError] = useState('');
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
     try {
       const billingData = {

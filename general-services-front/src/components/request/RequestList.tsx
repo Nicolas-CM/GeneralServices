@@ -53,13 +53,14 @@ const UserRequestList = () => {
     filter,
     error,
     status,
+  // @ts-expect-error TS(2571): Object is of type 'unknown'.
   } = useSelector((state) => state.requests);
   const navigate = useNavigate();
 
-  const fetchCompanyInfo = async (companyIds) => {
+  const fetchCompanyInfo = async (companyIds: any) => {
     try {
       const response = await axios.post("/companies/by-ids", companyIds);
-      const companies = response.data.reduce((acc, company) => {
+      const companies = response.data.reduce((acc: any, company: any) => {
         acc[company.id] = company; // Almacenar toda la información de la compañía
         return acc;
       }, {});
@@ -72,7 +73,7 @@ const UserRequestList = () => {
   useEffect(() => {
     if (requests.length > 0) {
       const companyIds = [
-        ...new Set(requests.map((request) => request.companyId)),
+        ...new Set(requests.map((request: any) => request.companyId)),
       ];
       fetchCompanyInfo(companyIds);
     }
@@ -81,6 +82,7 @@ const UserRequestList = () => {
   // Obtener userId cuando tengamos el username
   useEffect(() => {
     if (username) {
+      // @ts-expect-error TS(2345): Argument of type 'AsyncThunkAction<any, void, Asyn... Remove this comment to see the full error message
       dispatch(fetchUserIdByUsername(username));
     }
   }, [username, dispatch]);
@@ -88,6 +90,7 @@ const UserRequestList = () => {
   // Obtener solicitudes cuando tengamos el userId
   useEffect(() => {
     if (userId) {
+      // @ts-expect-error TS(2345): Argument of type 'AsyncThunkAction<any, void, Asyn... Remove this comment to see the full error message
       dispatch(fetchUserRequests(userId));
     }
   }, [userId, dispatch]);
@@ -95,47 +98,49 @@ const UserRequestList = () => {
   // Obtener datos relacionados cuando tengamos las solicitudes
   useEffect(() => {
     if (requests.length > 0) {
+      // @ts-expect-error TS(2345): Argument of type 'AsyncThunkAction<{ contractors: ... Remove this comment to see the full error message
       dispatch(fetchRelatedData(requests));
     }
   }, [requests.length, dispatch]);
 
   // Funciones auxiliares
-  const getContractorName = (contractorId) => {
-    const contractor = contractors.find((c) => c.id === contractorId);
+  const getContractorName = (contractorId: any) => {
+    const contractor = contractors.find((c: any) => c.id === contractorId);
     return contractor ? contractor.name : "No disponible";
   };
 
-  const getServiceName = (serviceId) => {
-    const service = services.find((s) => s.id === serviceId);
+  const getServiceName = (serviceId: any) => {
+    const service = services.find((s: any) => s.id === serviceId);
     return service ? service.name : "No disponible";
   };
 
-  const getCompanyName = (companyId) => {
-    const company = companies.find((c) => c.id === companyId);
+  const getCompanyName = (companyId: any) => {
+    const company = companies.find((c: any) => c.id === companyId);
     return company ? company.name : "No disponible";
   };
 
   const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
   const [selectedRequestId, setSelectedRequestId] = useState(null);
 
-  const handleCancel = (requestId) => {
+  const handleCancel = (requestId: any) => {
     setSelectedRequestId(requestId);
     setCancelDialogOpen(true);
   };
 
   const confirmCancel = () => {
+    // @ts-expect-error TS(2345): Argument of type 'AsyncThunkAction<void, void, Asy... Remove this comment to see the full error message
     dispatch(cancelRequest(selectedRequestId));
     setCancelDialogOpen(false);
   };
 
-  const handleFilterChange = (newFilter) => {
+  const handleFilterChange = (newFilter: any) => {
     dispatch(setFilter(newFilter));
   };
 
   const filteredRequests =
     filter === "All"
       ? requests
-      : requests.filter((request) => request.status === filter);
+      : requests.filter((request: any) => request.status === filter);
 
   // Manejo de estados
   if (usernameError) {
@@ -189,12 +194,12 @@ const UserRequestList = () => {
     return <div>www{error}</div>;
   }
 
-  const handleToggleExpand = (requestId) => {
+  const handleToggleExpand = (requestId: any) => {
     // Si la solicitud ya está expandida, la colapsamos; si no, la expandimos
     setExpandedRequestId(expandedRequestId === requestId ? null : requestId);
   };
 
-  const getStatusColor = (status) => {
+  const getStatusColor = (status: any) => {
     switch (status) {
       case "Pendiente":
         return "#fbc02d"; // Amarillo
@@ -327,209 +332,219 @@ const UserRequestList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {filteredRequests.map((request) => (
-              <React.Fragment key={request.id}>
-                <TableRow onClick={() => handleToggleExpand(request.id)}>
-                  <TableCell>
-                    <IconButton>
-                      {expandedRequestId === request.id ? (
-                        <KeyboardArrowUp />
-                      ) : (
-                        <KeyboardArrowDown />
-                      )}
-                    </IconButton>
-                  </TableCell>
-                  <TableCell>{request.id}</TableCell>
-                  <TableCell>{getServiceName(request.serviceId)}</TableCell>
-                  <TableCell>
-                    {getContractorName(request.contractorId)}
-                  </TableCell>
-                  <TableCell>{getCompanyName(request.companyId)}</TableCell>
-                  <TableCell>
-                    {format(parseISO(request.date), "dd/MM/yyyy")}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      fontWeight: "bold",
-                      color: getStatusColor(request.status),
-                    }}
-                  >
-                    {request.status}
-                  </TableCell>
-                  <TableCell>
-                    {request.status === "Pendiente" && (
-                      <Button
-                        variant="contained"
-                        color="secondary"
-                        onClick={() => handleCancel(request.id)}
-                        sx={{ padding: "5px 10px" }}
-                      >
-                        Cancelar
-                      </Button>
+            {filteredRequests.map((request: any) => <React.Fragment key={request.id}>
+              <TableRow onClick={() => handleToggleExpand(request.id)}>
+                <TableCell>
+                  <IconButton>
+                    {expandedRequestId === request.id ? (
+                      <KeyboardArrowUp />
+                    ) : (
+                      <KeyboardArrowDown />
                     )}
-                  </TableCell>
-                  <TableCell>
-                    <IconButton
-                      onClick={() => {
-                        const userRoles = sessionStorage.getItem("roles"); // Obtener los roles del usuario
-                        if (userRoles.includes("ALL-CLIENT")) {
-                          navigate(`/client/chat/${request.id}`); // Redirigir a la ruta del chat del cliente
-                        } else if (userRoles.includes("ALL-COMPANY")) {
-                          navigate(`/company/chat/${request.id}`); // Redirigir a la ruta del chat de la compañía
-                        } else {
-                          navigate("/login"); // Si no tiene rol, redirigir a login
-                        }
-                      }} // Redirigir al chat
-                      sx={{ color: "#4392f1" }}
+                  </IconButton>
+                </TableCell>
+                <TableCell>{request.id}</TableCell>
+                <TableCell>{getServiceName(request.serviceId)}</TableCell>
+                <TableCell>
+                  {getContractorName(request.contractorId)}
+                </TableCell>
+                <TableCell>{getCompanyName(request.companyId)}</TableCell>
+                <TableCell>
+                  {format(parseISO(request.date), "dd/MM/yyyy")}
+                </TableCell>
+                <TableCell
+                  sx={{
+                    fontWeight: "bold",
+                    color: getStatusColor(request.status),
+                  }}
+                >
+                  {request.status}
+                </TableCell>
+                <TableCell>
+                  {request.status === "Pendiente" && (
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={() => handleCancel(request.id)}
+                      sx={{ padding: "5px 10px" }}
                     >
-                      <ChatBubbleOutline />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell
-                    style={{ paddingBottom: 0, paddingTop: 0 }}
-                    colSpan={7}
+                      Cancelar
+                    </Button>
+                  )}
+                </TableCell>
+                <TableCell>
+                  <IconButton
+                    onClick={() => {
+                      const userRoles = sessionStorage.getItem("roles"); // Obtener los roles del usuario
+                      // @ts-expect-error TS(2531): Object is possibly 'null'.
+                      if (userRoles.includes("ALL-CLIENT")) {
+                        navigate(`/client/chat/${request.id}`); // Redirigir a la ruta del chat del cliente
+                      // @ts-expect-error TS(2531): Object is possibly 'null'.
+                      } else if (userRoles.includes("ALL-COMPANY")) {
+                        navigate(`/company/chat/${request.id}`); // Redirigir a la ruta del chat de la compañía
+                      } else {
+                        navigate("/login"); // Si no tiene rol, redirigir a login
+                      }
+                    }} // Redirigir al chat
+                    sx={{ color: "#4392f1" }}
                   >
-                    <Collapse
-                      in={expandedRequestId === request.id}
-                      timeout="auto"
-                      unmountOnExit
+                    <ChatBubbleOutline />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell
+                  style={{ paddingBottom: 0, paddingTop: 0 }}
+                  colSpan={7}
+                >
+                  <Collapse
+                    in={expandedRequestId === request.id}
+                    timeout="auto"
+                    unmountOnExit
+                  >
+                    <Box
+                      sx={{
+                        padding: 2,
+                        borderColor: "divider",
+                        borderRadius: 2,
+                        backgroundColor: "background.paper",
+                      }}
                     >
-                      <Box
-                        sx={{
-                          padding: 2,
-                          borderColor: "divider",
-                          borderRadius: 2,
-                          backgroundColor: "background.paper",
-                        }}
+                      <Typography
+                        variant="h6"
+                        color="primary.main"
+                        sx={{ fontWeight: "bold", marginBottom: 2 }}
                       >
-                        <Typography
-                          variant="h6"
-                          color="primary.main"
-                          sx={{ fontWeight: "bold", marginBottom: 2 }}
+                        Información de la Compañía
+                      </Typography>
+                      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+                      {companyInfo[request.companyId] ? (
+                        <Box
+                          component="dl"
+                          sx={{
+                            display: "grid",
+                            gridTemplateColumns: "auto 1fr",
+                            gap: 1,
+                          }}
                         >
-                          Información de la Compañía
-                        </Typography>
-                        {companyInfo[request.companyId] ? (
-                          <Box
-                            component="dl"
-                            sx={{
-                              display: "grid",
-                              gridTemplateColumns: "auto 1fr",
-                              gap: 1,
-                            }}
+                          <Typography
+                            component="dt"
+                            variant="body2"
+                            sx={{ fontWeight: "bold", color: "text.primary" }}
                           >
-                            <Typography
-                              component="dt"
-                              variant="body2"
-                              sx={{ fontWeight: "bold", color: "text.primary" }}
-                            >
-                              Nombre:
-                            </Typography>
-                            <Typography component="dd" variant="body2">
-                              {companyInfo[request.companyId].name}
-                            </Typography>
-
-                            <Typography
-                              component="dt"
-                              variant="body2"
-                              sx={{ fontWeight: "bold", color: "text.primary" }}
-                            >
-                              Descripción:
-                            </Typography>
-                            <Typography component="dd" variant="body2">
-                              {companyInfo[request.companyId].description}
-                            </Typography>
-
-                            <Typography
-                              component="dt"
-                              variant="body2"
-                              sx={{ fontWeight: "bold", color: "text.primary" }}
-                            >
-                              Teléfono:
-                            </Typography>
-                            <Typography component="dd" variant="body2">
-                              {companyInfo[request.companyId].phone}
-                            </Typography>
-
-                            <Typography
-                              component="dt"
-                              variant="body2"
-                              sx={{ fontWeight: "bold", color: "text.primary" }}
-                            >
-                              Dirección:
-                            </Typography>
-                            <Typography component="dd" variant="body2">
-                              {companyInfo[request.companyId].address}
-                            </Typography>
-
-                            <Typography
-                              component="dt"
-                              variant="body2"
-                              sx={{ fontWeight: "bold", color: "text.primary" }}
-                            >
-                              Ciudad:
-                            </Typography>
-                            <Typography component="dd" variant="body2">
-                              {companyInfo[request.companyId].city}
-                            </Typography>
-
-                            <Typography
-                              component="dt"
-                              variant="body2"
-                              sx={{ fontWeight: "bold", color: "text.primary" }}
-                            >
-                              Estado:
-                            </Typography>
-                            <Typography component="dd" variant="body2">
-                              {companyInfo[request.companyId].state}
-                            </Typography>
-
-                            <Typography
-                              component="dt"
-                              variant="body2"
-                              sx={{ fontWeight: "bold", color: "text.primary" }}
-                            >
-                              País:
-                            </Typography>
-                            <Typography component="dd" variant="body2">
-                              {companyInfo[request.companyId].country}
-                            </Typography>
-
-                            <Typography
-                              component="dt"
-                              variant="body2"
-                              sx={{ fontWeight: "bold", color: "text.primary" }}
-                            >
-                              Código Postal:
-                            </Typography>
-                            <Typography component="dd" variant="body2">
-                              {companyInfo[request.companyId].zipCode}
-                            </Typography>
-
-                            <Typography
-                              component="dt"
-                              variant="body2"
-                              sx={{ fontWeight: "bold", color: "text.primary" }}
-                            >
-                              Email:
-                            </Typography>
-                            <Typography component="dd" variant="body2">
-                              {companyInfo[request.companyId].email}
-                            </Typography>
-                          </Box>
-                        ) : (
-                          <Typography variant="body2" color="text.secondary">
-                            Información no disponible
+                            Nombre:
                           </Typography>
-                        )}
-                      </Box>
-                    </Collapse>
-                  </TableCell>
-                </TableRow>
-              </React.Fragment>
-            ))}
+                          <Typography component="dd" variant="body2">
+                            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+                            {companyInfo[request.companyId].name}
+                          </Typography>
+
+                          <Typography
+                            component="dt"
+                            variant="body2"
+                            sx={{ fontWeight: "bold", color: "text.primary" }}
+                          >
+                            Descripción:
+                          </Typography>
+                          <Typography component="dd" variant="body2">
+                            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+                            {companyInfo[request.companyId].description}
+                          </Typography>
+
+                          <Typography
+                            component="dt"
+                            variant="body2"
+                            sx={{ fontWeight: "bold", color: "text.primary" }}
+                          >
+                            Teléfono:
+                          </Typography>
+                          <Typography component="dd" variant="body2">
+                            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+                            {companyInfo[request.companyId].phone}
+                          </Typography>
+
+                          <Typography
+                            component="dt"
+                            variant="body2"
+                            sx={{ fontWeight: "bold", color: "text.primary" }}
+                          >
+                            Dirección:
+                          </Typography>
+                          <Typography component="dd" variant="body2">
+                            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+                            {companyInfo[request.companyId].address}
+                          </Typography>
+
+                          <Typography
+                            component="dt"
+                            variant="body2"
+                            sx={{ fontWeight: "bold", color: "text.primary" }}
+                          >
+                            Ciudad:
+                          </Typography>
+                          <Typography component="dd" variant="body2">
+                            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+                            {companyInfo[request.companyId].city}
+                          </Typography>
+
+                          <Typography
+                            component="dt"
+                            variant="body2"
+                            sx={{ fontWeight: "bold", color: "text.primary" }}
+                          >
+                            Estado:
+                          </Typography>
+                          <Typography component="dd" variant="body2">
+                            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+                            {companyInfo[request.companyId].state}
+                          </Typography>
+
+                          <Typography
+                            component="dt"
+                            variant="body2"
+                            sx={{ fontWeight: "bold", color: "text.primary" }}
+                          >
+                            País:
+                          </Typography>
+                          <Typography component="dd" variant="body2">
+                            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+                            {companyInfo[request.companyId].country}
+                          </Typography>
+
+                          <Typography
+                            component="dt"
+                            variant="body2"
+                            sx={{ fontWeight: "bold", color: "text.primary" }}
+                          >
+                            Código Postal:
+                          </Typography>
+                          <Typography component="dd" variant="body2">
+                            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+                            {companyInfo[request.companyId].zipCode}
+                          </Typography>
+
+                          <Typography
+                            component="dt"
+                            variant="body2"
+                            sx={{ fontWeight: "bold", color: "text.primary" }}
+                          >
+                            Email:
+                          </Typography>
+                          <Typography component="dd" variant="body2">
+                            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+                            {companyInfo[request.companyId].email}
+                          </Typography>
+                        </Box>
+                      ) : (
+                        <Typography variant="body2" color="text.secondary">
+                          Información no disponible
+                        </Typography>
+                      )}
+                    </Box>
+                  </Collapse>
+                </TableCell>
+              </TableRow>
+            </React.Fragment>)}
           </TableBody>
         </Table>
       </TableContainer>

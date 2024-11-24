@@ -1,3 +1,4 @@
+// @ts-expect-error TS(2616): 'React' can only be imported by using 'import Reac... Remove this comment to see the full error message
 import { useEffect, useState, React } from 'react';
 import axios from '../../configs/AxiosConfig';
 import useUsername from '../../hooks/useUsername';
@@ -30,7 +31,7 @@ const RegisterContractor = () => {
   }, [username]);
 
   // Función para manejar el envío del formulario
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: any) => {
     event.preventDefault();
 
     if (!companyId) {

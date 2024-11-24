@@ -14,7 +14,7 @@ const RoleList = () => {
     axios.get('roles')
       .then((response) => {
         setRoles(response.data);
-        const permissionIds = response.data.flatMap(role => role.selectedPermissions);
+        const permissionIds = response.data.flatMap((role: any) => role.selectedPermissions);
         return axios.get(`permissions?ids=${permissionIds.join(',')}`);
       })
       .then((response) => {
@@ -26,7 +26,7 @@ const RoleList = () => {
       });
   }, []);
 
-  const handleDelete = (roleId) => {
+  const handleDelete = (roleId: any) => {
     setSelectedRoleId(roleId);
     setDeleteDialogOpen(true);
   };
@@ -34,6 +34,7 @@ const RoleList = () => {
   const confirmDelete = () => {
     axios.delete(`roles/${selectedRoleId}`)
       .then(() => {
+        // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
         setRoles(roles.filter(role => role.id !== selectedRoleId));
         setDeleteDialogOpen(false);
         setSelectedRoleId(null);
@@ -66,22 +67,31 @@ const RoleList = () => {
           </TableHead>
           <TableBody>
             {roles.map(role => (
+              // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
               <TableRow key={role.id}>
+                // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
                 <TableCell>{role.id}</TableCell>
+                // @ts-expect-error TS(2339): Property 'name' does not exist on type 'never'.
                 <TableCell>{role.name}</TableCell>
+                // @ts-expect-error TS(2339): Property 'description' does not exist on type 'nev... Remove this comment to see the full error message
                 <TableCell>{role.description}</TableCell>
                 <TableCell>
-                  {(role.selectedPermissions || []).map((permissionId, index) => {
+                  // @ts-expect-error TS(2339): Property 'selectedPermissions' does not exist on t... Remove this comment to see the full error message
+                  {(role.selectedPermissions || []).map((permissionId: any, index: any) => {
+                    // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
                     const permission = permissions.find(p => p.id === permissionId);
                     return permission ? (
+                      // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
                       <Chip key={`${permission.id}-${index}`} label={permission.name} sx={{ margin: 0.5 }} />
                     ) : null;
                   })}
                 </TableCell>
                 <TableCell>
+                  // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
                   <Button component={Link} to={`/admin/edit-role/${role.id}`} variant="outlined" color="primary" size="small" sx={{ marginRight: 1 }}>
                     Editar
                   </Button>
+                  // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
                   <Button onClick={() => handleDelete(role.id)} variant="contained" color="secondary" size="small">
                     Eliminar
                   </Button>

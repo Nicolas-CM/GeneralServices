@@ -39,7 +39,7 @@ const RegisterCompany = () => {
     const navigate = useNavigate();
     const roleIdCompany = 3;
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
         try {
             const userRequestDto = {
@@ -79,6 +79,7 @@ const RegisterCompany = () => {
             setMessageType('success');
             setTimeout(() => navigate('/login'), 2000); // Redirigir después de 2 segundos
         } catch (error) {
+            // @ts-expect-error TS(2571): Object is of type 'unknown'.
             const errorMsg = error.response?.data?.message || 'Error al crear el usuario y la compañía';
             setMessage(errorMsg);
             setMessageType('error');
@@ -299,6 +300,7 @@ const RegisterCompany = () => {
                 {/* Mensaje de éxito o error */}
                 {message && (
                     <Box sx={{ mt: 3 }}>
+                        // @ts-expect-error TS(2322): Type 'string' is not assignable to type '"success"... Remove this comment to see the full error message
                         <Alert severity={messageType}>{message}</Alert>
                     </Box>
                 )}

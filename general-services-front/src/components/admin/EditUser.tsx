@@ -54,7 +54,7 @@ const EditUser = () => {
       });
   }, [id]);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: any) => {
     event.preventDefault();
     const userRequestDto = {
       id,
@@ -217,6 +217,7 @@ const EditUser = () => {
                   <em>Seleccione un rol</em>
                 </MenuItem>
                 {roles.map(role => (
+                  // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
                   <MenuItem key={role.id} value={role.id}>{role.name}</MenuItem>
                 ))}
               </Select>

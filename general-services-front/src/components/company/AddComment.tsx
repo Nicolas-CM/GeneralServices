@@ -15,7 +15,9 @@ import {
 } from '@mui/material';
 import { Business } from '@mui/icons-material';
 
-const AddComment = ({ onCommentAdded }) => {
+const AddComment = ({
+  onCommentAdded
+}: any) => {
   const { contractorId } = useParams();
   const [ratingValue, setRatingValue] = useState(0);
   const [comment, setComment] = useState('');
@@ -34,6 +36,7 @@ const AddComment = ({ onCommentAdded }) => {
         axios
           .get(`ratings/company/${response.data.id}`)
           .then(ratingResponse => setRatings(ratingResponse.data))
+          // @ts-expect-error TS(2345): Argument of type 'void' is not assignable to param... Remove this comment to see the full error message
           .then(console.log("RATINGSSSSS" + ratings))
           .catch(err => {
             setMessage('Error al cargar las calificaciones.');
@@ -51,12 +54,15 @@ const AddComment = ({ onCommentAdded }) => {
 
   // Cálculo del promedio de calificaciones
   const averageRating = ratings.length > 0
+    // @ts-expect-error TS(2339): Property 'ratingValue' does not exist on type 'nev... Remove this comment to see the full error message
     ? (ratings.reduce((sum, rating) => sum + rating.ratingValue, 0) / ratings.length).toFixed(1)
     : null;
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
+    // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
     const parsedRatingValue = parseFloat(ratingValue).toFixed(1);
+    // @ts-expect-error TS(2365): Operator '<' cannot be applied to types 'string' a... Remove this comment to see the full error message
     if (parsedRatingValue < 1 || parsedRatingValue > 5) {
       setMessage('El valor del rating debe estar entre 1 y 5.');
       return;
@@ -66,13 +72,16 @@ const AddComment = ({ onCommentAdded }) => {
       const response = await axios.post('/ratings', {
         ratingValue: parsedRatingValue,
         comment,
+        // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
         companyId: companyData?.id
       });
       setMessage('Comentario agregado exitosamente');
+      // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
       setRatingValue('');
       setComment('');
 
       // Actualizar el estado de los comentarios
+      // @ts-expect-error TS(2345): Argument of type '(prevRatings: never[]) => any[]'... Remove this comment to see the full error message
       setRatings(prevRatings => [...prevRatings, response.data]);
 
       if (onCommentAdded) {
@@ -94,6 +103,7 @@ const AddComment = ({ onCommentAdded }) => {
               <Business sx={{ fontSize: 40 }} />
             </Avatar>
             <Typography variant="h4" sx={{ fontWeight: 'bold', marginTop: 2 }}>
+              // @ts-expect-error TS(2339): Property 'name' does not exist on type 'never'.
               {companyData.name}
             </Typography>
             <Typography variant="subtitle1" color="text.secondary">
@@ -108,9 +118,13 @@ const AddComment = ({ onCommentAdded }) => {
                 <Typography variant="h5" sx={{ marginBottom: 2, color: 'primary.main', fontWeight: 'bold' }}>
                   Información Básica
                 </Typography>
+                // @ts-expect-error TS(2339): Property 'name' does not exist on type 'never'.
                 <Typography><strong>Nombre:</strong> {companyData.name}</Typography>
+                // @ts-expect-error TS(2339): Property 'description' does not exist on type 'nev... Remove this comment to see the full error message
                 <Typography><strong>Descripción:</strong> {companyData.description || 'No disponible'}</Typography>
+                // @ts-expect-error TS(2339): Property 'email' does not exist on type 'never'.
                 <Typography><strong>Correo Electrónico:</strong> {companyData.email}</Typography>
+                // @ts-expect-error TS(2339): Property 'phone' does not exist on type 'never'.
                 <Typography><strong>Teléfono:</strong> {companyData.phone}</Typography>
               </Paper>
             </Grid>
@@ -120,12 +134,18 @@ const AddComment = ({ onCommentAdded }) => {
                 <Typography variant="h5" sx={{ marginBottom: 2, color: 'primary.main', fontWeight: 'bold' }}>
                   Dirección
                 </Typography>
+                // @ts-expect-error TS(2339): Property 'address' does not exist on type 'never'.
                 {companyData.address ? (
                   <>
+                    // @ts-expect-error TS(2339): Property 'address' does not exist on type 'never'.
                     <Typography><strong>Dirección:</strong> {companyData.address}</Typography>
+                    // @ts-expect-error TS(2339): Property 'city' does not exist on type 'never'.
                     <Typography><strong>Ciudad:</strong> {companyData.city}</Typography>
+                    // @ts-expect-error TS(2339): Property 'state' does not exist on type 'never'.
                     <Typography><strong>Estado:</strong> {companyData.state}</Typography>
+                    // @ts-expect-error TS(2339): Property 'country' does not exist on type 'never'.
                     <Typography><strong>País:</strong> {companyData.country}</Typography>
+                    // @ts-expect-error TS(2339): Property 'zipCode' does not exist on type 'never'.
                     <Typography><strong>Código Postal:</strong> {companyData.zipCode}</Typography>
                   </>
                 ) : (
@@ -155,6 +175,7 @@ const AddComment = ({ onCommentAdded }) => {
               <Rating
                 name="rating"
                 value={ratingValue}
+                // @ts-expect-error TS(6133): 'event' is declared but its value is never read.
                 onChange={(event, newValue) => setRatingValue(newValue)}
                 precision={1}
                 size="large"
@@ -190,11 +211,13 @@ const AddComment = ({ onCommentAdded }) => {
               <>
                 <Box display="flex" alignItems="center" sx={{ marginBottom: 2 }}>
                   <Typography variant="h6" sx={{ fontWeight: 'bold' }}>Promedio:</Typography>
+                  // @ts-expect-error TS(2769): No overload matches this call.
                   <Rating value={averageRating} readOnly precision={0.5} sx={{ marginLeft: 2 }} />
                   <Typography variant="h6" sx={{ marginLeft: 1 }}>{averageRating}</Typography>
                 </Box>
                 {ratings.map(rating => (
                   <Box
+                    // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
                     key={rating.id}
                     sx={{
                       border: '1px solid #e0e0e0',
@@ -204,8 +227,10 @@ const AddComment = ({ onCommentAdded }) => {
                       '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.05)' },
                     }}
                   >
+                    // @ts-expect-error TS(2339): Property 'ratingValue' does not exist on type 'nev... Remove this comment to see the full error message
                     <Rating value={rating.ratingValue} readOnly precision={0.5} />
                     <Typography variant="body2" sx={{ marginTop: 1 }}>
+                      // @ts-expect-error TS(2339): Property 'comment' does not exist on type 'never'.
                       {rating.comment || 'Sin comentario'}
                     </Typography>
                   </Box>

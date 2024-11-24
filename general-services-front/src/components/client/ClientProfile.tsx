@@ -1,3 +1,4 @@
+// @ts-expect-error TS(2616): 'React' can only be imported by using 'import Reac... Remove this comment to see the full error message
 import { React, useEffect, useState } from 'react';
 import axios from '../../configs/AxiosConfig';
 import useUsername from '../../hooks/useUsername';
@@ -27,6 +28,7 @@ const ClientProfile = () => {
         setUserId(response.data); // Guardamos el userId
       })
       .catch(err => {
+        // @ts-expect-error TS(2345): Argument of type '"Error al obtener el ID del usua... Remove this comment to see the full error message
         setError('Error al obtener el ID del usuario');
         console.error(err);
       });
@@ -41,6 +43,7 @@ const ClientProfile = () => {
         setUserData(response.data); // Guardamos los datos del usuario
       })
       .catch(err => {
+        // @ts-expect-error TS(2345): Argument of type '"Error al cargar los datos del p... Remove this comment to see the full error message
         setError('Error al cargar los datos del perfil');
         console.error(err);
       });
@@ -72,6 +75,7 @@ const ClientProfile = () => {
           <Person sx={{ fontSize: 40 }} />
         </Avatar>
         <Typography variant="h4" sx={{ fontWeight: 'bold', marginTop: 2 }}>
+          // @ts-expect-error TS(2339): Property 'name' does not exist on type 'never'.
           {userData.name} {userData.lastName}
         </Typography>
         <Typography variant="subtitle1" color="text.secondary">
@@ -86,8 +90,11 @@ const ClientProfile = () => {
             <Typography variant="h5" sx={{ marginBottom: 2, color: 'primary.main', fontWeight: 'bold' }}>
               Información Básica
             </Typography>
+            // @ts-expect-error TS(2339): Property 'name' does not exist on type 'never'.
             <Typography><strong>Nombre:</strong> {userData.name} {userData.lastName}</Typography>
+            // @ts-expect-error TS(2339): Property 'email' does not exist on type 'never'.
             <Typography><strong>Correo Electrónico:</strong> {userData.email}</Typography>
+            // @ts-expect-error TS(2339): Property 'phone' does not exist on type 'never'.
             <Typography><strong>Teléfono:</strong> {userData.phone}</Typography>
           </Paper>
         </Grid>
@@ -98,12 +105,18 @@ const ClientProfile = () => {
             <Typography variant="h5" sx={{ marginBottom: 2, color: 'primary.main', fontWeight: 'bold' }}>
               Dirección
             </Typography>
+            // @ts-expect-error TS(2339): Property 'address' does not exist on type 'never'.
             {userData.address ? (
               <>
+                // @ts-expect-error TS(2339): Property 'address' does not exist on type 'never'.
                 <Typography><strong>Dirección:</strong> {userData.address}</Typography>
+                // @ts-expect-error TS(2339): Property 'city' does not exist on type 'never'.
                 <Typography><strong>Ciudad:</strong> {userData.city}</Typography>
+                // @ts-expect-error TS(2339): Property 'state' does not exist on type 'never'.
                 <Typography><strong>Estado:</strong> {userData.state}</Typography>
+                // @ts-expect-error TS(2339): Property 'country' does not exist on type 'never'.
                 <Typography><strong>País:</strong> {userData.country}</Typography>
+                // @ts-expect-error TS(2339): Property 'zipCode' does not exist on type 'never'.
                 <Typography><strong>Código Postal:</strong> {userData.zipCode}</Typography>
               </>
             ) : (

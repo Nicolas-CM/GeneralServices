@@ -2,12 +2,15 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-const NewRequestForm = ({ onCreateRequest, userId }) => {
+const NewRequestForm = ({
+  onCreateRequest,
+  userId
+}: any) => {
   const [serviceId, setServiceId] = useState('');
   const [date, setDate] = useState('');
   const [status] = useState('Pendiente');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
     onCreateRequest({
       serviceId,

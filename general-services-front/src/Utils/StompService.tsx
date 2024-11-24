@@ -1,10 +1,14 @@
 // src/Utils/StompService.js
 import { Client } from "@stomp/stompjs";
+// @ts-expect-error TS(7016): Could not find a declaration file for module 'sock... Remove this comment to see the full error message
 import SockJS from "sockjs-client";
 
 const URL = "http://localhost:3000/generalservicesplatform/ws";
 
 class StompService {
+  client: any;
+  isConnected: any;
+  subscriptions: any;
   constructor() {
     this.client = new Client({
       webSocketFactory: () => new SockJS(URL),
@@ -23,13 +27,13 @@ class StompService {
     this.isConnected = false;
   }
 
-  connect(onConnectCallback) {
+  connect(onConnectCallback: any) {
     if (this.isConnected) {
       console.warn("STOMP client is already connected.");
       return;
     }
 
-    this.client.onConnect = (frame) => {
+    this.client.onConnect = (frame: any) => {
       console.log("Connected: " + frame);
       this.isConnected = true;
 
@@ -38,7 +42,7 @@ class StompService {
       }
     };
 
-    this.client.onStompError = function (frame) {
+    this.client.onStompError = function (frame: any) {
       console.error("Broker reported error: " + frame.headers["message"]);
       console.error("Additional details: " + frame.body);
     };
@@ -46,7 +50,7 @@ class StompService {
     this.client.activate();
   }
 
-  subscribeToNotifications(username, onNotificationReceived) {
+  subscribeToNotifications(username: any, onNotificationReceived: any) {
     if (!this.isConnected) {
       console.error("STOMP client is not connected. Cannot subscribe.");
       return;
@@ -65,7 +69,7 @@ class StompService {
     this.subscriptions[subscriptionKey] = subscription;
   }
 
-  subscribeToChat(username, solicitudId, onChatMessageReceived) {
+  subscribeToChat(username: any, solicitudId: any, onChatMessageReceived: any) {
     if (!this.isConnected) {
       console.error("STOMP client is not connected. Cannot subscribe.");
       return;
@@ -84,7 +88,7 @@ class StompService {
     this.subscriptions[subscriptionKey] = subscription;
   }
 
-  unsubscribe(subscriptionKey) {
+  unsubscribe(subscriptionKey: any) {
     const subscription = this.subscriptions[subscriptionKey];
     if (subscription) {
       subscription.unsubscribe();

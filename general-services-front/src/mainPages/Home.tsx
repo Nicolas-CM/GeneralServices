@@ -8,10 +8,13 @@ const Home = () => {
   console.log("Rol del usuario:", userRoles);
 
   useEffect(() => {
+    // @ts-expect-error TS(2531): Object is possibly 'null'.
     if (userRoles.includes('READ-USER')) {
       navigate('/admin/users');
+    // @ts-expect-error TS(2531): Object is possibly 'null'.
     } else if (userRoles.includes('ALL-CLIENT')) {
       navigate('/client/home');
+    // @ts-expect-error TS(2531): Object is possibly 'null'.
     } else if (userRoles.includes('ALL-COMPANY')) {
       navigate('/company/home');
     } else {

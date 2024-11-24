@@ -4,7 +4,10 @@ import PropTypes from 'prop-types';
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Authenticator = ({ children, allowedRoles }) => {
+const Authenticator = ({
+  children,
+  allowedRoles
+}: any) => {
   const [auth, setAuth] = useState(false);
   const navigate = useNavigate();
 
@@ -16,7 +19,7 @@ const Authenticator = ({ children, allowedRoles }) => {
 
     if (token && roles) {
       const userRoles = roles.split(',');
-      isAuth = allowedRoles.some(role => userRoles.includes(role));
+      isAuth = allowedRoles.some((role: any) => userRoles.includes(role));
       console.log("Autenticado: ", isAuth);
     }
 

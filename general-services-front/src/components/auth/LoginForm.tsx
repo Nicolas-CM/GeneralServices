@@ -9,9 +9,13 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useOutletContext } from 'react-router-dom';
 
 
-function LoginForm({ setMessage, message }) {
+function LoginForm({
+  setMessage,
+  message
+}: any) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  // @ts-expect-error TS(2339): Property 'handleLoginHeader' does not exist on typ... Remove this comment to see the full error message
   const { handleLoginHeader } = useOutletContext();
 
   // Eliminar cualquier token anterior
@@ -20,7 +24,7 @@ function LoginForm({ setMessage, message }) {
 
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleLogin = async (e: any) => {
     e.preventDefault();
     try {
       console.log(username, password)
@@ -39,6 +43,7 @@ function LoginForm({ setMessage, message }) {
 
       // Almacenar el nuevo token
       sessionStorage.setItem('token', token);
+      // @ts-expect-error TS(2339): Property 'roles' does not exist on type 'JwtPayloa... Remove this comment to see the full error message
       sessionStorage.setItem('roles', decodedToken.roles);
 
       //const userRoles = JSON.parse(sessionStorage.getItem('roles')); // Asume que los roles del usuario están almacenados en sessionStorage como una lista
@@ -50,9 +55,12 @@ function LoginForm({ setMessage, message }) {
       navigate('/home'); //Nos vamos pa users
 
     } catch (error) {
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       if (error.response) {
+        // @ts-expect-error TS(2571): Object is of type 'unknown'.
         setMessage(error.response.data.message);
       } else {
+        // @ts-expect-error TS(2571): Object is of type 'unknown'.
         setMessage(error.message || 'Error al iniciar sesion');
       }
       console.error('Error:', error);

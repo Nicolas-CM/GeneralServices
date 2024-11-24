@@ -32,7 +32,7 @@ const CreateUser = () => {
       });
   }, []);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
       const userRequestDto = {
@@ -53,9 +53,12 @@ const CreateUser = () => {
       setMessage('Usuario creado exitosamente');
       navigate('/admin/users');
     } catch (error) {
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       if (error.response) {
+        // @ts-expect-error TS(2571): Object is of type 'unknown'.
         setMessage(error.response.data.message);
       } else {
+        // @ts-expect-error TS(2571): Object is of type 'unknown'.
         setMessage(error.message || 'Error al crear el usuario');
       }
       console.error('Error:', error);
@@ -194,6 +197,7 @@ const CreateUser = () => {
                   <em>Seleccione un rol</em>
                 </MenuItem>
                 {roles.map(role => (
+                  // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
                   <MenuItem key={role.id} value={role.id}>{role.name}</MenuItem>
                 ))}
               </Select>

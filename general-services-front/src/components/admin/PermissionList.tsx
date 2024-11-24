@@ -21,7 +21,7 @@ function PermissionList() {
       });
   }, []);
 
-  const handleDelete = (permissionId) => {
+  const handleDelete = (permissionId: any) => {
     setSelectedPermissionId(permissionId);
     setDeleteDialogOpen(true);
   };
@@ -29,6 +29,7 @@ function PermissionList() {
   const confirmDelete = () => {
     axios.delete(`permissions/${selectedPermissionId}`)
       .then(() => {
+        // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
         setPermissions(permissions.filter(permission => permission.id !== selectedPermissionId));
         setDeleteDialogOpen(false);
         setSelectedPermissionId(null);
@@ -60,13 +61,18 @@ function PermissionList() {
           </TableHead>
           <TableBody>
             {permissions.map(permission => (
+              // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
               <TableRow key={permission.id}>
+                // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
                 <TableCell>{permission.id}</TableCell>
+                // @ts-expect-error TS(2339): Property 'name' does not exist on type 'never'.
                 <TableCell>{permission.name}</TableCell>
+                // @ts-expect-error TS(2339): Property 'resource' does not exist on type 'never'... Remove this comment to see the full error message
                 <TableCell>{permission.resource}</TableCell>
                 <TableCell>
                   <Button
                       component={Link}
+                      // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
                       to={`/admin/edit-permission/${permission.id}`}
                       variant="outlined"
                       color="primary"
@@ -75,6 +81,7 @@ function PermissionList() {
                       Editar
                     </Button>
                   <Button
+                    // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
                     onClick={() => handleDelete(permission.id)}
                     variant="contained"
                     color="secondary"

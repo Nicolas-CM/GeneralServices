@@ -49,6 +49,7 @@ const CompanyRequestList = () => {
     showBillingForm,
     showContractorList,
     selectedRequestId,
+  // @ts-expect-error TS(2571): Object is of type 'unknown'.
   } = useSelector((state) => state.requests);
 
   const navigate = useNavigate(); // Para redirigir a la página de chat
@@ -56,10 +57,10 @@ const CompanyRequestList = () => {
   const [userNames, setUserNames] = useState({});
   const [expandedRequestId, setExpandedRequestId] = useState(null); // Estado para manejar la solicitud expandida
 
-  const fetchUserNames = async (userIds) => {
+  const fetchUserNames = async (userIds: any) => {
     try {
       const response = await axios.post("/users/by-ids", userIds);
-      const users = response.data.reduce((acc, user) => {
+      const users = response.data.reduce((acc: any, user: any) => {
         acc[user.id] = user; // Almacenar toda la información del usuario
         return acc;
       }, {});
@@ -71,7 +72,7 @@ const CompanyRequestList = () => {
 
   useEffect(() => {
     if (requests.length > 0) {
-      const userIds = [...new Set(requests.map((request) => request.userId))];
+      const userIds = [...new Set(requests.map((request: any) => request.userId))];
       fetchUserNames(userIds);
     }
   }, [requests]);
@@ -82,50 +83,55 @@ const CompanyRequestList = () => {
 
   useEffect(() => {
     if (username) {
+      // @ts-expect-error TS(2345): Argument of type 'AsyncThunkAction<any, void, Asyn... Remove this comment to see the full error message
       dispatch(fetchCompanyRequests(username));
     }
   }, [username,dispatch]);
 
   useEffect(() => {
     if (requests.length > 0) {
+      // @ts-expect-error TS(2345): Argument of type 'AsyncThunkAction<{ contractors: ... Remove this comment to see the full error message
       dispatch(fetchRelatedData(requests));
     }
   }, [requests, dispatch]);
 
-  const getContractorName = (contractorId) => {
-    const contractor = contractors.find((c) => c.id === contractorId);
+  const getContractorName = (contractorId: any) => {
+    const contractor = contractors.find((c: any) => c.id === contractorId);
     return contractor ? contractor.name : "No disponible";
   };
 
-  const getServiceName = (serviceId) => {
-    const service = services.find((s) => s.id === serviceId);
+  const getServiceName = (serviceId: any) => {
+    const service = services.find((s: any) => s.id === serviceId);
     return service ? service.name : "No disponible";
   };
 
-  const handleCancel = (requestId) => {
+  const handleCancel = (requestId: any) => {
     setSelectedRequestToCancel(requestId);
     setIsRejectAction(false);
     setOpenCancelDialog(true);
   };
 
 
-  const handleComplete = (requestId) => {
+  const handleComplete = (requestId: any) => {
     dispatch(setSelectedRequestId(requestId));
     dispatch(setShowBillingForm(true));
   };
 
   const handleBillingComplete = async () => {
+    // @ts-expect-error TS(2345): Argument of type 'AsyncThunkAction<void, void, Asy... Remove this comment to see the full error message
     dispatch(completeRequest(selectedRequestId));
   };
 
-  const handleAccept = (requestId) => {
+  const handleAccept = (requestId: any) => {
+    // @ts-expect-error TS(2345): Argument of type 'AsyncThunkAction<any, void, Asyn... Remove this comment to see the full error message
     dispatch(fetchAvailableContractors(username));
     dispatch(setSelectedRequestId(requestId));
     dispatch(setShowContractorList(true));
   };
 
-  const handleContractorSelect = (contractorId) => {
+  const handleContractorSelect = (contractorId: any) => {
     dispatch(
+      // @ts-expect-error TS(2345): Argument of type 'AsyncThunkAction<{ requestId: an... Remove this comment to see the full error message
       acceptRequest({
         requestId: selectedRequestId,
         contractorId,
@@ -133,23 +139,23 @@ const CompanyRequestList = () => {
     );
   };
 
-  const handleReject = (requestId) => {
+  const handleReject = (requestId: any) => {
     setSelectedRequestToCancel(requestId);
     setIsRejectAction(true);
     setOpenCancelDialog(true);
   };
 
 
-  const handleFilterChange = (status) => {
+  const handleFilterChange = (status: any) => {
     dispatch(setFilter(status));
   };
 
   const filteredRequests =
     filter === "All"
       ? requests
-      : requests.filter((request) => request.status === filter);
+      : requests.filter((request: any) => request.status === filter);
 
-  const handleToggleExpand = (requestId) => {
+  const handleToggleExpand = (requestId: any) => {
     // Si la solicitud ya está expandida, la colapsamos; si no, la expandimos
     setExpandedRequestId(expandedRequestId === requestId ? null : requestId);
   };
@@ -172,7 +178,7 @@ const CompanyRequestList = () => {
 
   }
 
-  const getStatusColor = (status) => {
+  const getStatusColor = (status: any) => {
     switch (status) {
       case "Pendiente":
         return "#fbc02d"; // Amarillo
@@ -338,258 +344,270 @@ const CompanyRequestList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {filteredRequests.map((request) => (
-              <React.Fragment key={request.id}>
-                <TableRow onClick={() => handleToggleExpand(request.id)}>
-                  <TableCell>
-                    <IconButton>
-                      {expandedRequestId === request.id ? (
-                        <KeyboardArrowUp />
-                      ) : (
-                        <KeyboardArrowDown />
-                      )}
-                    </IconButton>
-                  </TableCell>
-                  <TableCell>{request.id}</TableCell>
-                  <TableCell>{getServiceName(request.serviceId)}</TableCell>
-                  <TableCell>
-                    {getContractorName(request.contractorId)}
-                  </TableCell>
-                  <TableCell>
-                    {" "}
-                    {userNames[request.userId]
-                      ? `${userNames[request.userId].name} ${userNames[request.userId].lastName
-                      }`
-                      : "No disponible"}
-                  </TableCell>
-                  <TableCell>
-                    {format(parseISO(request.date), "dd/MM/yyyy")}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      fontWeight: "bold",
-                      color: getStatusColor(request.status),
-                    }}
-                  >
-                    {request.status}
-                  </TableCell>
-                  <TableCell>
-                    {request.status === "Pendiente" && (
-                      <>
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={() => handleAccept(request.id)}
-                          sx={{ marginRight: 1 }}
-                        >
-                          Aceptar
-                        </Button>
-                        <Button
-                          variant="contained"
-                          color="secondary"
-                          onClick={() => handleReject(request.id)}
-                        >
-                          Rechazar
-                        </Button>
-                      </>
+            {filteredRequests.map((request: any) => <React.Fragment key={request.id}>
+              <TableRow onClick={() => handleToggleExpand(request.id)}>
+                <TableCell>
+                  <IconButton>
+                    {expandedRequestId === request.id ? (
+                      <KeyboardArrowUp />
+                    ) : (
+                      <KeyboardArrowDown />
                     )}
-                    {request.status === "En Progreso" && (
-                      <>
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={() => handleComplete(request.id)}
-                          sx={{ marginRight: 1 }}
-                        >
-                          Completar
-                        </Button>
-                        <Button
-                          variant="contained"
-                          color="secondary"
-                          onClick={() => handleCancel(request.id)}
-                        >
-                          Cancelar
-                        </Button>
-                      </>
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    <IconButton
-                      onClick={() => {
-                        const userRoles = sessionStorage.getItem("roles"); // Obtener los roles del usuario
-                        if (userRoles.includes("ALL-CLIENT")) {
-                          navigate(`/client/chat/${request.id}`); // Redirigir a la ruta del chat del cliente
-                        } else if (userRoles.includes("ALL-COMPANY")) {
-                          navigate(`/company/chat/${request.id}`); // Redirigir a la ruta del chat de la compañía
-                        } else {
-                          navigate("/login"); // Si no tiene rol, redirigir a login
-                        }
-                      }} // Redirigir al chat
-                      sx={{ color: "#4392f1" }}
-                    >
-                      <ChatBubbleOutline />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell
-                    style={{ paddingBottom: 0, paddingTop: 0 }}
-                    colSpan={8}
-                  >
-                    <Collapse
-                      in={expandedRequestId === request.id}
-                      timeout="auto"
-                      unmountOnExit
-                    >
-                      <Box
-                        sx={{
-                          padding: 2,
-                          borderRadius: 2,
-                          backgroundColor: "background.paper",
-                          marginBottom: 2,
-                        }}
+                  </IconButton>
+                </TableCell>
+                <TableCell>{request.id}</TableCell>
+                <TableCell>{getServiceName(request.serviceId)}</TableCell>
+                <TableCell>
+                  {getContractorName(request.contractorId)}
+                </TableCell>
+                <TableCell>
+                  {" "}
+                  // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+                  {userNames[request.userId]
+                    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+                    ? `${userNames[request.userId].name} ${userNames[request.userId].lastName
+                    }`
+                    : "No disponible"}
+                </TableCell>
+                <TableCell>
+                  {format(parseISO(request.date), "dd/MM/yyyy")}
+                </TableCell>
+                <TableCell
+                  sx={{
+                    fontWeight: "bold",
+                    color: getStatusColor(request.status),
+                  }}
+                >
+                  {request.status}
+                </TableCell>
+                <TableCell>
+                  {request.status === "Pendiente" && (
+                    <>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => handleAccept(request.id)}
+                        sx={{ marginRight: 1 }}
                       >
-                        <Typography
-                          variant="h6"
-                          color="primary.main"
-                          sx={{ fontWeight: "bold", marginBottom: 2 }}
-                        >
-                          Descripción de la Solicitud
-                        </Typography>
-                        <Typography
-                          variant="body1"
-                          color="text.secondary"
-                          sx={{ marginBottom: 3 }}
-                        >
-                          {request.description}
-                        </Typography>
+                        Aceptar
+                      </Button>
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={() => handleReject(request.id)}
+                      >
+                        Rechazar
+                      </Button>
+                    </>
+                  )}
+                  {request.status === "En Progreso" && (
+                    <>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => handleComplete(request.id)}
+                        sx={{ marginRight: 1 }}
+                      >
+                        Completar
+                      </Button>
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={() => handleCancel(request.id)}
+                      >
+                        Cancelar
+                      </Button>
+                    </>
+                  )}
+                </TableCell>
+                <TableCell>
+                  <IconButton
+                    onClick={() => {
+                      const userRoles = sessionStorage.getItem("roles"); // Obtener los roles del usuario
+                      // @ts-expect-error TS(2531): Object is possibly 'null'.
+                      if (userRoles.includes("ALL-CLIENT")) {
+                        navigate(`/client/chat/${request.id}`); // Redirigir a la ruta del chat del cliente
+                      // @ts-expect-error TS(2531): Object is possibly 'null'.
+                      } else if (userRoles.includes("ALL-COMPANY")) {
+                        navigate(`/company/chat/${request.id}`); // Redirigir a la ruta del chat de la compañía
+                      } else {
+                        navigate("/login"); // Si no tiene rol, redirigir a login
+                      }
+                    }} // Redirigir al chat
+                    sx={{ color: "#4392f1" }}
+                  >
+                    <ChatBubbleOutline />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell
+                  style={{ paddingBottom: 0, paddingTop: 0 }}
+                  colSpan={8}
+                >
+                  <Collapse
+                    in={expandedRequestId === request.id}
+                    timeout="auto"
+                    unmountOnExit
+                  >
+                    <Box
+                      sx={{
+                        padding: 2,
+                        borderRadius: 2,
+                        backgroundColor: "background.paper",
+                        marginBottom: 2,
+                      }}
+                    >
+                      <Typography
+                        variant="h6"
+                        color="primary.main"
+                        sx={{ fontWeight: "bold", marginBottom: 2 }}
+                      >
+                        Descripción de la Solicitud
+                      </Typography>
+                      <Typography
+                        variant="body1"
+                        color="text.secondary"
+                        sx={{ marginBottom: 3 }}
+                      >
+                        {request.description}
+                      </Typography>
 
-                        <Typography
-                          variant="h6"
-                          color="primary.main"
-                          sx={{ fontWeight: "bold", marginBottom: 2 }}
+                      <Typography
+                        variant="h6"
+                        color="primary.main"
+                        sx={{ fontWeight: "bold", marginBottom: 2 }}
+                      >
+                        Información del Usuario Solicitante
+                      </Typography>
+                      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+                      {userNames[request.userId] ? (
+                        <Box
+                          component="dl"
+                          sx={{
+                            display: "grid",
+                            gridTemplateColumns: "auto 1fr",
+                            gap: 1,
+                          }}
                         >
-                          Información del Usuario Solicitante
-                        </Typography>
-                        {userNames[request.userId] ? (
-                          <Box
-                            component="dl"
-                            sx={{
-                              display: "grid",
-                              gridTemplateColumns: "auto 1fr",
-                              gap: 1,
-                            }}
+                          <Typography
+                            component="dt"
+                            variant="body2"
+                            sx={{ fontWeight: "bold", color: "text.primary" }}
                           >
-                            <Typography
-                              component="dt"
-                              variant="body2"
-                              sx={{ fontWeight: "bold", color: "text.primary" }}
-                            >
-                              Nombre:
-                            </Typography>
-                            <Typography component="dd" variant="body2">
-                              {userNames[request.userId].name}
-                            </Typography>
-
-                            <Typography
-                              component="dt"
-                              variant="body2"
-                              sx={{ fontWeight: "bold", color: "text.primary" }}
-                            >
-                              Apellido:
-                            </Typography>
-                            <Typography component="dd" variant="body2">
-                              {userNames[request.userId].lastName}
-                            </Typography>
-
-                            <Typography
-                              component="dt"
-                              variant="body2"
-                              sx={{ fontWeight: "bold", color: "text.primary" }}
-                            >
-                              Email:
-                            </Typography>
-                            <Typography component="dd" variant="body2">
-                              {userNames[request.userId].email}
-                            </Typography>
-
-                            <Typography
-                              component="dt"
-                              variant="body2"
-                              sx={{ fontWeight: "bold", color: "text.primary" }}
-                            >
-                              Teléfono:
-                            </Typography>
-                            <Typography component="dd" variant="body2">
-                              {userNames[request.userId].phone}
-                            </Typography>
-
-                            <Typography
-                              component="dt"
-                              variant="body2"
-                              sx={{ fontWeight: "bold", color: "text.primary" }}
-                            >
-                              Dirección:
-                            </Typography>
-                            <Typography component="dd" variant="body2">
-                              {userNames[request.userId].address}
-                            </Typography>
-
-                            <Typography
-                              component="dt"
-                              variant="body2"
-                              sx={{ fontWeight: "bold", color: "text.primary" }}
-                            >
-                              Ciudad:
-                            </Typography>
-                            <Typography component="dd" variant="body2">
-                              {userNames[request.userId].city}
-                            </Typography>
-
-                            <Typography
-                              component="dt"
-                              variant="body2"
-                              sx={{ fontWeight: "bold", color: "text.primary" }}
-                            >
-                              Estado:
-                            </Typography>
-                            <Typography component="dd" variant="body2">
-                              {userNames[request.userId].state}
-                            </Typography>
-
-                            <Typography
-                              component="dt"
-                              variant="body2"
-                              sx={{ fontWeight: "bold", color: "text.primary" }}
-                            >
-                              País:
-                            </Typography>
-                            <Typography component="dd" variant="body2">
-                              {userNames[request.userId].country}
-                            </Typography>
-
-                            <Typography
-                              component="dt"
-                              variant="body2"
-                              sx={{ fontWeight: "bold", color: "text.primary" }}
-                            >
-                              Código Postal:
-                            </Typography>
-                            <Typography component="dd" variant="body2">
-                              {userNames[request.userId].zipCode}
-                            </Typography>
-                          </Box>
-                        ) : (
-                          <Typography variant="body2" color="text.secondary">
-                            Información no disponible
+                            Nombre:
                           </Typography>
-                        )}
-                      </Box>
-                    </Collapse>
-                  </TableCell>
-                </TableRow>
-              </React.Fragment>
-            ))}
+                          <Typography component="dd" variant="body2">
+                            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+                            {userNames[request.userId].name}
+                          </Typography>
+
+                          <Typography
+                            component="dt"
+                            variant="body2"
+                            sx={{ fontWeight: "bold", color: "text.primary" }}
+                          >
+                            Apellido:
+                          </Typography>
+                          <Typography component="dd" variant="body2">
+                            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+                            {userNames[request.userId].lastName}
+                          </Typography>
+
+                          <Typography
+                            component="dt"
+                            variant="body2"
+                            sx={{ fontWeight: "bold", color: "text.primary" }}
+                          >
+                            Email:
+                          </Typography>
+                          <Typography component="dd" variant="body2">
+                            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+                            {userNames[request.userId].email}
+                          </Typography>
+
+                          <Typography
+                            component="dt"
+                            variant="body2"
+                            sx={{ fontWeight: "bold", color: "text.primary" }}
+                          >
+                            Teléfono:
+                          </Typography>
+                          <Typography component="dd" variant="body2">
+                            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+                            {userNames[request.userId].phone}
+                          </Typography>
+
+                          <Typography
+                            component="dt"
+                            variant="body2"
+                            sx={{ fontWeight: "bold", color: "text.primary" }}
+                          >
+                            Dirección:
+                          </Typography>
+                          <Typography component="dd" variant="body2">
+                            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+                            {userNames[request.userId].address}
+                          </Typography>
+
+                          <Typography
+                            component="dt"
+                            variant="body2"
+                            sx={{ fontWeight: "bold", color: "text.primary" }}
+                          >
+                            Ciudad:
+                          </Typography>
+                          <Typography component="dd" variant="body2">
+                            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+                            {userNames[request.userId].city}
+                          </Typography>
+
+                          <Typography
+                            component="dt"
+                            variant="body2"
+                            sx={{ fontWeight: "bold", color: "text.primary" }}
+                          >
+                            Estado:
+                          </Typography>
+                          <Typography component="dd" variant="body2">
+                            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+                            {userNames[request.userId].state}
+                          </Typography>
+
+                          <Typography
+                            component="dt"
+                            variant="body2"
+                            sx={{ fontWeight: "bold", color: "text.primary" }}
+                          >
+                            País:
+                          </Typography>
+                          <Typography component="dd" variant="body2">
+                            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+                            {userNames[request.userId].country}
+                          </Typography>
+
+                          <Typography
+                            component="dt"
+                            variant="body2"
+                            sx={{ fontWeight: "bold", color: "text.primary" }}
+                          >
+                            Código Postal:
+                          </Typography>
+                          <Typography component="dd" variant="body2">
+                            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+                            {userNames[request.userId].zipCode}
+                          </Typography>
+                        </Box>
+                      ) : (
+                        <Typography variant="body2" color="text.secondary">
+                          Información no disponible
+                        </Typography>
+                      )}
+                    </Box>
+                  </Collapse>
+                </TableCell>
+              </TableRow>
+            </React.Fragment>)}
           </TableBody>
         </Table>
       </TableContainer>
@@ -597,12 +615,13 @@ const CompanyRequestList = () => {
       {showBillingForm && (
         <Box sx={{ marginTop: 3 }}>
           <BillingForm
+            // @ts-expect-error TS(2322): Type '{ show: any; onClose: () => { payload: any; ... Remove this comment to see the full error message
             show={showBillingForm}
             onClose={() => dispatch(setShowBillingForm(false))}
             requestId={selectedRequestId}
-            userId={requests.find((r) => r.id === selectedRequestId)?.userId}
+            userId={requests.find((r: any) => r.id === selectedRequestId)?.userId}
             contractorId={
-              requests.find((r) => r.id === selectedRequestId)?.contractorId
+              requests.find((r: any) => r.id === selectedRequestId)?.contractorId
             }
             onComplete={handleBillingComplete}
           />
@@ -633,13 +652,15 @@ const CompanyRequestList = () => {
           <Button
             onClick={() => {
               const request = requests.find(
-                (r) => r.id === selectedRequestToCancel
+                (r: any) => r.id === selectedRequestToCancel
               );
               if (request) {
                 if (isRejectAction) {
+                  // @ts-expect-error TS(2345): Argument of type 'AsyncThunkAction<void, void, Asy... Remove this comment to see the full error message
                   dispatch(rejectRequest(selectedRequestToCancel));
                 } else {
                   dispatch(
+                    // @ts-expect-error TS(2345): Argument of type 'AsyncThunkAction<any, void, Asyn... Remove this comment to see the full error message
                     cancelCompanyRequest({
                       requestId: selectedRequestToCancel,
                       contractorId: request.contractorId,

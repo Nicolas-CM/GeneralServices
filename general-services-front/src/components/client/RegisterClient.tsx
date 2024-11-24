@@ -28,7 +28,7 @@ const RegisterClient = () => {
     const [messageType, setMessageType] = useState('success'); // Control del tipo de mensaje
     const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
         try {
             const userRequestDto = {
@@ -51,6 +51,7 @@ const RegisterClient = () => {
             setMessageType('success');
             setTimeout(() => navigate('/login'), 2000); // Redirigir después de 2 segundos
         } catch (error) {
+            // @ts-expect-error TS(2571): Object is of type 'unknown'.
             const errorMsg = error.response?.data?.message || 'Error al crear el usuario';
             setMessage(errorMsg);
             setMessageType('error');
@@ -196,6 +197,7 @@ const RegisterClient = () => {
                 {/* Mensaje de estado */}
                 {message && (
                     <Box sx={{ mt: 3 }}>
+                        // @ts-expect-error TS(2322): Type 'string' is not assignable to type '"success"... Remove this comment to see the full error message
                         <Alert severity={messageType}>{message}</Alert>
                     </Box>
                 )}

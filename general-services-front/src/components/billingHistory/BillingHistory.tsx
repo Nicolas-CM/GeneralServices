@@ -38,13 +38,14 @@ const BillingHistory = () => {
         setBillings(response.data);
 
         // Obtener las solicitudes y contratistas asociadas a las facturas
-        const requestIds = [...new Set(response.data.map(billing => billing.requestId))];
-        const contractorIds = [...new Set(response.data.map(billing => billing.contractorId))];
+        const requestIds = [...new Set(response.data.map((billing: any) => billing.requestId))];
+        const contractorIds = [...new Set(response.data.map((billing: any) => billing.contractorId))];
 
         // Obtener las solicitudes utilizando GET
         requestIds.forEach(requestId => {
           axios.get(`/requests/${requestId}`)
             .then(res => {
+              // @ts-expect-error TS(2345): Argument of type '(prevRequests: never[]) => any[]... Remove this comment to see the full error message
               setRequests(prevRequests => [...prevRequests, res.data]);
             })
             .catch(err => console.error('Error al obtener solicitud:', err));
@@ -54,6 +55,7 @@ const BillingHistory = () => {
         contractorIds.forEach(contractorId => {
           axios.get(`/contractors/${contractorId}`)
             .then(res => {
+              // @ts-expect-error TS(2345): Argument of type '(prevContractors: never[]) => an... Remove this comment to see the full error message
               setContractors(prevContractors => [...prevContractors, res.data]);
             })
             .catch(err => console.error('Error al obtener contratista:', err));
@@ -67,13 +69,17 @@ const BillingHistory = () => {
   }, [userId]);
 
   // Funciones auxiliares para obtener datos relacionados
-  const getContractorName = (contractorId) => {
+  const getContractorName = (contractorId: any) => {
+    // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
     const contractor = contractors.find(c => c.id === contractorId);
+    // @ts-expect-error TS(2339): Property 'name' does not exist on type 'never'.
     return contractor ? contractor.name : 'No disponible';
   };
 
-  const getRequestId = (requestId) => {
+  const getRequestId = (requestId: any) => {
+    // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
     const request = requests.find(r => r.id === requestId);
+    // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
     return request ? request.id : 'No disponible';
   };
 
@@ -117,17 +123,25 @@ const BillingHistory = () => {
           </TableHead>
           <TableBody>
             {billings.map(billing => (
+              // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
               <TableRow key={billing.id}>
+                // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
                 <TableCell>{billing.id}</TableCell>
+                // @ts-expect-error TS(2339): Property 'requestId' does not exist on type 'never... Remove this comment to see the full error message
                 <TableCell>{getRequestId(billing.requestId)}</TableCell>
+                // @ts-expect-error TS(2339): Property 'contractorId' does not exist on type 'ne... Remove this comment to see the full error message
                 <TableCell>{getContractorName(billing.contractorId)}</TableCell>
+                // @ts-expect-error TS(2339): Property 'amount' does not exist on type 'never'.
                 <TableCell>${billing.amount.toFixed(2)}</TableCell>
+                // @ts-expect-error TS(2339): Property 'paymentDate' does not exist on type 'nev... Remove this comment to see the full error message
                 <TableCell>{format(parseISO(billing.paymentDate), 'dd/MM/yyyy')}</TableCell>
+                // @ts-expect-error TS(2339): Property 'paymentMethod' does not exist on type 'n... Remove this comment to see the full error message
                 <TableCell>{billing.paymentMethod}</TableCell>
                 <TableCell>
                   <Button
                     variant="contained"
                     color="primary"
+                    // @ts-expect-error TS(2339): Property 'contractorId' does not exist on type 'ne... Remove this comment to see the full error message
                     onClick={() => navigate(`/client/comment/${billing.contractorId}`)}
                   >
                     Agregar Comentario

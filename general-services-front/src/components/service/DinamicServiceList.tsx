@@ -3,7 +3,12 @@ import axios from '../../configs/AxiosConfig';
 import PropTypes from 'prop-types';
 import { Box, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from "@mui/material";
 
-const DinamicServiceList = ({ setSelectedServiceId, setName, setDescription, setCategoryId }) => {
+const DinamicServiceList = ({
+  setSelectedServiceId,
+  setName,
+  setDescription,
+  setCategoryId
+}: any) => {
   const [services, setServices] = useState([]);
   const [categories, setCategories] = useState([]);
   const [filteredServices, setFilteredServices] = useState([]);
@@ -17,13 +22,13 @@ const DinamicServiceList = ({ setSelectedServiceId, setName, setDescription, set
         setServices(response.data);
         setFilteredServices(response.data);
 
-        const categoryRequests = response.data.map(service =>
-          axios.get(`/categories/${service.categoryId}`)
+        const categoryRequests = response.data.map((service: any) => axios.get(`/categories/${service.categoryId}`)
         );
 
         Promise.all(categoryRequests)
           .then(categoryResponses => {
             const fetchedCategories = categoryResponses.map(res => res.data);
+            // @ts-expect-error TS(2345): Argument of type 'any[]' is not assignable to para... Remove this comment to see the full error message
             setCategories(fetchedCategories);
           })
           .catch(err => {
@@ -37,27 +42,32 @@ const DinamicServiceList = ({ setSelectedServiceId, setName, setDescription, set
       });
   }, []);
 
-  const handleSearchChange = (e) => {
+  const handleSearchChange = (e: any) => {
     const value = e.target.value.toLowerCase();
     setSearchTerm(value);
 
     const filtered = services.filter(service =>
+      // @ts-expect-error TS(2339): Property 'name' does not exist on type 'never'.
       service.name.toLowerCase().includes(value) ||
+      // @ts-expect-error TS(2339): Property 'description' does not exist on type 'nev... Remove this comment to see the full error message
       service.description.toLowerCase().includes(value) ||
+      // @ts-expect-error TS(2339): Property 'categoryId' does not exist on type 'neve... Remove this comment to see the full error message
       getCategoryName(service.categoryId).toLowerCase().includes(value)
     );
     setFilteredServices(filtered);
   };
 
-  const handleServiceSelect = (service) => {
+  const handleServiceSelect = (service: any) => {
     setSelectedServiceId(service.id);
     setName(service.name);
     setDescription(service.description);
     setCategoryId(service.categoryId);
   };
 
-  const getCategoryName = (categoryId) => {
+  const getCategoryName = (categoryId: any) => {
+    // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
     const category = categories.find(cat => cat.id === categoryId);
+    // @ts-expect-error TS(2339): Property 'name' does not exist on type 'never'.
     return category ? category.name : 'Categoría no encontrada';
   };
 
@@ -94,13 +104,18 @@ const DinamicServiceList = ({ setSelectedServiceId, setName, setDescription, set
           <TableBody>
             {filteredServices.map((service) => (
               <TableRow
+                // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
                 key={service.id}
                 onClick={() => handleServiceSelect(service)}
                 sx={{ cursor: "pointer", "&:hover": { backgroundColor: "#f1f1f1" } }}
               >
+                // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
                 <TableCell>{service.id}</TableCell>
+                // @ts-expect-error TS(2339): Property 'name' does not exist on type 'never'.
                 <TableCell>{service.name}</TableCell>
+                // @ts-expect-error TS(2339): Property 'description' does not exist on type 'nev... Remove this comment to see the full error message
                 <TableCell>{service.description}</TableCell>
+                // @ts-expect-error TS(2339): Property 'categoryId' does not exist on type 'neve... Remove this comment to see the full error message
                 <TableCell>{getCategoryName(service.categoryId)}</TableCell>
               </TableRow>
             ))}

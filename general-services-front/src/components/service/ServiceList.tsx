@@ -39,7 +39,7 @@ function ServiceList() {
         setServices(response.data);
 
         // Obtener las categorías asociadas a los servicios
-        const categoryIds = response.data.map(service => service.categoryId);
+        const categoryIds = response.data.map((service: any) => service.categoryId);
         if (categoryIds.length > 0) {
           // Enviar los categoryIds al backend para obtener las categorías
           axios.post('/categories/by-ids', categoryIds)
@@ -59,7 +59,7 @@ function ServiceList() {
       });
   }, [userId]);
 
-  const handleOpenDeleteDialog = (serviceId) => {
+  const handleOpenDeleteDialog = (serviceId: any) => {
     setSelectedServiceId(serviceId);
     setDeleteDialogOpen(true);
   };
@@ -68,6 +68,7 @@ function ServiceList() {
     axios
       .delete(`companies/owner/${username}/services/${selectedServiceId}`)
       .then(() => {
+        // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
         setServices(services.filter((service) => service.id !== selectedServiceId));
         setDeleteDialogOpen(false);
       })
@@ -88,8 +89,10 @@ function ServiceList() {
   }
 
   // Función para obtener el nombre de la categoría a partir del ID
-  const getCategoryName = (categoryId) => {
+  const getCategoryName = (categoryId: any) => {
+    // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
     const category = categories.find(cat => cat.id === categoryId);
+    // @ts-expect-error TS(2339): Property 'name' does not exist on type 'never'.
     return category ? category.name : 'Categoría no encontrada';
   };
 
@@ -138,14 +141,20 @@ function ServiceList() {
           </TableHead>
           <TableBody>
             {services.map((service) => (
+              // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
               <TableRow key={service.id}>
+                // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
                 <TableCell>{service.id}</TableCell>
+                // @ts-expect-error TS(2339): Property 'name' does not exist on type 'never'.
                 <TableCell>{service.name}</TableCell>
+                // @ts-expect-error TS(2339): Property 'description' does not exist on type 'nev... Remove this comment to see the full error message
                 <TableCell>{service.description}</TableCell>
+                // @ts-expect-error TS(2339): Property 'categoryId' does not exist on type 'neve... Remove this comment to see the full error message
                 <TableCell>{getCategoryName(service.categoryId)}</TableCell>
                 <TableCell>
                   <Box sx={{ display: "flex", gap: 1 }}>
                     <Button
+                      // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
                       onClick={() => handleOpenDeleteDialog(service.id)}
                       variant="contained"
                       color="secondary"

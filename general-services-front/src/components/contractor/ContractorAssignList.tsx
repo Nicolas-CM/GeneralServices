@@ -2,9 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Table, TableBody, TableCell, TableHead, TableRow, Typography, Box, TableContainer, Paper } from '@mui/material';
 
-const ContractorToAssignList = ({ contractors, onSelect, onClose }) => {
+const ContractorToAssignList = ({
+  contractors,
+  onSelect,
+  onClose
+}: any) => {
 
-  const handleAssign = (contractorId) => {
+  const handleAssign = (contractorId: any) => {
     onSelect(contractorId);
     onClose();
   };

@@ -29,7 +29,7 @@ const EditRole = () => {
         const roleData = response.data;
         setName(roleData.name);
         setDescription(roleData.description);
-        setSelectedPermissions((roleData.permissions || []).map(permission => permission.id)); // Marcar permisos actuales
+        setSelectedPermissions((roleData.permissions || []).map((permission: any) => permission.id)); // Marcar permisos actuales
       })
       .catch(error => {
         setMessage('Error al obtener los datos del rol');
@@ -37,8 +37,10 @@ const EditRole = () => {
       });
   }, [id]);
 
-  const handlePermissionChange = (permissionId) => {
+  const handlePermissionChange = (permissionId: any) => {
+    // @ts-expect-error TS(2345): Argument of type '(prevPermissions: never[]) => an... Remove this comment to see the full error message
     setSelectedPermissions(prevPermissions => {
+      // @ts-expect-error TS(2345): Argument of type 'any' is not assignable to parame... Remove this comment to see the full error message
       if (prevPermissions.includes(permissionId)) {
         return prevPermissions.filter(id => id !== permissionId);
       } else {
@@ -47,7 +49,7 @@ const EditRole = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
       const roleDto = {
@@ -100,13 +102,17 @@ const EditRole = () => {
             <FormGroup>
               {permissions.map(permission => (
                 <FormControlLabel
+                  // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
                   key={permission.id}
                   control={
                     <Checkbox
+                      // @ts-expect-error TS(2345): Argument of type 'any' is not assignable to parame... Remove this comment to see the full error message
                       checked={selectedPermissions.includes(permission.id)}
+                      // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
                       onChange={() => handlePermissionChange(permission.id)}
                     />
                   }
+                  // @ts-expect-error TS(2339): Property 'name' does not exist on type 'never'.
                   label={permission.name}
                 />
               ))}
