@@ -77,7 +77,7 @@ const WelcomeBox = () => {
                 </Paper>
             </Container>
         </Box>
-    )
-}
+    );
+};
 
 export default WelcomeBox;

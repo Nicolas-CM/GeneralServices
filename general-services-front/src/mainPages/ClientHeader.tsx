@@ -29,8 +29,8 @@ const ClientHeader = () => {
   const [reload, setReload] = useState(false);
   
   const [notification, setNotification] = useState(null);
-  console.log("username: ", username);
-  console.log("usernameError: ", usernameError);
+  console.log('username: ', username);
+  console.log('usernameError: ', usernameError);
 
   useEffect(() => {
     if (!username) return;
@@ -38,7 +38,7 @@ const ClientHeader = () => {
 
     StompService.connect(() => {
       StompService.subscribeToNotifications(username, onNotificationReceived);
-      console.log("STOMP connection established.");
+      console.log('STOMP connection established.');
     });
     
     const onNotificationReceived = (message: any) => {

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import axios from '../../configs/AxiosConfig';
+import axios from '../../configs/AxiosConfig';  // Keep this import
 import { useNavigate } from 'react-router-dom';
+import { AxiosError } from 'axios';
+
 import {
     Container,
     Typography,
@@ -25,7 +27,7 @@ const RegisterClient = () => {
     const [country, setCountry] = useState('');
     const [zipCode, setZipCode] = useState('');
     const [message, setMessage] = useState('');
-    const [messageType, setMessageType] = useState('success'); // Control del tipo de mensaje
+    const [messageType, setMessageType] = useState<'success' | 'error'>('success'); // Control del tipo de mensaje
     const navigate = useNavigate();
 
     const handleSubmit = async (e: any) => {
@@ -51,21 +53,26 @@ const RegisterClient = () => {
             setMessageType('success');
             setTimeout(() => navigate('/login'), 2000); // Redirigir después de 2 segundos
         } catch (error) {
-            // @ts-expect-error TS(2571): Object is of type 'unknown'.
-            const errorMsg = error.response?.data?.message || 'Error al crear el usuario';
-            setMessage(errorMsg);
-            setMessageType('error');
+            if (error instanceof AxiosError) {
+                // Now TypeScript knows that error is an AxiosError
+                const errorMsg = error.response?.data?.message || 'Error al crear el usuario';
+                console.error(errorMsg);
+            } else {
+                // Handle other types of errors (non-Axios errors)
+                const errorMsg = (error as Error).message || 'Error desconocido';
+                console.error(errorMsg);
+            }
         }
     };
 
     return (
-        <Container maxWidth="md" sx={{ mt: 4 }}>
+        <Container maxWidth='md' sx={{ mt: 4 }}>
             <Paper elevation={3} sx={{ padding: 4 }}>
                 {/* Título */}
-                <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', textAlign: 'center' }}>
+                <Typography variant='h4' gutterBottom sx={{ fontWeight: 'bold', textAlign: 'center' }}>
                     Crear Nuevo Cliente
                 </Typography>
-                <Typography variant="body1" color="textSecondary" sx={{ textAlign: 'center', mb: 3 }}>
+                <Typography variant='body1' color='textSecondary' sx={{ textAlign: 'center', mb: 3 }}>
                     Completa los datos para registrar una nueva cuenta como cliente.
                 </Typography>
 
@@ -75,7 +82,7 @@ const RegisterClient = () => {
                         {/* Nombre */}
                         <Grid item xs={12} md={6}>
                             <TextField
-                                label="Nombre"
+                                label='Nombre'
                                 fullWidth
                                 required
                                 value={name}
@@ -85,7 +92,7 @@ const RegisterClient = () => {
                         {/* Apellido */}
                         <Grid item xs={12} md={6}>
                             <TextField
-                                label="Apellido"
+                                label='Apellido'
                                 fullWidth
                                 required
                                 value={lastName}
@@ -95,7 +102,7 @@ const RegisterClient = () => {
                         {/* Nombre de Usuario */}
                         <Grid item xs={12} md={6}>
                             <TextField
-                                label="Nombre de Usuario"
+                                label='Nombre de Usuario'
                                 fullWidth
                                 required
                                 value={username}
@@ -105,8 +112,8 @@ const RegisterClient = () => {
                         {/* Correo Electrónico */}
                         <Grid item xs={12} md={6}>
                             <TextField
-                                label="Correo Electrónico"
-                                type="email"
+                                label='Correo Electrónico'
+                                type='email'
                                 fullWidth
                                 required
                                 value={email}
@@ -116,8 +123,8 @@ const RegisterClient = () => {
                         {/* Contraseña */}
                         <Grid item xs={12} md={6}>
                             <TextField
-                                label="Contraseña"
-                                type="password"
+                                label='Contraseña'
+                                type='password'
                                 fullWidth
                                 required
                                 value={password}
@@ -127,7 +134,7 @@ const RegisterClient = () => {
                         {/* Teléfono */}
                         <Grid item xs={12} md={6}>
                             <TextField
-                                label="Teléfono"
+                                label='Teléfono'
                                 fullWidth
                                 required
                                 value={phone}
@@ -137,7 +144,7 @@ const RegisterClient = () => {
                         {/* Dirección */}
                         <Grid item xs={12} md={6}>
                             <TextField
-                                label="Dirección"
+                                label='Dirección'
                                 fullWidth
                                 required
                                 value={address}
@@ -147,7 +154,7 @@ const RegisterClient = () => {
                         {/* Ciudad */}
                         <Grid item xs={12} md={6}>
                             <TextField
-                                label="Ciudad"
+                                label='Ciudad'
                                 fullWidth
                                 required
                                 value={city}
@@ -157,7 +164,7 @@ const RegisterClient = () => {
                         {/* Estado */}
                         <Grid item xs={12} md={6}>
                             <TextField
-                                label="Estado"
+                                label='Estado'
                                 fullWidth
                                 required
                                 value={state}
@@ -167,7 +174,7 @@ const RegisterClient = () => {
                         {/* País */}
                         <Grid item xs={12} md={6}>
                             <TextField
-                                label="País"
+                                label='País'
                                 fullWidth
                                 required
                                 value={country}
@@ -177,7 +184,7 @@ const RegisterClient = () => {
                         {/* Código Postal */}
                         <Grid item xs={12} md={6}>
                             <TextField
-                                label="Código Postal"
+                                label='Código Postal'
                                 fullWidth
                                 required
                                 value={zipCode}
@@ -188,7 +195,7 @@ const RegisterClient = () => {
 
                     {/* Botón de registro */}
                     <Box sx={{ mt: 3, textAlign: 'center' }}>
-                        <Button variant="contained" color="primary" type="submit" size="large">
+                        <Button variant='contained' color='primary' type='submit' size='large'>
                             Crear Usuario
                         </Button>
                     </Box>
@@ -197,7 +204,6 @@ const RegisterClient = () => {
                 {/* Mensaje de estado */}
                 {message && (
                     <Box sx={{ mt: 3 }}>
-                        // @ts-expect-error TS(2322): Type 'string' is not assignable to type '"success"... Remove this comment to see the full error message
                         <Alert severity={messageType}>{message}</Alert>
                     </Box>
                 )}

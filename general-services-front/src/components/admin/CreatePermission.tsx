@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, FormEvent, ChangeEvent } from 'react';
 import axios from '../../configs/AxiosConfig';
 import { useNavigate } from 'react-router-dom';
 import { Box, Button, TextField, Typography, Paper } from '@mui/material';
 
-const CreatePermission = () => {
-  const [name, setName] = useState('');
-  const [resource, setResource] = useState('');
-  const [message, setMessage] = useState('');
+const CreatePermission: React.FC = () => {
+  const [name, setName] = useState<string>('');
+  const [resource, setResource] = useState<string>('');
+  const [message, setMessage] = useState<string>('');
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
       const permissionDto = { name, resource };
@@ -23,8 +23,8 @@ const CreatePermission = () => {
   };
 
   return (
-    <Box sx={{ padding: 3, backgroundColor: "#f4f6f8", borderRadius: 2, maxWidth: 500, margin: "auto" }}>
-      <Typography variant="h4" sx={{ marginBottom: 3, fontWeight: "bold", color: "#4392f1", textAlign: "center" }}>
+    <Box sx={{ padding: 3, backgroundColor: '#f4f6f8', borderRadius: 2, maxWidth: 500, margin: 'auto' }}>
+      <Typography variant="h4" sx={{ marginBottom: 3, fontWeight: 'bold', color: '#4392f1', textAlign: 'center' }}>
         Crear Nuevo Permiso
       </Typography>
       <Paper elevation={3} sx={{ padding: 3, borderRadius: 2 }}>
@@ -51,7 +51,7 @@ const CreatePermission = () => {
               required
             />
           </Box>
-          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Button variant="outlined" color="secondary" onClick={() => navigate('/admin/permissions')}>
               Volver a la lista de permisos
             </Button>

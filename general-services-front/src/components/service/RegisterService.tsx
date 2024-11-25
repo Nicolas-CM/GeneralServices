@@ -3,12 +3,17 @@ import axios from '../../configs/AxiosConfig';
 import useUsername from '../../hooks/useUsername';
 import { useNavigate } from 'react-router-dom';
 import DinamicServiceList from './DinamicServiceList'; // Componente para lista de servicios
-import { Box, Button, TextField, Select, MenuItem, Typography, Grid } from "@mui/material";
+import { Box, Button, TextField, Select, MenuItem, Typography, Grid } from '@mui/material';
 
 const RegisterService = () => {
   const { username, error: usernameError } = useUsername();
   const [companyId, setCompanyId] = useState(null);
-  const [categories, setCategories] = useState([]);
+  interface Category {
+    id: string;
+    name: string;
+  }
+
+  const [categories, setCategories] = useState<Category[]>([]);
   const [selectedServiceId, setSelectedServiceId] = useState('');
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -107,23 +112,23 @@ const RegisterService = () => {
     <Box
       sx={{
         padding: 4,
-        backgroundColor: "#ece8ef",
+        backgroundColor: '#ece8ef',
         borderRadius: 4,
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
         boxShadow: 4,
       }}
     >
       <Typography
-        variant="h4"
+        variant='h4'
         sx={{
           marginBottom: 4,
-          fontWeight: "bold",
-          color: "#4392f1",
-          textAlign: "center",
+          fontWeight: 'bold',
+          color: '#4392f1',
+          textAlign: 'center',
         }}
       >
         Registrar Servicio
@@ -133,9 +138,9 @@ const RegisterService = () => {
         container
         spacing={3}
         sx={{
-          width: "100%",
-          maxWidth: "1200px",
-          backgroundColor: "#ffffff",
+          width: '100%',
+          maxWidth: '1200px',
+          backgroundColor: '#ffffff',
           borderRadius: 3,
           padding: 4,
           boxShadow: 3,
@@ -144,22 +149,22 @@ const RegisterService = () => {
         {/* Seleccionar Servicio Existente */}
         <Grid item xs={12} md={6}>
           <Typography
-            variant="h6"
+            variant='h6'
             sx={{
               marginBottom: 2,
-              fontWeight: "bold",
-              color: "#333",
-              textAlign: "center",
+              fontWeight: 'bold',
+              color: '#333',
+              textAlign: 'center',
             }}
           >
             Seleccionar Servicio Existente
           </Typography>
           <Box
             sx={{
-              border: "1px solid #e7f0ff",
+              border: '1px solid #e7f0ff',
               borderRadius: 2,
               padding: 3,
-              boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.1)",
+              boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.1)',
             }}
           >
             <DinamicServiceList
@@ -174,30 +179,30 @@ const RegisterService = () => {
         {/* Crear Nuevo Servicio */}
         <Grid item xs={12} md={6}>
           <Typography
-            variant="h6"
+            variant='h6'
             sx={{
               marginBottom: 2,
-              fontWeight: "bold",
-              color: "#333",
-              textAlign: "center",
+              fontWeight: 'bold',
+              color: '#333',
+              textAlign: 'center',
             }}
           >
             Crear Nuevo Servicio
           </Typography>
           <Box
-            component="form"
+            component='form'
             onSubmit={handleSubmit}
             sx={{
-              border: "1px solid #e7f0ff",
+              border: '1px solid #e7f0ff',
               borderRadius: 2,
               padding: 3,
-              boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.1)",
+              boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.1)',
             }}
           >
             <TextField
               fullWidth
-              label="Nombre"
-              variant="outlined"
+              label='Nombre'
+              variant='outlined'
               value={name}
               onChange={(e) => setName(e.target.value)}
               disabled={!!selectedServiceId}
@@ -206,10 +211,10 @@ const RegisterService = () => {
             />
             <TextField
               fullWidth
-              label="Descripción"
+              label='Descripción'
               multiline
               minRows={3}
-              variant="outlined"
+              variant='outlined'
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               disabled={!!selectedServiceId}
@@ -217,8 +222,8 @@ const RegisterService = () => {
               sx={{ marginBottom: 3 }}
             />
             <Typography
-              variant="body1"
-              sx={{ marginBottom: 1, color: "#6c757d", fontWeight: "bold" }}
+              variant='body1'
+              sx={{ marginBottom: 1, color: '#6c757d', fontWeight: 'bold' }}
             >
               Categoría
             </Typography>
@@ -231,35 +236,35 @@ const RegisterService = () => {
               displayEmpty
               sx={{ marginBottom: 3 }}
             >
-              <MenuItem value="">
+              <MenuItem value=''>
                 <em>-- Seleccionar --</em>
               </MenuItem>
               {categories.map((category) => (
-                // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
+
                 <MenuItem key={category.id} value={category.id}>
-                  // @ts-expect-error TS(2339): Property 'name' does not exist on type 'never'.
+
                   {category.name}
                 </MenuItem>
               ))}
             </Select>
             <Box
               sx={{
-                display: "flex",
-                justifyContent: "space-between",
+                display: 'flex',
+                justifyContent: 'space-between',
                 marginTop: 3,
               }}
             >
               <Button
-                variant="outlined"
-                color="secondary"
+                variant='outlined'
+                color='secondary'
                 onClick={() => navigate(-1)}
               >
                 Atrás
               </Button>
-              <Button variant="contained" color="primary" type="submit">
+              <Button variant='contained' color='primary' type='submit'>
                 {selectedServiceId
-                  ? "Agregar Servicio Existente"
-                  : "Crear Nuevo Servicio"}
+                  ? 'Agregar Servicio Existente'
+                  : 'Crear Nuevo Servicio'}
               </Button>
             </Box>
           </Box>
@@ -269,12 +274,12 @@ const RegisterService = () => {
       {/* Mensaje de éxito */}
       {success && (
         <Typography
-          variant="body1"
+          variant='body1'
           sx={{
             marginTop: 4,
-            color: "green",
-            textAlign: "center",
-            fontWeight: "bold",
+            color: 'green',
+            textAlign: 'center',
+            fontWeight: 'bold',
           }}
         >
           {success}

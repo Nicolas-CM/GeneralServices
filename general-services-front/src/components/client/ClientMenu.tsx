@@ -41,45 +41,45 @@ const ClientMenu = () => {
   };
 
   useEffect(() => {
-    
+
     checkNotifications();
-    
+
     setPrevLocation(location.pathname);
   }, [location, prevLocation]);
 
   return (
     <Box sx={{ marginBottom: 4 }}>
-      <AppBar position="static">
+      <AppBar position='static'>
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
             Menu de Cliente
           </Typography>
-          <IconButton color="inherit" component={Link} to="/client/home">
+          <IconButton color='inherit' component={Link} to='/client/home'>
             <HomeIcon />
-            <Typography variant="button" display="block">Home</Typography>
+            <Typography variant='button' display='block'>Home</Typography>
           </IconButton>
-          <IconButton color="inherit" component={Link} to="/client/requests">
+          <IconButton color='inherit' component={Link} to='/client/requests'>
             <AssignmentIcon />
-            <Typography variant="button" display="block">Solicitudes</Typography>
+            <Typography variant='button' display='block'>Solicitudes</Typography>
           </IconButton>
-          <IconButton color="inherit" component={Link} to="/client/billing-history">
+          <IconButton color='inherit' component={Link} to='/client/billing-history'>
             <ReceiptIcon />
-            <Typography variant="button" display="block">Facturación</Typography>
+            <Typography variant='button' display='block'>Facturación</Typography>
           </IconButton>
           <IconButton
-            color="inherit"
+            color='inherit'
             component={Link}
-            to="/client/notifications"
+            to='/client/notifications'
           >
             <NotificationsIcon sx={{
               animation: hasUnviewedNotifications ? `${swing} 1s infinite` : 'none',
               transformOrigin: 'top center'
             }} />
-            <Typography variant="button" display="block">Notificaciones</Typography>
+            <Typography variant='button' display='block'>Notificaciones</Typography>
           </IconButton>
-          <IconButton color="inherit" component={Link} to="/client/profile">
+          <IconButton color='inherit' component={Link} to='/client/profile'>
             <AccountCircleIcon />
-            <Typography variant="button" display="block">Perfil</Typography>
+            <Typography variant='button' display='block'>Perfil</Typography>
           </IconButton>
         </Toolbar>
       </AppBar>

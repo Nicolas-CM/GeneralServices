@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import axios from '../../configs/AxiosConfig'; //
+import axios from '../../configs/AxiosConfig';
 import { jwtDecode } from 'jwt-decode';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import { Box, Button, TextField, Typography, Paper, Avatar } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { useOutletContext } from 'react-router-dom';
 
+// Extend the JwtPayload type to include roles
+interface CustomJwtPayload {
+  roles: string[]; // Assuming 'roles' is an array of strings
+  // Include other properties that may exist in your token here
+}
 
 function LoginForm({
   setMessage,
@@ -15,8 +19,8 @@ function LoginForm({
 }: any) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  // @ts-expect-error TS(2339): Property 'handleLoginHeader' does not exist on typ... Remove this comment to see the full error message
-  const { handleLoginHeader } = useOutletContext();
+
+  const { handleLoginHeader } = useOutletContext<{ handleLoginHeader: () => void }>();
 
   // Eliminar cualquier token anterior
   sessionStorage.removeItem('token');
@@ -27,7 +31,7 @@ function LoginForm({
   const handleLogin = async (e: any) => {
     e.preventDefault();
     try {
-      console.log(username, password)
+      console.log(username, password);
       const response = await axios.post('auth/login', { username, password });
       const { token } = response.data;
       console.log('pasó de la 14');
@@ -38,31 +42,24 @@ function LoginForm({
       // Limpiar cualquier token anterior
       sessionStorage.clear();
 
-      const decodedToken = jwtDecode(token);
-
+      // Decode token with the custom type
+      const decodedToken = jwtDecode<CustomJwtPayload>(token);
 
       // Almacenar el nuevo token
       sessionStorage.setItem('token', token);
-      // @ts-expect-error TS(2339): Property 'roles' does not exist on type 'JwtPayloa... Remove this comment to see the full error message
-      sessionStorage.setItem('roles', decodedToken.roles);
+      sessionStorage.setItem('roles', JSON.stringify(decodedToken.roles)); // Save roles as a string
 
       //const userRoles = JSON.parse(sessionStorage.getItem('roles')); // Asume que los roles del usuario están almacenados en sessionStorage como una lista
       const showroles = sessionStorage.getItem('roles');
-      console.log("Roles del usuario:", showroles);
+      console.log('Roles del usuario:', showroles);
 
       // Redirigir al usuario a la página de inicio
       handleLoginHeader();
       navigate('/home'); //Nos vamos pa users
 
     } catch (error) {
-      // @ts-expect-error TS(2571): Object is of type 'unknown'.
-      if (error.response) {
-        // @ts-expect-error TS(2571): Object is of type 'unknown'.
-        setMessage(error.response.data.message);
-      } else {
-        // @ts-expect-error TS(2571): Object is of type 'unknown'.
-        setMessage(error.message || 'Error al iniciar sesion');
-      }
+      setMessage((error as any).data);
+
       console.error('Error:', error);
     }
   };
@@ -83,16 +80,16 @@ function LoginForm({
           <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
+          <Typography component='h1' variant='h5'>
             Iniciar Sesión
           </Typography>
         </Box>
 
-        <Box component="form" onSubmit={handleLogin}>
+        <Box component='form' onSubmit={handleLogin}>
           <TextField
             fullWidth
-            label="Usuario"
-            variant="outlined"
+            label='Usuario'
+            variant='outlined'
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             sx={{ mb: 2 }}
@@ -100,18 +97,18 @@ function LoginForm({
           />
           <TextField
             fullWidth
-            label="Contraseña"
-            variant="outlined"
-            type="password"
+            label='Contraseña'
+            variant='outlined'
+            type='password'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             sx={{ mb: 2 }}
             required
           />
           <Button
-            type="submit"
-            variant="contained"
-            color="primary"
+            type='submit'
+            variant='contained'
+            color='primary'
             fullWidth
             sx={{ py: 1.5 }}
           >
@@ -121,8 +118,8 @@ function LoginForm({
           {/* Mover el mensaje de error aquí */}
           {message && (
             <Typography
-              variant="h6"
-              color="error"
+              variant='h6'
+              color='error'
               sx={{ fontWeight: 'bold', marginTop: 2, textAlign: 'center' }}
             >
               <strong>¡Advertencia!</strong> {message}
@@ -132,7 +129,8 @@ function LoginForm({
       </Paper>
     </Box>
   );
-};
+}
+
 LoginForm.propTypes = {
   setMessage: PropTypes.func.isRequired,
   message: PropTypes.string,

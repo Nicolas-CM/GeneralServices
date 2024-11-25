@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from '../../configs/AxiosConfig';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Box, Button, Typography, TextField } from "@mui/material";
+import { Box, Button, Typography, TextField } from '@mui/material';
 
 
 const EditContractor = () => {
@@ -41,8 +41,8 @@ const EditContractor = () => {
   };
 
   return (
-    <Box sx={{ padding: 3, backgroundColor: "#f4f6f8", borderRadius: 2, maxWidth: 500, margin: "auto" }}>
-      <Typography variant="h4" sx={{ marginBottom: 3, fontWeight: "bold", color: "#4392f1", textAlign: "center" }}>
+    <Box sx={{ padding: 3, backgroundColor: '#f4f6f8', borderRadius: 2, maxWidth: 500, margin: 'auto' }}>
+      <Typography variant="h4" sx={{ marginBottom: 3, fontWeight: 'bold', color: '#4392f1', textAlign: 'center' }}>
         Editar Contratista
       </Typography>
       <form onSubmit={handleSubmit}>
@@ -61,7 +61,7 @@ const EditContractor = () => {
           type="submit"
           variant="contained"
           color="primary"
-          sx={{ display: "block", width: "100%", marginBottom: 2 }}
+          sx={{ display: 'block', width: '100%', marginBottom: 2 }}
         >
           Actualizar Contratista
         </Button>
@@ -75,13 +75,13 @@ const EditContractor = () => {
         variant="outlined"
         color="secondary"
         onClick={() => navigate(-1)}
-        sx={{ display: "block", width: "100%" }}
+        sx={{ display: 'block', width: '100%' }}
       >
         Volver a la página anterior
       </Button>
     </Box>
   );
-  
+
 };
 
 export default EditContractor;

@@ -1,28 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import axios from '../../configs/AxiosConfig';
 import { useNavigate } from 'react-router-dom';
 import { Box, Button, TextField, Typography, Paper, MenuItem, Select, FormControl, InputLabel } from '@mui/material';
 
-const CreateUser = () => {
-  const [username, setUsername] = useState('');
-  const [name, setName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [phone, setPhone] = useState('');
-  const [address, setAddress] = useState('');
-  const [city, setCity] = useState('');
-  const [state, setState] = useState('');
-  const [country, setCountry] = useState('');
-  const [zipCode, setZipCode] = useState('');
-  const [roles, setRoles] = useState([]);
-  const [roleId, setRoleId] = useState('');
-  const [message, setMessage] = useState('');
+interface Role {
+  id: string;
+  name: string;
+}
+
+const CreateUser: React.FC = () => {
+  const [username, setUsername] = useState<string>('');
+  const [name, setName] = useState<string>('');
+  const [lastName, setLastName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [phone, setPhone] = useState<string>('');
+  const [address, setAddress] = useState<string>('');
+  const [city, setCity] = useState<string>('');
+  const [state, setState] = useState<string>('');
+  const [country, setCountry] = useState<string>('');
+  const [zipCode, setZipCode] = useState<string>('');
+  const [roles, setRoles] = useState<Role[]>([]);
+  const [roleId, setRoleId] = useState<string>('');
+  const [message, setMessage] = useState<string>('');
   const navigate = useNavigate();
 
   useEffect(() => {
     // Obtener los roles disponibles para asignar al usuario
-    axios.get('roles')
+    axios
+      .get<Role[]>('roles')
       .then(response => {
         setRoles(response.data);
       })
@@ -32,7 +38,7 @@ const CreateUser = () => {
       });
   }, []);
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
       const userRequestDto = {
@@ -53,21 +59,15 @@ const CreateUser = () => {
       setMessage('Usuario creado exitosamente');
       navigate('/admin/users');
     } catch (error) {
-      // @ts-expect-error TS(2571): Object is of type 'unknown'.
-      if (error.response) {
-        // @ts-expect-error TS(2571): Object is of type 'unknown'.
-        setMessage(error.response.data.message);
-      } else {
-        // @ts-expect-error TS(2571): Object is of type 'unknown'.
-        setMessage(error.message || 'Error al crear el usuario');
-      }
+      setMessage('Error al crear el usuario');
       console.error('Error:', error);
     }
   };
 
+
   return (
-    <Box sx={{ padding: 3, backgroundColor: "#f4f6f8", borderRadius: 2, maxWidth: 500, margin: "auto" }}>
-      <Typography variant="h4" sx={{ marginBottom: 3, fontWeight: "bold", color: "#4392f1", textAlign: "center" }}>
+    <Box sx={{ padding: 3, backgroundColor: '#f4f6f8', borderRadius: 2, maxWidth: 500, margin: 'auto' }}>
+      <Typography variant="h4" sx={{ marginBottom: 3, fontWeight: 'bold', color: '#4392f1', textAlign: 'center' }}>
         Crear Nuevo Usuario
       </Typography>
       <Paper elevation={3} sx={{ padding: 3, borderRadius: 2 }}>
@@ -197,13 +197,12 @@ const CreateUser = () => {
                   <em>Seleccione un rol</em>
                 </MenuItem>
                 {roles.map(role => (
-                  // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
                   <MenuItem key={role.id} value={role.id}>{role.name}</MenuItem>
                 ))}
               </Select>
             </FormControl>
           </Box>
-          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Button variant="outlined" color="secondary" onClick={() => navigate('/admin/users')}>
               Volver a la lista de usuarios
             </Button>

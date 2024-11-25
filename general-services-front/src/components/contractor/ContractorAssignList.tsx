@@ -62,14 +62,14 @@ const ContractorToAssignList = ({
 
 
   return (
-    <Box sx={{ padding: 3, backgroundColor: "#f4f6f8", borderRadius: 2, marginBottom: 1 }}>
-      <Typography variant="h4" sx={{ fontWeight: 'bold', color: "#4392f1", marginBottom: 3 }}>
+    <Box sx={{ padding: 3, backgroundColor: '#f4f6f8', borderRadius: 2, marginBottom: 1 }}>
+      <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#4392f1', marginBottom: 3 }}>
         Lista de Contratistas Disponibles
       </Typography>
 
       <TableContainer component={Paper} sx={{ boxShadow: 3, borderRadius: 2 }}>
         <Table>
-          <TableHead sx={{ backgroundColor: "#ece8ef" }}>
+          <TableHead sx={{ backgroundColor: '#ece8ef' }}>
             <TableRow>
               <TableCell sx={{ fontWeight: 'bold', color: '#4392f1' }}>ID</TableCell>
               <TableCell sx={{ fontWeight: 'bold', color: '#4392f1' }}>Nombre</TableCell>

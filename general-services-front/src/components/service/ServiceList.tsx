@@ -2,16 +2,29 @@ import React, { useEffect, useState } from 'react';
 import axios from '../../configs/AxiosConfig';
 import useUsername from '../../hooks/useUsername';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper,  Dialog, DialogTitle, DialogContent, DialogActions
-} from "@mui/material";
+import {
+  Box, Button, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Dialog, DialogTitle, DialogContent, DialogActions
+} from '@mui/material';
 
 function ServiceList() {
   const { username, error: usernameError } = useUsername();
   const [userId, setUserId] = useState(null);
-  const [services, setServices] = useState([]);
-  const [categories, setCategories] = useState([]); // Para almacenar las categorías
+  interface Service {
+    id: number;
+    name: string;
+    description: string;
+    categoryId: number;
+  }
+
+  const [services, setServices] = useState<Service[]>([]);
+  interface Category {
+    id: number;
+    name: string;
+  }
+
+  const [categories, setCategories] = useState<Category[]>([]); // Para almacenar las categorías
   const [error, setError] = useState('');
-  const  navigate  = useNavigate();
+  const navigate = useNavigate();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedServiceId, setSelectedServiceId] = useState(null);
 
@@ -35,7 +48,7 @@ function ServiceList() {
 
     axios.get(`/services/user/${userId}`)
       .then((response) => {
-        console.log("Servicios obtenidos:", response.data);
+        console.log('Servicios obtenidos:', response.data);
         setServices(response.data);
 
         // Obtener las categorías asociadas a los servicios
@@ -45,7 +58,7 @@ function ServiceList() {
           axios.post('/categories/by-ids', categoryIds)
             .then(categoryResponse => {
               setCategories(categoryResponse.data); // Guardamos las categorías obtenidas
-              console.log("Categorías obtenidas:", categoryResponse.data);
+              console.log('Categorías obtenidas:', categoryResponse.data);
             })
             .catch(err => {
               setError('Error al obtener las categorías');
@@ -68,17 +81,17 @@ function ServiceList() {
     axios
       .delete(`companies/owner/${username}/services/${selectedServiceId}`)
       .then(() => {
-        // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
+
         setServices(services.filter((service) => service.id !== selectedServiceId));
         setDeleteDialogOpen(false);
       })
       .catch((err) => {
-        console.error("Error eliminando el servicio:", err);
-        alert("Hubo un error al eliminar el servicio.");
+        console.error('Error eliminando el servicio:', err);
+        alert('Hubo un error al eliminar el servicio.');
         setDeleteDialogOpen(false);
       });
   };
-  
+
 
   if (usernameError) {
     return <div>{usernameError}</div>;
@@ -88,16 +101,16 @@ function ServiceList() {
     return <div>{error}</div>;
   }
 
-  // Función para obtener el nombre de la categoría a partir del ID
+
   const getCategoryName = (categoryId: any) => {
-    // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
+
     const category = categories.find(cat => cat.id === categoryId);
-    // @ts-expect-error TS(2339): Property 'name' does not exist on type 'never'.
+
     return category ? category.name : 'Categoría no encontrada';
   };
 
   return (
-    <Box sx={{ padding: 3, backgroundColor: "#f4f6f8", borderRadius: 2, marginBottom: 3 }}>
+    <Box sx={{ padding: 3, backgroundColor: '#f4f6f8', borderRadius: 2, marginBottom: 3 }}>
       <Dialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
         <DialogTitle>Confirmar Eliminación</DialogTitle>
         <DialogContent>
@@ -106,23 +119,23 @@ function ServiceList() {
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleDelete} color="primary" variant="contained">
+          <Button onClick={handleDelete} color='primary' variant='contained'>
             Confirmar
           </Button>
-          <Button onClick={() => setDeleteDialogOpen(false)} color="secondary" variant="outlined">
+          <Button onClick={() => setDeleteDialogOpen(false)} color='secondary' variant='outlined'>
             Cancelar
           </Button>
         </DialogActions>
       </Dialog>
 
-      <Typography variant="h4" sx={{ marginBottom: 3, fontWeight: "bold", color: "#4392f1" }}>
+      <Typography variant='h4' sx={{ marginBottom: 3, fontWeight: 'bold', color: '#4392f1' }}>
         Lista de Servicios
       </Typography>
 
       <Button
-        variant="contained"
-        color="primary"
-        onClick={() => navigate("/company/create-service")}
+        variant='contained'
+        color='primary'
+        onClick={() => navigate('/company/create-service')}
         sx={{ marginBottom: 3 }}
       >
         Nuevo Servicio
@@ -130,7 +143,7 @@ function ServiceList() {
 
       <TableContainer component={Paper} sx={{ boxShadow: 3, borderRadius: 2 }}>
         <Table>
-          <TableHead sx={{ backgroundColor: "#ece8ef" }}>
+          <TableHead sx={{ backgroundColor: '#ece8ef' }}>
             <TableRow>
               <TableCell sx={{ fontWeight: 'bold', color: '#4392f1' }}>ID</TableCell>
               <TableCell sx={{ fontWeight: 'bold', color: '#4392f1' }}>Nombre</TableCell>
@@ -140,25 +153,25 @@ function ServiceList() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {services.map((service) => (
-              // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
+            {services.map((service: Service) => (
+
               <TableRow key={service.id}>
-                // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
+
                 <TableCell>{service.id}</TableCell>
-                // @ts-expect-error TS(2339): Property 'name' does not exist on type 'never'.
+
                 <TableCell>{service.name}</TableCell>
-                // @ts-expect-error TS(2339): Property 'description' does not exist on type 'nev... Remove this comment to see the full error message
+
                 <TableCell>{service.description}</TableCell>
-                // @ts-expect-error TS(2339): Property 'categoryId' does not exist on type 'neve... Remove this comment to see the full error message
+
                 <TableCell>{getCategoryName(service.categoryId)}</TableCell>
                 <TableCell>
-                  <Box sx={{ display: "flex", gap: 1 }}>
+                  <Box sx={{ display: 'flex', gap: 1 }}>
                     <Button
-                      // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
+
                       onClick={() => handleOpenDeleteDialog(service.id)}
-                      variant="contained"
-                      color="secondary"
-                      size="small"
+                      variant='contained'
+                      color='secondary'
+                      size='small'
                     >
                       Eliminar
                     </Button>
@@ -171,6 +184,6 @@ function ServiceList() {
       </TableContainer>
     </Box>
   );
-};
+}
 
 export default ServiceList;

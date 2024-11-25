@@ -6,7 +6,7 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { useNavigate } from 'react-router-dom';
 
 const ErrorBoundary = () => {
-    const error = useRouteError();
+    const error = useRouteError() as { status?: number; statusText?: string; message?: string };
     const navigate = useNavigate();
     console.error(error);
 
@@ -36,7 +36,7 @@ const ErrorBoundary = () => {
                     textAlign: 'center',
                 }}
             >
-                // @ts-expect-error TS(2571): Object is of type 'unknown'.
+
                 {error.status === 404 ? '404 - Página no encontrada' : '¡Vaya! Algo salió mal'}
             </Typography>
             <Typography
@@ -48,10 +48,10 @@ const ErrorBoundary = () => {
                     marginBottom: 4,
                 }}
             >
-                // @ts-expect-error TS(2571): Object is of type 'unknown'.
+
                 {error.status === 404
                     ? 'Lo sentimos, la página que estás buscando no existe.'
-                    // @ts-expect-error TS(2571): Object is of type 'unknown'.
+
                     : error.statusText || error.message}
             </Typography>
             <Button

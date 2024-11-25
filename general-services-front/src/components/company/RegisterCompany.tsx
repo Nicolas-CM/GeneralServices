@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from '../../configs/AxiosConfig';
+import axios, { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import {
     Container,
@@ -35,7 +35,7 @@ const RegisterCompany = () => {
     const [companyZipCode, setCompanyZipCode] = useState('');
     const [companyEmail, setCompanyEmail] = useState('');
     const [message, setMessage] = useState('');
-    const [messageType, setMessageType] = useState('success');
+    const [messageType, setMessageType] = useState<'success' | 'error' | 'warning' | 'info'>('success');
     const navigate = useNavigate();
     const roleIdCompany = 3;
 
@@ -79,28 +79,32 @@ const RegisterCompany = () => {
             setMessageType('success');
             setTimeout(() => navigate('/login'), 2000); // Redirigir después de 2 segundos
         } catch (error) {
-            // @ts-expect-error TS(2571): Object is of type 'unknown'.
-            const errorMsg = error.response?.data?.message || 'Error al crear el usuario y la compañía';
-            setMessage(errorMsg);
+            if (axios.isAxiosError(error)) {
+                const errorMsg = error.response?.data?.message || 'Error al crear el usuario y la compañía';
+                setMessage(errorMsg);
+            } else {
+                setMessage('Error desconocido al crear el usuario y la compañía');
+            }
             setMessageType('error');
         }
+
     };
 
     return (
-        <Container maxWidth="md" sx={{ mt: 4 }}>
+        <Container maxWidth='md' sx={{ mt: 4 }}>
             <Paper elevation={3} sx={{ p: 4 }}>
-                <Typography variant="h4" gutterBottom fontWeight="bold" textAlign="center">
+                <Typography variant='h4' gutterBottom fontWeight='bold' textAlign='center'>
                     Crear Nueva Compañía
                 </Typography>
                 <Divider sx={{ mb: 3 }} />
 
-                <Box component="form" onSubmit={handleSubmit} noValidate>
+                <Box component='form' onSubmit={handleSubmit} noValidate>
                     {/* Formulario */}
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
                             <TextField
                                 fullWidth
-                                label="Nombre"
+                                label='Nombre'
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 required
@@ -109,7 +113,7 @@ const RegisterCompany = () => {
                         <Grid item xs={12} sm={6}>
                             <TextField
                                 fullWidth
-                                label="Apellido"
+                                label='Apellido'
                                 value={lastName}
                                 onChange={(e) => setLastName(e.target.value)}
                                 required
@@ -118,7 +122,7 @@ const RegisterCompany = () => {
                         <Grid item xs={12} sm={6}>
                             <TextField
                                 fullWidth
-                                label="Nombre de Usuario"
+                                label='Nombre de Usuario'
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
                                 required
@@ -127,8 +131,8 @@ const RegisterCompany = () => {
                         <Grid item xs={12} sm={6}>
                             <TextField
                                 fullWidth
-                                label="Correo Electrónico"
-                                type="email"
+                                label='Correo Electrónico'
+                                type='email'
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
@@ -137,8 +141,8 @@ const RegisterCompany = () => {
                         <Grid item xs={12} sm={6}>
                             <TextField
                                 fullWidth
-                                label="Contraseña"
-                                type="password"
+                                label='Contraseña'
+                                type='password'
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
@@ -147,7 +151,7 @@ const RegisterCompany = () => {
                         <Grid item xs={12} sm={6}>
                             <TextField
                                 fullWidth
-                                label="Teléfono"
+                                label='Teléfono'
                                 value={phone}
                                 onChange={(e) => setPhone(e.target.value)}
                                 required
@@ -156,7 +160,7 @@ const RegisterCompany = () => {
                         <Grid item xs={12}>
                             <TextField
                                 fullWidth
-                                label="Dirección"
+                                label='Dirección'
                                 value={address}
                                 onChange={(e) => setAddress(e.target.value)}
                                 required
@@ -165,7 +169,7 @@ const RegisterCompany = () => {
                         <Grid item xs={12} sm={4}>
                             <TextField
                                 fullWidth
-                                label="Ciudad"
+                                label='Ciudad'
                                 value={city}
                                 onChange={(e) => setCity(e.target.value)}
                                 required
@@ -174,7 +178,7 @@ const RegisterCompany = () => {
                         <Grid item xs={12} sm={4}>
                             <TextField
                                 fullWidth
-                                label="Estado"
+                                label='Estado'
                                 value={state}
                                 onChange={(e) => setState(e.target.value)}
                                 required
@@ -183,7 +187,7 @@ const RegisterCompany = () => {
                         <Grid item xs={12} sm={4}>
                             <TextField
                                 fullWidth
-                                label="País"
+                                label='País'
                                 value={country}
                                 onChange={(e) => setCountry(e.target.value)}
                                 required
@@ -192,7 +196,7 @@ const RegisterCompany = () => {
                         <Grid item xs={12} sm={6}>
                             <TextField
                                 fullWidth
-                                label="Código Postal"
+                                label='Código Postal'
                                 value={zipCode}
                                 onChange={(e) => setZipCode(e.target.value)}
                                 required
@@ -202,14 +206,14 @@ const RegisterCompany = () => {
 
                     <Divider sx={{ my: 3 }} />
 
-                    <Typography variant="h6" gutterBottom fontWeight="bold">
+                    <Typography variant='h6' gutterBottom fontWeight='bold'>
                         Datos de la Compañía
                     </Typography>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <TextField
                                 fullWidth
-                                label="Nombre de la Compañía"
+                                label='Nombre de la Compañía'
                                 value={companyName}
                                 onChange={(e) => setCompanyName(e.target.value)}
                                 required
@@ -218,7 +222,7 @@ const RegisterCompany = () => {
                         <Grid item xs={12}>
                             <TextField
                                 fullWidth
-                                label="Descripción"
+                                label='Descripción'
                                 value={companyDescription}
                                 onChange={(e) => setCompanyDescription(e.target.value)}
                                 required
@@ -227,7 +231,7 @@ const RegisterCompany = () => {
                         <Grid item xs={12} sm={6}>
                             <TextField
                                 fullWidth
-                                label="Teléfono"
+                                label='Teléfono'
                                 value={companyPhone}
                                 onChange={(e) => setCompanyPhone(e.target.value)}
                                 required
@@ -236,7 +240,7 @@ const RegisterCompany = () => {
                         <Grid item xs={12}>
                             <TextField
                                 fullWidth
-                                label="Dirección"
+                                label='Dirección'
                                 value={companyAddress}
                                 onChange={(e) => setCompanyAddress(e.target.value)}
                                 required
@@ -245,7 +249,7 @@ const RegisterCompany = () => {
                         <Grid item xs={12} sm={4}>
                             <TextField
                                 fullWidth
-                                label="Ciudad"
+                                label='Ciudad'
                                 value={companyCity}
                                 onChange={(e) => setCompanyCity(e.target.value)}
                                 required
@@ -254,7 +258,7 @@ const RegisterCompany = () => {
                         <Grid item xs={12} sm={4}>
                             <TextField
                                 fullWidth
-                                label="Estado"
+                                label='Estado'
                                 value={companyState}
                                 onChange={(e) => setCompanyState(e.target.value)}
                                 required
@@ -263,7 +267,7 @@ const RegisterCompany = () => {
                         <Grid item xs={12} sm={4}>
                             <TextField
                                 fullWidth
-                                label="País"
+                                label='País'
                                 value={companyCountry}
                                 onChange={(e) => setCompanyCountry(e.target.value)}
                                 required
@@ -272,7 +276,7 @@ const RegisterCompany = () => {
                         <Grid item xs={12} sm={6}>
                             <TextField
                                 fullWidth
-                                label="Código Postal"
+                                label='Código Postal'
                                 value={companyZipCode}
                                 onChange={(e) => setCompanyZipCode(e.target.value)}
                                 required
@@ -281,8 +285,8 @@ const RegisterCompany = () => {
                         <Grid item xs={12} sm={6}>
                             <TextField
                                 fullWidth
-                                label="Correo Electrónico"
-                                type="email"
+                                label='Correo Electrónico'
+                                type='email'
                                 value={companyEmail}
                                 onChange={(e) => setCompanyEmail(e.target.value)}
                                 required
@@ -291,7 +295,7 @@ const RegisterCompany = () => {
                     </Grid>
 
                     <Box sx={{ mt: 3 }}>
-                        <Button variant="contained" color="primary" type="submit" fullWidth>
+                        <Button variant='contained' color='primary' type='submit' fullWidth>
                             Crear Usuario y Compañía
                         </Button>
                     </Box>
@@ -300,7 +304,7 @@ const RegisterCompany = () => {
                 {/* Mensaje de éxito o error */}
                 {message && (
                     <Box sx={{ mt: 3 }}>
-                        // @ts-expect-error TS(2322): Type 'string' is not assignable to type '"success"... Remove this comment to see the full error message
+
                         <Alert severity={messageType}>{message}</Alert>
                     </Box>
                 )}

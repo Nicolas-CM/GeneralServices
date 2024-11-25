@@ -1,22 +1,26 @@
 import { useEffect, useState } from 'react';
-import {jwtDecode} from 'jwt-decode'; // Asegúrate de tener instalada esta librería
+import { jwtDecode } from 'jwt-decode'; // Asegúrate de tener instalada esta librería
 
 const useUsername = () => {
-  const [username, setUsername] = useState(null);
-  const [error, setError] = useState(null);
+  const [username, setUsername] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     try {
       const token = sessionStorage.getItem('token');
       if (token) {
         const decoded = jwtDecode(token);
-        console.log("decoded: ", decoded);
-        console.log("username: ", decoded.sub);
-        // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
-        setUsername(decoded.sub); // Extraemos el username en lugar del userId
+        console.log('decoded: ', decoded);
+        console.log('username: ', decoded.sub);
+
+        if (typeof decoded.sub === 'string') {
+          setUsername(decoded.sub); // Extraemos el username en lugar del userId
+        } else {
+          setError('El token no contiene un username válido');
+        }
       }
     } catch (err) {
-      // @ts-expect-error TS(2345): Argument of type '"Error al decodificar el token"'... Remove this comment to see the full error message
+
       setError('Error al decodificar el token');
     }
   }, []);

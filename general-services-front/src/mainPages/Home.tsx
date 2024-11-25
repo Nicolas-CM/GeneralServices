@@ -5,17 +5,17 @@ import { useNavigate } from 'react-router-dom';
 const Home = () => {
   const navigate = useNavigate();
   const userRoles = sessionStorage.getItem('roles'); // Asume que el rol del usuario está almacenado en sessionStorage
-  console.log("Rol del usuario:", userRoles);
+  console.log('Rol del usuario:', userRoles);
 
   useEffect(() => {
-    // @ts-expect-error TS(2531): Object is possibly 'null'.
-    if (userRoles.includes('READ-USER')) {
+
+    if (userRoles && userRoles.includes('READ-USER')) {
       navigate('/admin/users');
-    // @ts-expect-error TS(2531): Object is possibly 'null'.
-    } else if (userRoles.includes('ALL-CLIENT')) {
+
+    } else if (userRoles && userRoles.includes('ALL-CLIENT')) {
       navigate('/client/home');
-    // @ts-expect-error TS(2531): Object is possibly 'null'.
-    } else if (userRoles.includes('ALL-COMPANY')) {
+
+    } else if (userRoles && userRoles.includes('ALL-COMPANY')) {
       navigate('/company/home');
     } else {
       navigate('/login'); // Redirige a la página principal si no hay rol

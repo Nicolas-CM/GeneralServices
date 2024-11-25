@@ -1,29 +1,52 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import axios from '../../configs/AxiosConfig';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Button, TextField, Typography, Paper, MenuItem, Select, FormControl, InputLabel } from '@mui/material';
+// Define los tipos para los datos del usuario y los roles
+interface Role {
+  id: string;
+  name: string;
+}
 
-const EditUser = () => {
-  const [username, setUsername] = useState('');
-  const [name, setName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [phone, setPhone] = useState('');
-  const [address, setAddress] = useState('');
-  const [city, setCity] = useState('');
-  const [state, setState] = useState('');
-  const [country, setCountry] = useState('');
-  const [zipCode, setZipCode] = useState('');
-  const [roles, setRoles] = useState([]);
-  const [roleId, setRoleId] = useState('');
-  const [error, setError] = useState('');
-  const [user, setUser] = useState(null);
-  const { id } = useParams();
+interface User {
+  id: string;
+  username: string;
+  name: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  address: string;
+  city: string;
+  state: string;
+  country: string;
+  zipCode: string;
+  roles: Role[];
+}
+
+const EditUser: React.FC = () => {
+  const [username, setUsername] = useState<string>('');
+  const [name, setName] = useState<string>('');
+  const [lastName, setLastName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [phone, setPhone] = useState<string>('');
+  const [address, setAddress] = useState<string>('');
+  const [city, setCity] = useState<string>('');
+  const [state, setState] = useState<string>('');
+  const [country, setCountry] = useState<string>('');
+  const [zipCode, setZipCode] = useState<string>('');
+  const [roles, setRoles] = useState<Role[]>([]);
+  const [roleId, setRoleId] = useState<string>('');
+  const [error, setError] = useState<string>('');
+  const [user, setUser] = useState<User | null>(null);
+
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('roles')
+    // Obtener roles
+    axios
+      .get<Role[]>('roles')
       .then(response => {
         setRoles(response.data);
       })
@@ -32,7 +55,9 @@ const EditUser = () => {
         console.error('Error:', error);
       });
 
-    axios.get(`users/${id}`)
+    // Obtener datos del usuario
+    axios
+      .get<User>(`users/${id}`)
       .then(response => {
         const userData = response.data;
         setUsername(userData.username);
@@ -54,8 +79,9 @@ const EditUser = () => {
       });
   }, [id]);
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
+
     const userRequestDto = {
       id,
       username,
@@ -71,7 +97,9 @@ const EditUser = () => {
       zipCode,
       roleId,
     };
-    axios.put(`users/${id}`, userRequestDto)
+
+    axios
+      .put(`users/${id}`, userRequestDto)
       .then(() => {
         navigate('/admin/users');
       })
@@ -86,8 +114,8 @@ const EditUser = () => {
   }
 
   return (
-    <Box sx={{ padding: 3, backgroundColor: "#f4f6f8", borderRadius: 2, maxWidth: 600, margin: "auto" }}>
-      <Typography variant="h4" sx={{ marginBottom: 3, fontWeight: "bold", color: "#4392f1", textAlign: "center" }}>
+    <Box sx={{ padding: 3, backgroundColor: '#f4f6f8', borderRadius: 2, maxWidth: 600, margin: 'auto' }}>
+      <Typography variant="h4" sx={{ marginBottom: 3, fontWeight: 'bold', color: '#4392f1', textAlign: 'center' }}>
         Editar Usuario
       </Typography>
       <Paper elevation={3} sx={{ padding: 3, borderRadius: 2 }}>
@@ -217,13 +245,12 @@ const EditUser = () => {
                   <em>Seleccione un rol</em>
                 </MenuItem>
                 {roles.map(role => (
-                  // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
                   <MenuItem key={role.id} value={role.id}>{role.name}</MenuItem>
                 ))}
               </Select>
             </FormControl>
           </Box>
-          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Button variant="outlined" color="secondary" onClick={() => navigate('/admin/users')}>
               Volver a la lista de usuarios
             </Button>

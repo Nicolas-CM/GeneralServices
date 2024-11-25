@@ -37,12 +37,64 @@ import {
   setFilter,
 } from "../../store/slices/requestsSlice";
 import { useNavigate } from "react-router-dom";
+import { AppDispatch } from "../../store"; // Import AppDispatch
+
+
+interface Request {
+  id: string;
+  serviceId: string;
+  contractorId: string;
+  companyId: string;
+  date: string;
+  status: string;
+}
+
+interface Contractor {
+  id: string;
+  name: string;
+}
+
+interface Service {
+  id: string;
+  name: string;
+}
+
+interface Company {
+  id: string;
+  name: string;
+  description: string;
+  phone: string;
+  address: string;
+  city: string;
+  state: string;
+  country: string;
+  zipCode: string;
+  email: string;
+}
+
+interface RootState {
+  requests: {
+    userId: string | null;
+    requests: Request[];
+    contractors: Contractor[];
+    services: Service[];
+    companies: Company[];
+    filter: string;
+    error: string | null;
+    status: string;
+  };
+}
+
+
+
 
 const UserRequestList = () => {
-  const dispatch = useDispatch();
+
+
+  const dispatch: AppDispatch = useDispatch();
   const { username, error: usernameError } = useUsername();
   const [expandedRequestId, setExpandedRequestId] = useState(null);
-  const [companyInfo, setCompanyInfo] = useState({});
+  const [companyInfo, setCompanyInfo] = useState<Record<string, Company>>({});
 
   const {
     userId,
@@ -53,22 +105,24 @@ const UserRequestList = () => {
     filter,
     error,
     status,
-  // @ts-expect-error TS(2571): Object is of type 'unknown'.
-  } = useSelector((state) => state.requests);
+  } = useSelector((state: RootState) => state.requests);
+
   const navigate = useNavigate();
 
-  const fetchCompanyInfo = async (companyIds: any) => {
+  const fetchCompanyInfo = async (companyIds: string[]): Promise<void> => {
     try {
-      const response = await axios.post("/companies/by-ids", companyIds);
-      const companies = response.data.reduce((acc: any, company: any) => {
-        acc[company.id] = company; // Almacenar toda la información de la compañía
+      const response = await axios.post("/companies/by-ids", { companyIds });
+      const companiesData: Company[] = response.data;
+      const companiesMap = companiesData.reduce((acc: Record<string, Company>, company) => {
+        acc[company.id] = company;
         return acc;
       }, {});
-      setCompanyInfo(companies);
+      setCompanyInfo(companiesMap);
     } catch (error) {
       console.error("Error al obtener la información de las compañías:", error);
     }
   };
+
 
   useEffect(() => {
     if (requests.length > 0) {
@@ -79,18 +133,16 @@ const UserRequestList = () => {
     }
   }, [requests]);
 
-  // Obtener userId cuando tengamos el username
   useEffect(() => {
     if (username) {
-      // @ts-expect-error TS(2345): Argument of type 'AsyncThunkAction<any, void, Asyn... Remove this comment to see the full error message
+
       dispatch(fetchUserIdByUsername(username));
     }
   }, [username, dispatch]);
 
-  // Obtener solicitudes cuando tengamos el userId
   useEffect(() => {
     if (userId) {
-      // @ts-expect-error TS(2345): Argument of type 'AsyncThunkAction<any, void, Asyn... Remove this comment to see the full error message
+
       dispatch(fetchUserRequests(userId));
     }
   }, [userId, dispatch]);
@@ -98,26 +150,26 @@ const UserRequestList = () => {
   // Obtener datos relacionados cuando tengamos las solicitudes
   useEffect(() => {
     if (requests.length > 0) {
-      // @ts-expect-error TS(2345): Argument of type 'AsyncThunkAction<{ contractors: ... Remove this comment to see the full error message
+
       dispatch(fetchRelatedData(requests));
     }
   }, [requests.length, dispatch]);
 
-  // Funciones auxiliares
-  const getContractorName = (contractorId: any) => {
-    const contractor = contractors.find((c: any) => c.id === contractorId);
+  const getContractorName = (contractorId: string): string => {
+    const contractor = contractors.find((c) => c.id === contractorId);
     return contractor ? contractor.name : "No disponible";
   };
 
-  const getServiceName = (serviceId: any) => {
-    const service = services.find((s: any) => s.id === serviceId);
+  const getServiceName = (serviceId: string): string => {
+    const service = services.find((s) => s.id === serviceId);
     return service ? service.name : "No disponible";
   };
 
-  const getCompanyName = (companyId: any) => {
-    const company = companies.find((c: any) => c.id === companyId);
+  const getCompanyName = (companyId: string): string => {
+    const company = companies.find((c) => c.id === companyId);
     return company ? company.name : "No disponible";
   };
+
 
   const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
   const [selectedRequestId, setSelectedRequestId] = useState(null);
@@ -128,8 +180,9 @@ const UserRequestList = () => {
   };
 
   const confirmCancel = () => {
-    // @ts-expect-error TS(2345): Argument of type 'AsyncThunkAction<void, void, Asy... Remove this comment to see the full error message
-    dispatch(cancelRequest(selectedRequestId));
+    if (selectedRequestId) {
+      dispatch(cancelRequest(selectedRequestId));
+    }
     setCancelDialogOpen(false);
   };
 
@@ -376,15 +429,15 @@ const UserRequestList = () => {
                   <IconButton
                     onClick={() => {
                       const userRoles = sessionStorage.getItem("roles"); // Obtener los roles del usuario
-                      // @ts-expect-error TS(2531): Object is possibly 'null'.
-                      if (userRoles.includes("ALL-CLIENT")) {
+
+                      if (userRoles && userRoles.includes("ALL-CLIENT")) {
                         navigate(`/client/chat/${request.id}`); // Redirigir a la ruta del chat del cliente
-                      // @ts-expect-error TS(2531): Object is possibly 'null'.
-                      } else if (userRoles.includes("ALL-COMPANY")) {
+                      } else if (userRoles && userRoles.includes("ALL-COMPANY")) {
                         navigate(`/company/chat/${request.id}`); // Redirigir a la ruta del chat de la compañía
                       } else {
                         navigate("/login"); // Si no tiene rol, redirigir a login
                       }
+
                     }} // Redirigir al chat
                     sx={{ color: "#4392f1" }}
                   >
@@ -417,7 +470,7 @@ const UserRequestList = () => {
                       >
                         Información de la Compañía
                       </Typography>
-                      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+
                       {companyInfo[request.companyId] ? (
                         <Box
                           component="dl"
@@ -435,7 +488,7 @@ const UserRequestList = () => {
                             Nombre:
                           </Typography>
                           <Typography component="dd" variant="body2">
-                            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+
                             {companyInfo[request.companyId].name}
                           </Typography>
 
@@ -447,7 +500,7 @@ const UserRequestList = () => {
                             Descripción:
                           </Typography>
                           <Typography component="dd" variant="body2">
-                            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+
                             {companyInfo[request.companyId].description}
                           </Typography>
 
@@ -459,7 +512,7 @@ const UserRequestList = () => {
                             Teléfono:
                           </Typography>
                           <Typography component="dd" variant="body2">
-                            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+
                             {companyInfo[request.companyId].phone}
                           </Typography>
 
@@ -471,7 +524,7 @@ const UserRequestList = () => {
                             Dirección:
                           </Typography>
                           <Typography component="dd" variant="body2">
-                            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+
                             {companyInfo[request.companyId].address}
                           </Typography>
 
@@ -483,7 +536,7 @@ const UserRequestList = () => {
                             Ciudad:
                           </Typography>
                           <Typography component="dd" variant="body2">
-                            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+
                             {companyInfo[request.companyId].city}
                           </Typography>
 
@@ -495,7 +548,7 @@ const UserRequestList = () => {
                             Estado:
                           </Typography>
                           <Typography component="dd" variant="body2">
-                            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+
                             {companyInfo[request.companyId].state}
                           </Typography>
 
@@ -507,7 +560,7 @@ const UserRequestList = () => {
                             País:
                           </Typography>
                           <Typography component="dd" variant="body2">
-                            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+
                             {companyInfo[request.companyId].country}
                           </Typography>
 
@@ -519,7 +572,7 @@ const UserRequestList = () => {
                             Código Postal:
                           </Typography>
                           <Typography component="dd" variant="body2">
-                            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+
                             {companyInfo[request.companyId].zipCode}
                           </Typography>
 
@@ -531,7 +584,7 @@ const UserRequestList = () => {
                             Email:
                           </Typography>
                           <Typography component="dd" variant="body2">
-                            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+
                             {companyInfo[request.companyId].email}
                           </Typography>
                         </Box>

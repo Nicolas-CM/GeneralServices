@@ -6,8 +6,8 @@ import { Box, Button, Checkbox, FormControlLabel, FormGroup, TextField, Typograp
 const CreateRole = () => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  const [permissions, setPermissions] = useState([]);
-  const [selectedPermissions, setSelectedPermissions] = useState([]);
+  const [permissions, setPermissions] = useState<{ id: number; name: string }[]>([]);
+  const [selectedPermissions, setSelectedPermissions] = useState<number[]>([]);
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
@@ -24,9 +24,9 @@ const CreateRole = () => {
   }, []);
 
   const handlePermissionChange = (permissionId: any) => {
-    // @ts-expect-error TS(2345): Argument of type '(prevPermissions: never[]) => an... Remove this comment to see the full error message
+
     setSelectedPermissions(prevPermissions => {
-      // @ts-expect-error TS(2345): Argument of type 'any' is not assignable to parame... Remove this comment to see the full error message
+
       if (prevPermissions.includes(permissionId)) {
         return prevPermissions.filter(id => id !== permissionId);
       } else {
@@ -53,8 +53,8 @@ const CreateRole = () => {
   };
 
   return (
-    <Box sx={{ padding: 3, backgroundColor: "#f4f6f8", borderRadius: 2, maxWidth: 500, margin: "auto" }}>
-      <Typography variant="h4" sx={{ marginBottom: 3, fontWeight: "bold", color: "#4392f1", textAlign: "center" }}>
+    <Box sx={{ padding: 3, backgroundColor: '#f4f6f8', borderRadius: 2, maxWidth: 500, margin: 'auto' }}>
+      <Typography variant="h4" sx={{ marginBottom: 3, fontWeight: 'bold', color: '#4392f1', textAlign: 'center' }}>
         Crear Nuevo Rol
       </Typography>
       <Paper elevation={3} sx={{ padding: 3, borderRadius: 2 }}>
@@ -88,23 +88,23 @@ const CreateRole = () => {
             <FormGroup>
               {permissions.map(permission => (
                 <FormControlLabel
-                  // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
+
                   key={permission.id}
                   control={
                     <Checkbox
-                      // @ts-expect-error TS(2345): Argument of type 'any' is not assignable to parame... Remove this comment to see the full error message
+
                       checked={selectedPermissions.includes(permission.id)}
-                      // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
+
                       onChange={() => handlePermissionChange(permission.id)}
                     />
                   }
-                  // @ts-expect-error TS(2339): Property 'name' does not exist on type 'never'.
+
                   label={permission.name}
                 />
               ))}
             </FormGroup>
           </Box>
-          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Button variant="outlined" color="secondary" onClick={() => navigate('/admin/roles')}>
               Volver a la lista de roles
             </Button>

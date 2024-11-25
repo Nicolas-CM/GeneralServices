@@ -24,8 +24,8 @@ const CompanyHeader = () => {
 
   const { username, error: usernameError } = useUsername();
   const [reload, setReload] = useState(false);
-  console.log("username: ", username);
-  console.log("usernameError: ", usernameError);
+  console.log('username: ', username);
+  console.log('usernameError: ', usernameError);
   
   const [notification, setNotification] = useState(null);
 
@@ -35,7 +35,7 @@ const CompanyHeader = () => {
 
     StompService.connect(() => {
       StompService.subscribeToNotifications(username, onNotificationReceived);
-      console.log("STOMP connection established.");
+      console.log('STOMP connection established.');
     });
     
     const onNotificationReceived = (message: any) => {

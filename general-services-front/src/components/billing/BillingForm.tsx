@@ -41,14 +41,14 @@ const BillingForm = ({
 
   return (
 
-    <Box sx={{ padding: 3, backgroundColor: "#f4f6f8", borderRadius: 2, maxWidth: 600, margin: 'auto' }}>
+    <Box sx={{ padding: 3, backgroundColor: '#f4f6f8', borderRadius: 2, maxWidth: 600, margin: 'auto' }}>
 
-      <Typography variant="h5" sx={{ fontWeight: 'bold', color: "#4392f1", marginBottom: 2 }}>
+      <Typography variant='h5' sx={{ fontWeight: 'bold', color: '#4392f1', marginBottom: 2 }}>
         Crear Factura
       </Typography>
 
       {error && (
-        <Alert severity="error" sx={{ marginBottom: 2 }}>
+        <Alert severity='error' sx={{ marginBottom: 2 }}>
           {error}
         </Alert>
       )}
@@ -57,31 +57,31 @@ const BillingForm = ({
         <Box sx={{ marginBottom: 2 }}>
           <TextField
             fullWidth
-            label="Monto"
-            type="number"
+            label='Monto'
+            type='number'
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
             required
-            variant="outlined"
+            variant='outlined'
             InputProps={{
-              startAdornment: <Typography variant="body2" sx={{ marginLeft: 1 }}>$</Typography>
+              startAdornment: <Typography variant='body2' sx={{ marginLeft: 1 }}>$</Typography>
             }}
           />
         </Box>
 
         <Box sx={{ marginBottom: 2 }}>
-          <FormControl fullWidth variant="outlined">
+          <FormControl fullWidth variant='outlined'>
             <InputLabel>Método de pago</InputLabel>
             <Select
               value={paymentMethod}
               onChange={(e) => setPaymentMethod(e.target.value)}
               required
-              label="Método de pago"
+              label='Método de pago'
             >
-              <MenuItem value="Efectivo">Efectivo</MenuItem>
-              <MenuItem value="Tarjeta de Crédito">Tarjeta de Crédito</MenuItem>
-              <MenuItem value="Tarjeta de Débito">Tarjeta de Débito</MenuItem>
-              <MenuItem value="PayPal">PayPal</MenuItem>
+              <MenuItem value='Efectivo'>Efectivo</MenuItem>
+              <MenuItem value='Tarjeta de Crédito'>Tarjeta de Crédito</MenuItem>
+              <MenuItem value='Tarjeta de Débito'>Tarjeta de Débito</MenuItem>
+              <MenuItem value='PayPal'>PayPal</MenuItem>
             </Select>
           </FormControl>
         </Box>
@@ -89,12 +89,12 @@ const BillingForm = ({
         <Box sx={{ marginBottom: 2 }}>
           <TextField
             fullWidth
-            label="Fecha de Pago"
-            type="date"
+            label='Fecha de Pago'
+            type='date'
             value={paymentDate}
             onChange={(e) => setPaymentDate(e.target.value)}
             required
-            variant="outlined"
+            variant='outlined'
             InputLabelProps={{
               shrink: true
             }}
@@ -102,10 +102,10 @@ const BillingForm = ({
         </Box>
 
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Button variant="contained" color="primary" type="submit" sx={{ width: '48%' }}>
+          <Button variant='contained' color='primary' type='submit' sx={{ width: '48%' }}>
             Crear Factura
           </Button>
-          <Button variant="outlined" color="secondary" onClick={onClose} sx={{ width: '48%' }}>
+          <Button variant='outlined' color='secondary' onClick={onClose} sx={{ width: '48%' }}>
             Cancelar
           </Button>
         </Box>

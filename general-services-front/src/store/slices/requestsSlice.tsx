@@ -1,10 +1,45 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from '../../configs/AxiosConfig';
+
+// Definir tipos para las respuestas
+interface Request {
+    id: string;
+    status: string;
+    contractorId?: string;
+    serviceId?: string;
+    companyId?: string;
+}
+
+interface CompanyRequestPayload {
+    requestId: string;
+    contractorId: string;
+}
+
+interface FetchRelatedDataResponse {
+    contractors: any[];
+    services: any[];
+    companies: any[];
+}
+
+interface RequestsState {
+    userId: string | null;
+    requests: Request[];
+    contractors: any[];
+    services: any[];
+    companies: any[];
+    availableContractors: any[];
+    filter: string;
+    status: 'idle' | 'loading' | 'succeeded' | 'failed';
+    error: string | null;
+    showBillingForm: boolean;
+    showContractorList: boolean;
+    selectedRequestId: string | null;
+}
 
 // Thunks para solicitudes relacionadas con la compañía
 export const fetchCompanyRequests = createAsyncThunk(
     'requests/fetchCompanyRequests',
-    async (username) => {
+    async (username: string) => {
         const response = await axios.get(`requests/company/owner/${username}`);
         return response.data;
     }
@@ -12,7 +47,7 @@ export const fetchCompanyRequests = createAsyncThunk(
 
 export const fetchAvailableContractors = createAsyncThunk(
     'requests/fetchAvailableContractors',
-    async (username) => {
+    async (username: string) => {
         const response = await axios.get(`/contractors/available/${username}`);
         return response.data;
     }
@@ -20,8 +55,7 @@ export const fetchAvailableContractors = createAsyncThunk(
 
 export const acceptRequest = createAsyncThunk(
     'requests/acceptRequest',
-    // @ts-expect-error TS(2339): Property 'requestId' does not exist on type 'void'... Remove this comment to see the full error message
-    async ({ requestId, contractorId }) => {
+    async ({ requestId, contractorId }: { requestId: string, contractorId: string }) => {
         await axios.put(`requests/assign/${requestId}`, {
             contractorId,
             status: 'En Progreso'
@@ -32,7 +66,7 @@ export const acceptRequest = createAsyncThunk(
 
 export const rejectRequest = createAsyncThunk(
     'requests/rejectRequest',
-    async (requestId) => {
+    async (requestId: string) => {
         await axios.delete(`requests/${requestId}`);
         return requestId;
     }
@@ -40,8 +74,7 @@ export const rejectRequest = createAsyncThunk(
 
 export const cancelCompanyRequest = createAsyncThunk(
     'requests/cancelCompanyRequest',
-    // @ts-expect-error TS(2339): Property 'requestId' does not exist on type 'void'... Remove this comment to see the full error message
-    async ({ requestId, contractorId }) => {
+    async ({ requestId, contractorId }: CompanyRequestPayload) => {
         await axios.put(`requests/company/${requestId}`, { status: 'Cancelada' });
         await axios.put(`contractors/available/${contractorId}`, { available: true });
         return requestId;
@@ -50,16 +83,15 @@ export const cancelCompanyRequest = createAsyncThunk(
 
 export const completeRequest = createAsyncThunk(
     'requests/completeRequest',
-    async (requestId) => {
+    async (requestId: string) => {
         await axios.put(`requests/${requestId}`, { status: 'Completada' });
         return requestId;
     }
 );
 
-// Thunks adicionales para el usuario
 export const fetchUserIdByUsername = createAsyncThunk(
     'requests/fetchUserIdByUsername',
-    async (username) => {
+    async (username: string) => {
         const response = await axios.get(`/users/username/${username}`);
         return response.data;
     }
@@ -67,7 +99,7 @@ export const fetchUserIdByUsername = createAsyncThunk(
 
 export const fetchUserRequests = createAsyncThunk(
     'requests/fetchUserRequests',
-    async (userId) => {
+    async (userId: string) => {
         const response = await axios.get(`/requests/user/${userId}`);
         return response.data;
     }
@@ -75,13 +107,10 @@ export const fetchUserRequests = createAsyncThunk(
 
 export const fetchRelatedData = createAsyncThunk(
     'requests/fetchRelatedData',
-    async (requests) => {
-        // @ts-expect-error TS(2339): Property 'map' does not exist on type 'void'.
-        const contractorIds = [...new Set(requests.map((req: any) => req.contractorId))];
-        // @ts-expect-error TS(2339): Property 'map' does not exist on type 'void'.
-        const serviceIds = [...new Set(requests.map((req: any) => req.serviceId))];
-        // @ts-expect-error TS(2339): Property 'map' does not exist on type 'void'.
-        const companyIds = [...new Set(requests.map((req: any) => req.companyId))];
+    async (requests: Request[]) => {
+        const contractorIds = [...new Set(requests.map((req) => req.contractorId))];
+        const serviceIds = [...new Set(requests.map((req) => req.serviceId))];
+        const companyIds = [...new Set(requests.map((req) => req.companyId))];
 
         const [contractors, services, companies] = await Promise.all([
             contractorIds.length > 0 ? axios.post('/contractors/by-ids', contractorIds) : { data: [] },
@@ -99,14 +128,14 @@ export const fetchRelatedData = createAsyncThunk(
 
 export const cancelRequest = createAsyncThunk(
     'requests/cancelRequest',
-    async (requestId) => {
+    async (requestId: string) => {
         await axios.put(`/requests/${requestId}`, { status: 'Cancelada' });
         return requestId;
     }
 );
 
 // Estado inicial combinado
-const initialState = {
+const initialState: RequestsState = {
     userId: null,
     requests: [],
     contractors: [],
@@ -126,50 +155,42 @@ const requestsSlice = createSlice({
     name: 'requests',
     initialState,
     reducers: {
-        // Acción para resetear el estado
         resetState: () => {
             return initialState;
         },
-        setFilter: (state, action) => {
+        setFilter: (state, action: PayloadAction<string>) => {
             state.filter = action.payload;
         },
-        setShowBillingForm: (state, action) => {
+        setShowBillingForm: (state, action: PayloadAction<boolean>) => {
             state.showBillingForm = action.payload;
         },
-        setShowContractorList: (state, action) => {
+        setShowContractorList: (state, action: PayloadAction<boolean>) => {
             state.showContractorList = action.payload;
         },
-        setSelectedRequestId: (state, action) => {
+        setSelectedRequestId: (state, action: PayloadAction<string | null>) => {
             state.selectedRequestId = action.payload;
         }
     },
     extraReducers: (builder) => {
         builder
-            // Fetch UserId by Username
             .addCase(fetchUserIdByUsername.fulfilled, (state, action) => {
                 state.userId = action.payload;
                 state.status = 'succeeded';
             })
             .addCase(fetchUserIdByUsername.rejected, (state, action) => {
-                // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
-                state.error = action.error.message;
+                state.error = action.error.message || 'Error';
                 state.status = 'failed';
-                state.userId = null;  // Reset userId on error
+                state.userId = null;
             })
-
-            // Fetch User Requests
             .addCase(fetchUserRequests.fulfilled, (state, action) => {
                 state.requests = action.payload;
                 state.status = 'succeeded';
             })
             .addCase(fetchUserRequests.rejected, (state, action) => {
-                // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
-                state.error = action.error.message;
+                state.error = action.error.message || 'Error';
                 state.status = 'failed';
-                state.requests = []; // Reset requests on error
+                state.requests = [];
             })
-
-            // Fetch Related Data (Contractors, Services, Companies)
             .addCase(fetchRelatedData.fulfilled, (state, action) => {
                 state.contractors = action.payload.contractors;
                 state.services = action.payload.services;
@@ -177,15 +198,12 @@ const requestsSlice = createSlice({
                 state.status = 'succeeded';
             })
             .addCase(fetchRelatedData.rejected, (state, action) => {
-                // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
-                state.error = action.error.message;
+                state.error = action.error.message || 'Error';
                 state.status = 'failed';
-                state.contractors = []; // Reset contractors
-                state.services = [];    // Reset services
-                state.companies = [];   // Reset companies
+                state.contractors = [];
+                state.services = [];
+                state.companies = [];
             })
-
-            // Fetch Company Requests
             .addCase(fetchCompanyRequests.pending, (state) => {
                 state.status = 'loading';
             })
@@ -195,63 +213,40 @@ const requestsSlice = createSlice({
             })
             .addCase(fetchCompanyRequests.rejected, (state, action) => {
                 state.status = 'failed';
-                // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
-                state.error = action.error.message;
-                state.requests = []; // Reset requests on error
+                state.error = action.error.message || 'Error';
+                state.requests = [];
             })
-
-            // Fetch Available Contractors
             .addCase(fetchAvailableContractors.fulfilled, (state, action) => {
                 state.availableContractors = action.payload;
             })
-
-            // Accept Request
             .addCase(acceptRequest.fulfilled, (state, action) => {
-                // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
                 const request = state.requests.find(req => req.id === action.payload.requestId);
                 if (request) {
-                    // @ts-expect-error TS(2339): Property 'status' does not exist on type 'never'.
                     request.status = 'En Progreso';
-                    // @ts-expect-error TS(2339): Property 'contractorId' does not exist on type 'ne... Remove this comment to see the full error message
                     request.contractorId = action.payload.contractorId;
                 }
                 state.showContractorList = false;
-                state.selectedRequestId = null;  // Reset selectedRequestId on accept
+                state.selectedRequestId = null;
             })
-
-            // Reject Request
             .addCase(rejectRequest.fulfilled, (state, action) => {
-                // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
                 state.requests = state.requests.filter(req => req.id !== action.payload);
             })
-
-            // Cancel Company Request
             .addCase(cancelCompanyRequest.fulfilled, (state, action) => {
-                // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
                 const request = state.requests.find(req => req.id === action.payload);
                 if (request) {
-                    // @ts-expect-error TS(2339): Property 'status' does not exist on type 'never'.
                     request.status = 'Cancelada';
                 }
             })
-
-            // Complete Request
             .addCase(completeRequest.fulfilled, (state, action) => {
-                // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
                 const request = state.requests.find(req => req.id === action.payload);
                 if (request) {
-                    // @ts-expect-error TS(2339): Property 'status' does not exist on type 'never'.
                     request.status = 'Completada';
                 }
                 state.showBillingForm = false;
             })
-
-            // Cancel Request
             .addCase(cancelRequest.fulfilled, (state, action) => {
-                // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
                 const request = state.requests.find(req => req.id === action.payload);
                 if (request) {
-                    // @ts-expect-error TS(2339): Property 'status' does not exist on type 'never'.
                     request.status = 'Cancelada';
                 }
             });
@@ -266,5 +261,8 @@ export const {
     setShowContractorList,
     setSelectedRequestId
 } = requestsSlice.actions;
+
+
+export type { RequestsState };
 
 export default requestsSlice.reducer;

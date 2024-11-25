@@ -1,15 +1,20 @@
-// @ts-expect-error TS(2616): 'React' can only be imported by using 'import Reac... Remove this comment to see the full error message
-import { useEffect, useState, React } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from '../../configs/AxiosConfig';
 import useUsername from '../../hooks/useUsername';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   Box, Button, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Dialog, DialogTitle, DialogContent, DialogActions, Alert
-} from "@mui/material";
+} from '@mui/material';
 
 const ContractorList = () => {
   const { username, error: usernameError } = useUsername();
-  const [contractors, setContractors] = useState([]);
+  interface Contractor {
+    id: number;
+    name: string;
+    available: boolean;
+  }
+
+  const [contractors, setContractors] = useState<Contractor[]>([]);
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -23,13 +28,13 @@ const ContractorList = () => {
 
   // Obtener contratistas por userId del dueño de la compañía
   useEffect(() => {
-    console.log("username:", username);
+    console.log('username:', username);
     if (!username) return;
 
     axios.get(`contractors/owner/${username}`)
       .then(response => {
         setContractors(response.data); // Guardamos los contratistas
-        console.log("Respuesta del backend:", response);
+        console.log('Respuesta del backend:', response);
       })
       .catch(err => {
         setError('Error al obtener los contratistas');
@@ -82,7 +87,7 @@ const ContractorList = () => {
   }
 
   return (
-    <Box sx={{ padding: 3, backgroundColor: "#f4f6f8", borderRadius: 2, marginBottom: 3 }}>
+    <Box sx={{ padding: 3, backgroundColor: '#f4f6f8', borderRadius: 2, marginBottom: 3 }}>
       <Dialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
         <DialogTitle>Confirmar Eliminación</DialogTitle>
         <DialogContent>
@@ -95,7 +100,7 @@ const ContractorList = () => {
             onClick={() => {
               axios.delete(`contractors/${selectedContractorId}`)
                 .then(() => {
-                  // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
+
                   setContractors(contractors.filter(contractor => contractor.id !== selectedContractorId));
                   setDeleteDialogOpen(false);
                 })
@@ -115,14 +120,14 @@ const ContractorList = () => {
           </Button>
         </DialogActions>
       </Dialog>
-      <Typography variant="h4" sx={{ marginBottom: 3, fontWeight: "bold", color: "#4392f1" }}>
+      <Typography variant="h4" sx={{ marginBottom: 3, fontWeight: 'bold', color: '#4392f1' }}>
         Lista de Contratistas
       </Typography>
 
       <Button
         variant="contained"
         color="primary"
-        onClick={() => navigate("/company/create-contractor")}
+        onClick={() => navigate('/company/create-contractor')}
         sx={{ marginBottom: 3 }}
       >
         Nuevo Contratista
@@ -130,7 +135,7 @@ const ContractorList = () => {
 
       <TableContainer component={Paper} sx={{ boxShadow: 3, borderRadius: 2 }}>
         <Table>
-          <TableHead sx={{ backgroundColor: "#ece8ef" }}>
+          <TableHead sx={{ backgroundColor: '#ece8ef' }}>
             <TableRow>
               <TableCell sx={{ fontWeight: 'bold', color: '#4392f1' }}>ID</TableCell>
               <TableCell sx={{ fontWeight: 'bold', color: '#4392f1' }}>Nombre</TableCell>
@@ -140,19 +145,19 @@ const ContractorList = () => {
           </TableHead>
           <TableBody>
             {contractors.map((contractor) => (
-              // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
+
               <TableRow key={contractor.id}>
-                // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
+
                 <TableCell>{contractor.id}</TableCell>
-                // @ts-expect-error TS(2339): Property 'name' does not exist on type 'never'.
+
                 <TableCell>{contractor.name}</TableCell>
-                // @ts-expect-error TS(2339): Property 'available' does not exist on type 'never... Remove this comment to see the full error message
-                <TableCell>{contractor.available ? "Sí" : "No"}</TableCell>
+
+                <TableCell>{contractor.available ? 'Sí' : 'No'}</TableCell>
                 <TableCell>
-                  <Box sx={{ display: "flex", gap: 1 }}>
+                  <Box sx={{ display: 'flex', gap: 1 }}>
                     <Button
                       component={Link}
-                      // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
+
                       to={`/company/edit-contractor/${contractor.id}`}
                       variant="outlined"
                       color="primary"
@@ -161,7 +166,7 @@ const ContractorList = () => {
                       Editar
                     </Button>
                     <Button
-                      // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
+
                       onClick={() => handleDelete(contractor.id)}
                       variant="contained"
                       color="secondary"

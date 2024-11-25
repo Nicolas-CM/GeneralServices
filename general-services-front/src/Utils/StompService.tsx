@@ -1,9 +1,8 @@
 // src/Utils/StompService.js
-import { Client } from "@stomp/stompjs";
-// @ts-expect-error TS(7016): Could not find a declaration file for module 'sock... Remove this comment to see the full error message
-import SockJS from "sockjs-client";
+import { Client } from '@stomp/stompjs';
+import SockJS from 'sockjs-client';
 
-const URL = "http://localhost:3000/generalservicesplatform/ws";
+const URL = 'http://localhost:3000/generalservicesplatform/ws';
 
 class StompService {
   client: any;
@@ -13,8 +12,8 @@ class StompService {
     this.client = new Client({
       webSocketFactory: () => new SockJS(URL),
       connectHeaders: {
-        login: "guest",
-        passcode: "guest",
+        login: 'guest',
+        passcode: 'guest',
       },
       debug: function (str) {
         console.log(str);
@@ -29,12 +28,12 @@ class StompService {
 
   connect(onConnectCallback: any) {
     if (this.isConnected) {
-      console.warn("STOMP client is already connected.");
+      console.warn('STOMP client is already connected.');
       return;
     }
 
     this.client.onConnect = (frame: any) => {
-      console.log("Connected: " + frame);
+      console.log('Connected: ' + frame);
       this.isConnected = true;
 
       if (onConnectCallback) {
@@ -43,8 +42,8 @@ class StompService {
     };
 
     this.client.onStompError = function (frame: any) {
-      console.error("Broker reported error: " + frame.headers["message"]);
-      console.error("Additional details: " + frame.body);
+      console.error('Broker reported error: ' + frame.headers['message']);
+      console.error('Additional details: ' + frame.body);
     };
 
     this.client.activate();
@@ -52,7 +51,7 @@ class StompService {
 
   subscribeToNotifications(username: any, onNotificationReceived: any) {
     if (!this.isConnected) {
-      console.error("STOMP client is not connected. Cannot subscribe.");
+      console.error('STOMP client is not connected. Cannot subscribe.');
       return;
     }
 
@@ -71,7 +70,7 @@ class StompService {
 
   subscribeToChat(username: any, solicitudId: any, onChatMessageReceived: any) {
     if (!this.isConnected) {
-      console.error("STOMP client is not connected. Cannot subscribe.");
+      console.error('STOMP client is not connected. Cannot subscribe.');
       return;
     }
 
@@ -103,7 +102,7 @@ class StompService {
       this.client.deactivate();
       this.subscriptions = {};
       this.isConnected = false;
-      console.log("Disconnected from STOMP server.");
+      console.log('Disconnected from STOMP server.');
     }
   }
 }

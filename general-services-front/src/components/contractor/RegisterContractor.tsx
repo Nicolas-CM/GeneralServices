@@ -1,9 +1,8 @@
-// @ts-expect-error TS(2616): 'React' can only be imported by using 'import Reac... Remove this comment to see the full error message
-import { useEffect, useState, React } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from '../../configs/AxiosConfig';
 import useUsername from '../../hooks/useUsername';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, Typography, TextField } from "@mui/material";
+import { Box, Button, Typography, TextField } from '@mui/material';
 
 
 const RegisterContractor = () => {
@@ -16,13 +15,13 @@ const RegisterContractor = () => {
 
   // Obtener contratistas por userId del dueño de la compañía
   useEffect(() => {
-    console.log("username:", username);
+    console.log('username:', username);
     if (!username) return;
 
     axios.get(`companies/owner/${username}`)
       .then(response => {
         setCompanyId(response.data.id);
-        console.log("Respuesta del backend:", response);
+        console.log('Respuesta del backend:', response);
       })
       .catch(err => {
         setError('Error al obtener la compañía');
@@ -73,8 +72,8 @@ const RegisterContractor = () => {
   }
 
   return (
-    <Box sx={{ padding: 3, backgroundColor: "#f4f6f8", borderRadius: 2, maxWidth: 500, marginTop: 3, margin: "auto" }}>
-      <Typography variant="h4" sx={{ marginBottom: 3, fontWeight: "bold", color: "#4392f1", textAlign: "center" }}>
+    <Box sx={{ padding: 3, backgroundColor: '#f4f6f8', borderRadius: 2, maxWidth: 500, marginTop: 3, margin: 'auto' }}>
+      <Typography variant="h4" sx={{ marginBottom: 3, fontWeight: 'bold', color: '#4392f1', textAlign: 'center' }}>
         Crear Contratista
       </Typography>
       <form onSubmit={handleSubmit}>
@@ -88,7 +87,7 @@ const RegisterContractor = () => {
             required
           />
         </Box>
-        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Button
             variant="outlined"
             color="secondary"

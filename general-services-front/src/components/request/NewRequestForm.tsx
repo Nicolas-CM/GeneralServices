@@ -28,13 +28,13 @@ const NewRequestForm = ({
       <form onSubmit={handleSubmit}>
         <label>
           ID de Servicio:
-          <input type="text" value={serviceId} onChange={(e) => setServiceId(e.target.value)} required />
+          <input type='text' value={serviceId} onChange={(e) => setServiceId(e.target.value)} required />
         </label>
         <label>
           Fecha:
-          <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
+          <input type='date' value={date} onChange={(e) => setDate(e.target.value)} required />
         </label>
-        <button type="submit">Crear Solicitud</button>
+        <button type='submit'>Crear Solicitud</button>
       </form>
     </div>
   );

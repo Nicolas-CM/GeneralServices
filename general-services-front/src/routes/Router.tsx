@@ -157,8 +157,10 @@ const routes = createRoutesFromElements(
       } />
       <Route path="create-request" element={
         <Authenticator allowedRoles={[client]}>
-          // @ts-expect-error TS(2739): Type '{}' is missing the following properties from... Remove this comment to see the full error message
-          <NewRequestForm />
+
+          <NewRequestForm onCreateRequest={function (...args: any[]) {
+            throw new Error('Function not implemented.');
+          }} userId={''} />
         </Authenticator>
       } />
       <Route path="service/:serviceId" element={

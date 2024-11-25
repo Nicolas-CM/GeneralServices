@@ -42,49 +42,49 @@ const CompanyMenu = () => {
   };
 
   useEffect(() => {
-    
+
     checkNotifications();
     setPrevLocation(location.pathname);
   }, [location, prevLocation]);
 
   return (
     <Box sx={{ marginBottom: 4 }}>
-      <AppBar position="static">
+      <AppBar position='static'>
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
             Menu de Compañia
           </Typography>
-          <IconButton color="inherit" component={Link} to="/company/home">
+          <IconButton color='inherit' component={Link} to='/company/home'>
             <HomeIcon />
-            <Typography variant="button" display="block">Home</Typography>
+            <Typography variant='button' display='block'>Home</Typography>
           </IconButton>
-          <IconButton color="inherit" component={Link} to="/company/requests">
+          <IconButton color='inherit' component={Link} to='/company/requests'>
             <AssignmentIcon />
-            <Typography variant="button" display="block">Solicitudes</Typography>
+            <Typography variant='button' display='block'>Solicitudes</Typography>
           </IconButton>
-          <IconButton color="inherit" component={Link} to="/company/contractor">
+          <IconButton color='inherit' component={Link} to='/company/contractor'>
             <BuildIcon />
-            <Typography variant="button" display="block">Contratista</Typography>
+            <Typography variant='button' display='block'>Contratista</Typography>
           </IconButton>
-          <IconButton color="inherit" component={Link} to="/company/services">
+          <IconButton color='inherit' component={Link} to='/company/services'>
             <MiscellaneousServicesIcon />
-            <Typography variant="button" display="block">Servicios</Typography>
+            <Typography variant='button' display='block'>Servicios</Typography>
           </IconButton>
           <IconButton
-            color="inherit"
+            color='inherit'
             component={Link}
-            to="/company/notifications"
-            
+            to='/company/notifications'
+
           >
             <NotificationsIcon sx={{
               animation: hasUnviewedNotifications ? `${swing} 1s infinite` : 'none',
               transformOrigin: 'top center'
             }} />
-            <Typography variant="button" display="block">Notificaciones</Typography>
+            <Typography variant='button' display='block'>Notificaciones</Typography>
           </IconButton>
-          <IconButton color="inherit" component={Link} to="/company/profile">
+          <IconButton color='inherit' component={Link} to='/company/profile'>
             <AccountCircleIcon />
-            <Typography variant="button" display="block">Perfil</Typography>
+            <Typography variant='button' display='block'>Perfil</Typography>
           </IconButton>
         </Toolbar>
       </AppBar>
